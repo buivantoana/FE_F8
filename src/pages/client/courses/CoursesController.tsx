@@ -34,4 +34,4 @@ const CoursesController = () => {
   );
 };
 
-export default CoursesController;
+export default CoursesController
