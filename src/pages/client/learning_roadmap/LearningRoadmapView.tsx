@@ -85,24 +85,7 @@ const ColorlibStepIconRoot = styled("div")<{
   }),
 }));
 
-function ColorlibStepIcon(props: StepIconProps) {
-  const { active, completed, className } = props;
 
-  const icons: { [index: string]: React.ReactElement } = {
-    1: <BorderColorIcon />,
-    2: <KeyboardHideIcon />,
-    3: <AutoGraphIcon />,
-  };
-
-  return (
-    <ColorlibStepIconRoot
-      ownerState={{ completed, active }}
-      className={className}
-    >
-      {icons[String(props.icon)]}
-    </ColorlibStepIconRoot>
-  );
-}
 
 const steps = ["1. Học kiến thức", "2. Thực hành", "3. Triển khai thực tế"];
 const LearningRoadmapView = () => {
