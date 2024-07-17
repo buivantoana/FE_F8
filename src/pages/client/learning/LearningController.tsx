@@ -99,11 +99,7 @@ const LearningController = () => {
         });   
         const percentagePerItem = roundToOneDecimal(100 / total) ;     
         setTotalprogressBar(percentagePerItem);  
-        console.log(percentagePerItem);
-        let arr = calculateProgress(data);
-        console.log(arr);
-        setprogressBar(arr);
-        setLoadingAll({ ...loadingAll, progress: true });
+       
       } else {
         navigate("/");
       }
