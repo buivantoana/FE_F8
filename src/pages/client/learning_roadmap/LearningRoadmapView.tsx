@@ -1,6 +1,6 @@
-import AutoGraphIcon from '@mui/icons-material/AutoGraph';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-import KeyboardHideIcon from '@mui/icons-material/KeyboardHide';
+import AutoGraphIcon from "@mui/icons-material/AutoGraph";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import KeyboardHideIcon from "@mui/icons-material/KeyboardHide";
 import {
   Box,
   Button,
@@ -85,27 +85,125 @@ const ColorlibStepIconRoot = styled("div")<{
   }),
 }));
 
+function ColorlibStepIcon(props: StepIconProps) {
+  const { active, completed, className } = props;
 
+  const icons: { [index: string]: React.ReactElement } = {
+    1: <BorderColorIcon />,
+    2: <KeyboardHideIcon />,
+    3: <AutoGraphIcon />,
+  };
+
+  return (
+    <ColorlibStepIconRoot
+      ownerState={{ completed, active }}
+      className={className}>
+      {icons[String(props.icon)]}
+    </ColorlibStepIconRoot>
+  );
+}
 
 const steps = ["1. Học kiến thức", "2. Thực hành", "3. Triển khai thực tế"];
 const LearningRoadmapView = () => {
   return (
-    <Box position={"relative"} display={"flex"} paddingRight={"80px"}  flexDirection={"column"} gap={"20px"}>
-   
+    <Box
+      position={"relative"}
+      display={"flex"}
+      paddingRight={"80px"}
+      flexDirection={"column"}
+      gap={"20px"}>
+      <Box width={"100%"} display={"flex"} justifyContent={"space-between"}>
+        <Box width={"65%"}>
+          <Typography variant='h4' fontWeight={"bold"}>
+            Lộ trình học
+          </Typography>
+          <Typography mt={"20px"} fontSize={"14px"} color={"#333"}>
+            Để bắt đầu một cách thuận lợi, bạn nên tập trung vào một lộ trình
+            học. Ví dụ: Để đi làm với vị trí "Lập trình viên Front-end"<br></br>{" "}
+            bạn nên tập trung vào lộ trình "Front-end".
+          </Typography>
+          <Stack direction={"row"} gap={"20px"} mt={"60px"}>
+            <Box
+              width={"450px"}
+              sx={{ border: " 2px solid #e8e8e8", borderRadius: "16px" }}
+              padding={"25px 25px"}>
+              <Stack direction={"row"}>
+                <Box width={"60%"}>
+                  <Typography variant='h6' fontWeight={"bold"}>
+                    Lộ trình học Front-end
+                  </Typography>
+                  <Typography mt={"13px"} fontSize={"13px"} color={"#333"}>
+                    Lập trình viên Front-end là người xây dựng ra giao diện
+                    websites. Trong phần này Fdemysẽ chia sẻ cho bạn lộ trình để
+                    trở thành lập trình viên Front-end nhé.
+                  </Typography>
+                </Box>
+                <Box width={"40%"}>
+                  <Box
+                    sx={{ float: "right" }}
+                    width={"122px"}
+                    display={"flex"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    height={"122px"}
+                    border={"5px solid #f05123"}
+                    borderRadius={"50%"}>
+                    <img width={"80%"} height={"80%"} src={learning1} alt='' />
+                  </Box>
+                </Box>
+              </Stack>
+            </Box>
+            <Box
+              width={"450px"}
+              sx={{ border: " 2px solid #e8e8e8", borderRadius: "16px" }}
+              padding={"25px 25px"}>
+              <Stack direction={"row"}>
+                <Box width={"60%"}>
+                  <Typography variant='h6' fontWeight={"bold"}>
+                    Lộ trình học Back-end
+                  </Typography>
+                  <Typography mt={"13px"} fontSize={"13px"} color={"#333"}>
+                    Trái với Front-end thì lập trình viên Back-end là người làm
+                    việc với dữ liệu, công việc thường nặng tính logic hơn.
+                    Chúng ta sẽ cùng tìm hiểu thêm về lộ trình học Back-end nhé.
+                  </Typography>
+                </Box>
+                <Box width={"40%"}>
+                  <Box
+                    sx={{ float: "right" }}
+                    width={"122px"}
+                    display={"flex"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    height={"122px"}
+                    border={"5px solid #f05123"}
+                    borderRadius={"50%"}>
+                    <img width={"80%"} height={"80%"} src={learning2} alt='' />
+                  </Box>
+                </Box>
+              </Stack>
+            </Box>
+          </Stack>
+        </Box>
+        <Box width={"35%"}>
+          <Box display={"flex"} justifyContent={"end"}>
+            <img src={bg} width={400} height={400} alt='' />
+          </Box>
+        </Box>
+      </Box>
+
       <Box width={"100%"}>
         <Typography
-          variant="h4"
+          variant='h4'
           fontWeight={"bold"}
           mb={"20px"}
-           textAlign={"center"}
-        >
+          textAlign={"center"}>
           Roadmap
         </Typography>
         <Stepper
           alternativeLabel
           activeStep={1}
-          connector={<ColorlibConnector />}
-        >
+          connector={<ColorlibConnector />}>
           {steps.map((label) => (
             <Step key={label}>
               <StepLabel StepIconComponent={ColorlibStepIcon}>
@@ -116,7 +214,7 @@ const LearningRoadmapView = () => {
         </Stepper>
         <Box display={"flex"} justifyContent={"center"}>
           <Typography
-            variant="h5"
+            variant='h5'
             sx={{
               color: "#007FFF",
               background: "#FFDC48",
@@ -125,15 +223,14 @@ const LearningRoadmapView = () => {
               width: "max-content",
             }}
             my={"20px"}
-            textAlign={"center"}
-          >
+            textAlign={"center"}>
             Phase 1: Ôn Tập Kiến Thức (Tự Học *)
           </Typography>
         </Box>
         <Box border={"1px dashed #ccc"} padding={"15px"} borderRadius={"10px"}>
           <Box borderBottom={"1px solid #ccc"} paddingBottom={"15px"}>
             <Typography
-              variant="h6"
+              variant='h6'
               fontSize={"15px"}
               sx={{
                 color: "#007FFF",
@@ -142,8 +239,7 @@ const LearningRoadmapView = () => {
                 padding: "0 5px",
                 width: "max-content",
               }}
-              textAlign={"center"}
-            >
+              textAlign={"center"}>
               Markup/Programing language{" "}
             </Typography>
           </Box>
@@ -153,28 +249,28 @@ const LearningRoadmapView = () => {
               height={"100px"}
               style={{ objectFit: "contain" }}
               src={html}
-              alt=""
+              alt=''
             />
             <img
               width={"260px"}
               height={"100px"}
               style={{ objectFit: "contain" }}
               src={css}
-              alt=""
+              alt=''
             />
             <img
               width={"260px"}
               height={"100px"}
               style={{ objectFit: "contain" }}
               src={js}
-              alt=""
+              alt=''
             />
             <img
               width={"260px"}
               height={"100px"}
               style={{ objectFit: "contain" }}
               src={ts}
-              alt=""
+              alt=''
             />
           </Stack>
         </Box>
@@ -184,16 +280,15 @@ const LearningRoadmapView = () => {
           flexDirection={"column"}
           alignItems={"center"}
           gap={"15px"}
-          justifyContent={"center"}
-        >
+          justifyContent={"center"}>
           <img
             height={"100px "}
             style={{ objectFit: "contain" }}
             src={arrow}
-            alt=""
+            alt=''
           />
           <Typography
-            variant="h5"
+            variant='h5'
             sx={{
               color: "#007FFF",
               background: "#FFDC48",
@@ -202,8 +297,7 @@ const LearningRoadmapView = () => {
               width: "max-content",
             }}
             my={"20px"}
-            textAlign={"center"}
-          >
+            textAlign={"center"}>
             Phase 2: Học Kiến Thức (Frontend/Backend)
           </Typography>
         </Box>
@@ -213,11 +307,10 @@ const LearningRoadmapView = () => {
               border={"1px dashed #ccc"}
               width={"49%"}
               padding={"15px"}
-              borderRadius={"10px"}
-            >
+              borderRadius={"10px"}>
               <Box borderBottom={"1px solid #ccc"} paddingBottom={"15px"}>
                 <Typography
-                  variant="h6"
+                  variant='h6'
                   fontSize={"15px"}
                   sx={{
                     color: "#007FFF",
@@ -226,36 +319,34 @@ const LearningRoadmapView = () => {
                     padding: "0 5px",
                     width: "max-content",
                   }}
-                  textAlign={"center"}
-                >
-                    Frontend   
+                  textAlign={"center"}>
+                  Frontend
                 </Typography>
               </Box>
               <Stack
                 direction={"row"}
                 mt={"15px"}
-                justifyContent={"space-between"}
-              >
+                justifyContent={"space-between"}>
                 <img
                   width={"260px"}
                   height={"100px"}
                   style={{ objectFit: "contain" }}
                   src={react}
-                  alt=""
+                  alt=''
                 />
                 <img
                   width={"260px"}
                   height={"100px"}
                   style={{ objectFit: "contain" }}
                   src={redux}
-                  alt=""
+                  alt=''
                 />
                 <img
                   width={"260px"}
                   height={"100px"}
                   style={{ objectFit: "contain" }}
                   src={next}
-                  alt=""
+                  alt=''
                 />
               </Stack>
             </Box>
@@ -263,11 +354,10 @@ const LearningRoadmapView = () => {
               border={"1px dashed #ccc"}
               width={"49%"}
               padding={"15px"}
-              borderRadius={"10px"}
-            >
+              borderRadius={"10px"}>
               <Box borderBottom={"1px solid #ccc"} paddingBottom={"15px"}>
                 <Typography
-                  variant="h6"
+                  variant='h6'
                   fontSize={"15px"}
                   sx={{
                     color: "#007FFF",
@@ -276,43 +366,44 @@ const LearningRoadmapView = () => {
                     padding: "0 5px",
                     width: "max-content",
                   }}
-                  textAlign={"center"}
-                >
-                   Backend  
+                  textAlign={"center"}>
+                  Backend
                 </Typography>
               </Box>
               <Stack
                 direction={"row"}
                 mt={"15px"}
-                justifyContent={"space-between"}
-              >
+                justifyContent={"space-between"}>
                 <img
                   width={"260px"}
                   height={"100px"}
                   style={{ objectFit: "contain" }}
                   src={nest}
-                  alt=""
+                  alt=''
                 />
                 <img
                   width={"260px"}
                   height={"100px"}
                   style={{ objectFit: "contain" }}
                   src={express}
-                  alt=""
+                  alt=''
                 />
                 <img
                   width={"260px"}
                   height={"100px"}
                   style={{ objectFit: "contain" }}
                   src={java}
-                  alt=""
+                  alt=''
                 />
               </Stack>
             </Box>
           </Stack>
-          <Box borderBottom={"1px solid #ccc"}mt={"15px"} paddingBottom={"15px"}>
+          <Box
+            borderBottom={"1px solid #ccc"}
+            mt={"15px"}
+            paddingBottom={"15px"}>
             <Typography
-              variant="h6"
+              variant='h6'
               fontSize={"15px"}
               sx={{
                 color: "#007FFF",
@@ -321,8 +412,7 @@ const LearningRoadmapView = () => {
                 padding: "0 5px",
                 width: "max-content",
               }}
-              textAlign={"center"}
-            >
+              textAlign={"center"}>
               Công cụ sử dụng khi học Frontend/Backend
             </Typography>
           </Box>
@@ -332,28 +422,28 @@ const LearningRoadmapView = () => {
               height={"100px"}
               style={{ objectFit: "contain" }}
               src={ts}
-              alt=""
+              alt=''
             />
             <img
               width={"260px"}
               height={"100px"}
               style={{ objectFit: "contain" }}
               src={docker}
-              alt=""
+              alt=''
             />
             <img
               width={"260px"}
               height={"100px"}
               style={{ objectFit: "contain" }}
               src={postgres}
-              alt=""
+              alt=''
             />
             <img
               width={"260px"}
               height={"100px"}
               style={{ objectFit: "contain" }}
               src={mongo}
-              alt=""
+              alt=''
             />
           </Stack>
         </Box>
@@ -363,16 +453,15 @@ const LearningRoadmapView = () => {
           flexDirection={"column"}
           alignItems={"center"}
           gap={"15px"}
-          justifyContent={"center"}
-        >
+          justifyContent={"center"}>
           <img
             height={"100px "}
             style={{ objectFit: "contain" }}
             src={arrow}
-            alt=""
+            alt=''
           />
           <Typography
-            variant="h5"
+            variant='h5'
             sx={{
               color: "#007FFF",
               background: "#FFDC48",
@@ -381,9 +470,8 @@ const LearningRoadmapView = () => {
               width: "max-content",
             }}
             my={"20px"}
-            textAlign={"center"}
-          >
-           Phase 3: Thực Hành Fullstack
+            textAlign={"center"}>
+            Phase 3: Thực Hành Fullstack
           </Typography>
         </Box>
         <Box border={"1px dashed #ccc"} padding={"15px"} borderRadius={"10px"}>
@@ -392,11 +480,10 @@ const LearningRoadmapView = () => {
               border={"1px dashed #ccc"}
               width={"49%"}
               padding={"15px"}
-              borderRadius={"10px"}
-            >
+              borderRadius={"10px"}>
               <Box borderBottom={"1px solid #ccc"} paddingBottom={"15px"}>
                 <Typography
-                  variant="h6"
+                  variant='h6'
                   fontSize={"15px"}
                   sx={{
                     color: "#007FFF",
@@ -405,36 +492,34 @@ const LearningRoadmapView = () => {
                     padding: "0 5px",
                     width: "max-content",
                   }}
-                  textAlign={"center"}
-                >
-                     Định Hướng 1   
+                  textAlign={"center"}>
+                  Định Hướng 1
                 </Typography>
               </Box>
               <Stack
                 direction={"row"}
                 mt={"15px"}
-                justifyContent={"space-between"}
-              >
+                justifyContent={"space-between"}>
                 <img
                   width={"260px"}
                   height={"100px"}
                   style={{ objectFit: "contain" }}
                   src={react}
-                  alt=""
+                  alt=''
                 />
                 <img
                   width={"260px"}
                   height={"100px"}
                   style={{ objectFit: "contain" }}
                   src={next}
-                  alt=""
+                  alt=''
                 />
                 <img
                   width={"260px"}
                   height={"100px"}
                   style={{ objectFit: "contain" }}
                   src={nest}
-                  alt=""
+                  alt=''
                 />
               </Stack>
             </Box>
@@ -442,11 +527,10 @@ const LearningRoadmapView = () => {
               border={"1px dashed #ccc"}
               width={"49%"}
               padding={"15px"}
-              borderRadius={"10px"}
-            >
+              borderRadius={"10px"}>
               <Box borderBottom={"1px solid #ccc"} paddingBottom={"15px"}>
                 <Typography
-                  variant="h6"
+                  variant='h6'
                   fontSize={"15px"}
                   sx={{
                     color: "#007FFF",
@@ -455,41 +539,38 @@ const LearningRoadmapView = () => {
                     padding: "0 5px",
                     width: "max-content",
                   }}
-                  textAlign={"center"}
-                >
-                   Định Hướng 2
+                  textAlign={"center"}>
+                  Định Hướng 2
                 </Typography>
               </Box>
               <Stack
                 direction={"row"}
                 mt={"15px"}
-                justifyContent={"space-between"}
-              >
+                justifyContent={"space-between"}>
                 <img
                   width={"260px"}
                   height={"100px"}
                   style={{ objectFit: "contain" }}
                   src={react}
-                  alt=""
+                  alt=''
                 />
                 <img
                   width={"260px"}
                   height={"100px"}
                   style={{ objectFit: "contain" }}
                   src={next}
-                  alt=""
+                  alt=''
                 />
                 <img
                   width={"260px"}
                   height={"100px"}
                   style={{ objectFit: "contain" }}
                   src={java}
-                  alt=""
+                  alt=''
                 />
               </Stack>
             </Box>
           </Stack>
-         
         </Box>
         <Box
           display={"flex"}
@@ -497,16 +578,15 @@ const LearningRoadmapView = () => {
           flexDirection={"column"}
           alignItems={"center"}
           gap={"15px"}
-          justifyContent={"center"}
-        >
+          justifyContent={"center"}>
           <img
             height={"100px "}
             style={{ objectFit: "contain" }}
             src={arrow}
-            alt=""
+            alt=''
           />
           <Typography
-            variant="h5"
+            variant='h5'
             sx={{
               color: "#007FFF",
               background: "#FFDC48",
@@ -515,15 +595,14 @@ const LearningRoadmapView = () => {
               width: "max-content",
             }}
             my={"20px"}
-            textAlign={"center"}
-          >
-           Phase 4: Triển khai dự án thực tế
+            textAlign={"center"}>
+            Phase 4: Triển khai dự án thực tế
           </Typography>
         </Box>
         <Box border={"1px dashed #ccc"} padding={"15px"} borderRadius={"10px"}>
           <Box borderBottom={"1px solid #ccc"} paddingBottom={"15px"}>
             <Typography
-              variant="h6"
+              variant='h6'
               fontSize={"15px"}
               sx={{
                 color: "#007FFF",
@@ -532,8 +611,7 @@ const LearningRoadmapView = () => {
                 padding: "0 5px",
                 width: "max-content",
               }}
-              textAlign={"center"}
-            >
+              textAlign={"center"}>
               Markup/Programing language{" "}
             </Typography>
           </Box>
@@ -543,58 +621,53 @@ const LearningRoadmapView = () => {
               height={"100px"}
               style={{ objectFit: "contain" }}
               src={docker}
-              alt=""
+              alt=''
             />
             <img
               width={"260px"}
               height={"100px"}
               style={{ objectFit: "contain" }}
               src={vps}
-              alt=""
+              alt=''
             />
             <img
               width={"260px"}
               height={"100px"}
               style={{ objectFit: "contain" }}
               src={domain}
-              alt=""
+              alt=''
             />
             <img
               width={"260px"}
               height={"100px"}
               style={{ objectFit: "contain" }}
               src={nginx}
-              alt=""
+              alt=''
             />
           </Stack>
         </Box>
         <Box mt={"30px"}>
-           <Typography mt={"70px"}  variant="h5" fontWeight={"bold"}>
-          Tham gia cộng đồng học viên F8s trên Facebook
-        </Typography>
-        <Typography mt={"20px"}  fontSize={"14px"} color={"#333"}>
-          Hàng nghìn người khác đang học lộ trình giống như bạn. Hãy
-          tham gia hỏi đáp, chia sẻ và hỗ trợ nhau trong quá trình học
-          nhé.
-        </Typography>
-        <Box>
-
-        <Button
-        
-          sx={{
-            
-            mt: "15px",
-            background: "white",
-            color: "black",
-            borderRadius: "99px",
-            fontSize: "12px",
-            height: "34px",
-            border: "1px solid black",
-          }}
-        >
-          Tham gia nhóm
-        </Button>
-        </Box>
+          <Typography mt={"70px"} variant='h5' fontWeight={"bold"}>
+            Tham gia cộng đồng học viên F8s trên Facebook
+          </Typography>
+          <Typography mt={"20px"} fontSize={"14px"} color={"#333"}>
+            Hàng nghìn người khác đang học lộ trình giống như bạn. Hãy tham gia
+            hỏi đáp, chia sẻ và hỗ trợ nhau trong quá trình học nhé.
+          </Typography>
+          <Box>
+            <Button
+              sx={{
+                mt: "15px",
+                background: "white",
+                color: "black",
+                borderRadius: "99px",
+                fontSize: "12px",
+                height: "34px",
+                border: "1px solid black",
+              }}>
+              Tham gia nhóm
+            </Button>
+          </Box>
         </Box>
       </Box>
     </Box>
