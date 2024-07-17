@@ -1,15 +1,8 @@
 import {
   Box,
   Button,
-  FormControl,
-  FormControlLabel,
-  InputLabel,
-  MenuItem,
   Modal,
   Popover,
-  Radio,
-  RadioGroup,
-  Select,
   Skeleton,
   Stack,
   TablePagination,
@@ -53,17 +46,8 @@ type typeProps = {
   open: any;
   action: string;
   deleteCategory: any;
-  vouchers: any;
-  user: any;
-  valueUser: any;
-  setValueUser: any;
-  valueVouchers: any;
-  setValueVouchers: any;
-  setSelect: any;
-  select: any;
-  checkUpdate: any;
 };
-const UserVouchersView = ({
+const CategoriesView = ({
   data,
   register,
   handleSubmit,
@@ -81,15 +65,6 @@ const UserVouchersView = ({
   open,
   action,
   deleteCategory,
-  vouchers,
-  user,
-  valueUser,
-  setValueUser,
-  valueVouchers,
-  setValueVouchers,
-  select,
-  setSelect,
-  checkUpdate
 }: typeProps) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -111,20 +86,19 @@ const UserVouchersView = ({
   return (
     <>
       <Stack my={"20px"} direction={"row"} justifyContent={"space-between"}>
-        <Typography variant="h5">Give Away Vouchers</Typography>
+        <Typography variant="h5">Categories</Typography>
         <Button onClick={() => handleOpenModal("CREATE")} variant="contained">
-          Add Give Away Vouchers
+          Add Category
         </Button>
       </Stack>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Email</StyledTableCell>
+              <StyledTableCell>Name</StyledTableCell>
+              <StyledTableCell align="left">Description</StyledTableCell>
 
-              <StyledTableCell>Code</StyledTableCell>
-              <StyledTableCell>Status</StyledTableCell>
-              <StyledTableCell>Action</StyledTableCell>
+              <StyledTableCell align="left">Action</StyledTableCell>
             </TableRow>
           </TableHead>
           {data.length == 0 ? (
@@ -143,7 +117,6 @@ const UserVouchersView = ({
                   <TableCell>
                     <Skeleton height={"25px"} width="200px" />
                   </TableCell>
-
                   <TableCell>
                     <Skeleton height={"25px"} width="80px" />
                   </TableCell>
@@ -159,12 +132,11 @@ const UserVouchersView = ({
                     key={row.name}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell align="left">{row.user_id[0].email}</TableCell>
-                    <TableCell align="left">
-                      {row.vouchers_id[0].code}
+                    <TableCell component="th" scope="row">
+                      {row.name}
                     </TableCell>
-                    <TableCell align="left">
-                      {row.status ? "Đã dùng" : "Chưa dùng"}
+                    <TableCell width={"60%"} align="left">
+                      {row.description}
                     </TableCell>
 
                     <TableCell align="left">
@@ -230,21 +202,12 @@ const UserVouchersView = ({
         handleClose={handleCloseModal}
         onSubmit={onSubmit}
         action={action}
-        user={user}
-        vouchers={vouchers}
-        valueUser={valueUser}
-        setValueUser={setValueUser}
-        valueVouchers={valueVouchers}
-        setValueVouchers={setValueVouchers}
-        setSelect={setSelect}
-        select={select}
-        checkUpdate={checkUpdate}
       />
     </>
   );
 };
 
-export default UserVouchersView;
+export default CategoriesView;
 const ModalForm = (props: any) => {
   const style = {
     position: "absolute" as "absolute",
@@ -266,9 +229,7 @@ const ModalForm = (props: any) => {
     >
       <Box sx={style}>
         <Typography variant="h5" textAlign={"center"}>
-          {props.action == "CREATE"
-            ? "Add Give Away Vouchers"
-            : "Update  Vouchers"}
+          {props.action == "CREATE" ? "Add Category" : "Update Category"}
         </Typography>
         <form onSubmit={props.handleSubmit(props.onFinish)}>
           <Stack
@@ -278,89 +239,30 @@ const ModalForm = (props: any) => {
             direction={"row"}
             flexWrap={"wrap"}
           >
-            {props.checkUpdate?<>
-              <Box width={"100%"}>
-              <FormControl fullWidth size="small">
-                <InputLabel id="demo-simple-select-label">Vouchers</InputLabel>
-                <Select
-                  {...props.register("vouchers_id")}
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Vouchers"
-                  value={props.valueVouchers}
-                  onChange={(e) => props.setValueVouchers(e.target.value)}
-                >
-                  {props.vouchers.map((item: any) => {
-                    return <MenuItem value={item._id}>{item.code}</MenuItem>;
-                  })}
-                </Select>
-              </FormControl>
+            <Box width={"48%"}>
+              <TextField
+                {...props.register("name")}
+                fullWidth
+                id="outlined-basic"
+                label="Title"
+                variant="outlined"
+                size="small"
+                error={props.errors.name?.message}
+              />
             </Box>
-            </>:
-            <>
-            <Box width={"100%"}>
-              <FormControl fullWidth size="small">
-                <InputLabel id="demo-simple-select-label">Vouchers</InputLabel>
-                <Select
-                  {...props.register("vouchers_id")}
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Vouchers"
-                  value={props.valueVouchers}
-                  onChange={(e) => props.setValueVouchers(e.target.value)}
-                >
-                  {props.vouchers.map((item: any) => {
-                    return <MenuItem value={item._id}>{item.code}</MenuItem>;
-                  })}
-                </Select>
-              </FormControl>
+            <Box width={"48%"}>
+              <TextField
+                type="text"
+                {...props.register("description")}
+                fullWidth
+                id="outlined-basic"
+                label="Description"
+                variant="outlined"
+                size="small"
+                error={props.errors.description?.message}
+              />
             </Box>
-            {props.valueVouchers !== "" && (
-              <Box width={"100%"}>
-                <FormControl fullWidth size="small">
-                  <RadioGroup
-                    value={props.select}
-                    onChange={(e) => props.setSelect(e.target.value)}
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    name="radio-buttons-group"
-                  >
-                    <FormControlLabel
-                      value="all"
-                      control={<Radio />}
-                      label="Add all give away vouchers"
-                    />
-                    <FormControlLabel
-                      value="one"
-                      control={<Radio />}
-                      label="Add one give away voucher"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </Box>
-            )}
-            {props.select == "one" && (
-              <Box width={"100%"}>
-                <FormControl fullWidth size="small">
-                  <InputLabel id="demo-simple-select-label">
-                    Người dùng
-                  </InputLabel>
-                  <Select
-                    {...props.register("user_id")}
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="Người dùng"
-                    value={props.valueUser}
-                    onChange={(e) => props.setValueUser(e.target.value)}
-                  >
-                    {props.user.map((item: any) => {
-                      return <MenuItem value={item._id}>{item.email}</MenuItem>;
-                    })}
-                  </Select>
-                </FormControl>
-              </Box>
-            )}
-            
-            </>}
+
             <Box
               width={"100%"}
               display={"flex"}
