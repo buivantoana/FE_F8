@@ -40,7 +40,18 @@ const CommentController = ({ courses_id, lesson_id }: any) => {
   const [dataReport, setDataReport]: any = React.useState(null);
   const [typeReport, setTypeReport]: any = React.useState(null);
 
-  
+  const handleClickOpenReport = (data: any, type: any, index?: any) => {
+    setCheckReport(type);
+    if (type == 0) {
+      setDataReport(data);
+    } else {
+      setDataReport({
+        data,
+        index,
+      });
+    }
+    setOpenReport(true);
+  };
   const handleCloseReport = () => {
     setOpenReport(false);
   };
@@ -80,7 +91,11 @@ const CommentController = ({ courses_id, lesson_id }: any) => {
     setExtendType(etendType.filter((i: any) => i !== data._id));
   };
 
-  
+  const handleCloseChild = () => {
+    setFeedBack("");
+    setAnchorElChild(null);
+    setFeedBackChild(null);
+  };
   const handleEdit = (data: any) => {
     setContentChild(data.content);
     setFeedBack(data._id);
