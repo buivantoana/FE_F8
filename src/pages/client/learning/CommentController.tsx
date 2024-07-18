@@ -40,18 +40,7 @@ const CommentController = ({ courses_id, lesson_id }: any) => {
   const [dataReport, setDataReport]: any = React.useState(null);
   const [typeReport, setTypeReport]: any = React.useState(null);
 
-  const handleClickOpenReport = (data: any, type: any, index?: any) => {
-    setCheckReport(type);
-    if (type == 0) {
-      setDataReport(data);
-    } else {
-      setDataReport({
-        data,
-        index,
-      });
-    }
-    setOpenReport(true);
-  };
+
   const handleCloseReport = () => {
     setOpenReport(false);
   };
@@ -118,11 +107,7 @@ const CommentController = ({ courses_id, lesson_id }: any) => {
     socket.on("newComment", (data) => {
       setComments(data);
     });
-    socket.on("deletedComment", ({ commentId }) => {
-      setComments((prevComments: any) =>
-        prevComments.filter((comment: any) => comment._id !== commentId)
-      );
-    });
+   
     socket.on("updatedComment", (updateComment: any) => {
       setComments(updateComment);
     });
@@ -143,10 +128,7 @@ const CommentController = ({ courses_id, lesson_id }: any) => {
   function handleFeedBackSubmit() {
     console.log(feedBackChild);
     if (feedBackChild || feedBackChild == 0) {
-      let arrnew = dataEditComment.comments_child.map(
-        (item: any, index: number) =>
-          index == feedBackChild ? { ...item, content: contentChild } : item
-      );
+    
       socket.emit("updateComment", {
         id: dataEditComment._id,
         dataEditComment: arrnew,
