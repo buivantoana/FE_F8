@@ -97,13 +97,7 @@ const LearningController = () => {
         data[0].lesson_progress.map((item: any) => {
           item.sub_lesson.map(() => total++);
         });   
-        const percentagePerItem = roundToOneDecimal(100 / total) ;     
-        setTotalprogressBar(percentagePerItem);  
-        console.log(percentagePerItem);
-        let arr = calculateProgress(data);
-        console.log(arr);
-        setprogressBar(arr);
-        setLoadingAll({ ...loadingAll, progress: true });
+       
       } else {
         navigate("/");
       }
@@ -172,7 +166,7 @@ const LearningController = () => {
                     JSON.parse(data.lesson[0].sub_lesson[0].type_exercise)
                   ).length == 2
                 ) {
-                  setTypeCode("html-css");
+                
                 } else {
                   for (let key in JSON.parse(
                     data.lesson[0].sub_lesson[0].type_exercise
