@@ -195,17 +195,7 @@
         });
     }
 
-    // Hàm tính tổng tiền của giỏ hàng
-    function updateTotalAmount() {
-        const cartTable = document.getElementById("cart").querySelector("tbody");
-        let total = 0;
-        Array.from(cartTable.rows).forEach(row => {
-            if (row.cells[5]) {
-                total += parseFloat(row.cells[5].innerText.replace(/[^0-9.-]+/g, ""));
-            }
-        });
-        document.getElementById("totalAmount").innerText = total.toLocaleString() + " VND";
-    }
+   
 
     // Hàm tải sản phẩm và giỏ hàng khi trang được tải
     window.onload = function () {
