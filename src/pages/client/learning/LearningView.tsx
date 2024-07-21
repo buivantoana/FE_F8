@@ -1237,34 +1237,7 @@ const Header = (props: any) => {
               gap={"4px"}
               alignItems={"start"}
               flexDirection={"column"}>
-              <Stack direction={"row"} alignItems={"start"} gap={"5px"}>
-                <Rating name='read-only' color='#b4690e' value={5} readOnly />
-                <Typography>
-                  {star !== undefined &&
-                    star?.status == 0 &&
-                    star.ratingPercentages.fire}
-                  %
-                </Typography>
-              </Stack>
-              <Stack direction={"row"} alignItems={"start"} gap={"5px"}>
-                <Rating name='read-only' color='#b4690e' value={4} readOnly />
-                <Typography>
-                  {star !== undefined &&
-                    star?.status == 0 &&
-                    star.ratingPercentages.four}
-                  %
-                </Typography>
-              </Stack>
-
-              <Stack direction={"row"} alignItems={"start"} gap={"5px"}>
-                <Rating name='read-only' color='#b4690e' value={3} readOnly />
-                <Typography>
-                  {star !== undefined &&
-                    star?.status == 0 &&
-                    star.ratingPercentages.three}
-                  %
-                </Typography>
-              </Stack>
+             
               <Stack direction={"row"} alignItems={"start"} gap={"5px"}>
                 <Rating name='read-only' color='#b4690e' value={2} readOnly />
                 <Typography>
