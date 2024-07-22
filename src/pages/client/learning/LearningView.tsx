@@ -9,6 +9,7 @@ import {
   FormControlLabel,
   FormGroup,
   FormLabel,
+  Modal,
   Paper,
   Popover,
   Radio,
@@ -44,6 +45,7 @@ import direction2 from "../../../images/direction.png";
 import profile from "../../../images/facebook-cap-nhat-avatar-doi-voi-tai-khoan-khong-su-dung-anh-dai-dien-e4abd14d.jpg";
 import StarIcon from "@mui/icons-material/Star";
 import StarRatings from "react-star-ratings";
+import OTPInput from "react-otp-input";
 import {
   RiAddFill,
   RiArrowDownSLine,
@@ -91,7 +93,11 @@ import { addNote } from "@/service/note";
 import { convertToVND, roundToOneDecimal } from "@/utils/utils";
 import { toast } from "react-toastify";
 import { useCoursesContext } from "@/App";
-import { getUserWallet, updateWallet } from "@/service/wallet";
+import {
+  getUserWallet,
+  sendPinCodeWallet,
+  updateWallet,
+} from "@/service/wallet";
 import { addTransactions } from "@/service/transactions";
 import { addOrder, deleteOrder, updateOrder } from "@/service/order";
 import { useLocation } from "react-router-dom";
@@ -178,6 +184,8 @@ const LearningView = ({
         toggleDrawerDirection={toggleDrawerDirection}
         openDirection={openDirection}
         setOpenDirection={setOpenDirection}
+        progress={progress}
+        handleOpenCertificate={handleOpenCertificate}
       />
 
       <Stack direction={"row"}>
@@ -310,6 +318,9 @@ const Header = (props: any) => {
   const vouchers_id = queryParams.get("vouchers_id");
   const [price, setPrice] = useState(0);
   const queryClient = useQueryClient();
+  const [isSendPinCode, setIsSendPinCode] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [isPinVerified, setIsPinVerified] = useState(false);
   let count = 0;
   useEffect(() => {
     if (!(Object.keys(context.state.user).length == 0)) {
@@ -504,100 +515,107 @@ const Header = (props: any) => {
         } else {
           if (data?.status == 0 && data.data.length > 0) {
             if (paymentMethod == "wallet") {
-              let wallet = await getUserWallet(context.state.user[0]._id);
-              if (wallet?.status == 0) {
-                if (
-                  Number(wallet.data[0].balance) -
-                    Number(props.courses.price) >=
-                  0
-                ) {
-                  let res = await updateWallet({
-                    _id: wallet.data[0]._id,
-                    user_id: [wallet.data[0].user_id[0]],
-                    balance: Number(wallet.data[0].balance) - Number(price),
-                  });
-                  await addTransactions({
-                    user_id: [context.state.user[0]._id],
-                    type: "purchase",
-                    status: "completed",
-                    amount: price,
-                  });
-                  if (res?.status == 0) {
-                    let order = await addOrder({
-                      status: true,
-                      courses_id: [props.courses._id],
-                      user_id: [context.state.user[0]._id],
-                      price: price,
+              if (!isPinVerified) {
+                setIsSendPinCode(true);
+              } else {
+                let wallet = await getUserWallet(context.state.user[0]._id);
+                if (wallet?.status == 0) {
+                  if (
+                    Number(wallet.data[0].balance) -
+                      Number(props.courses.price) >=
+                    0
+                  ) {
+                    let res = await updateWallet({
+                      _id: wallet.data[0]._id,
+                      user_id: [wallet.data[0].user_id[0]],
+                      balance: Number(wallet.data[0].balance) - Number(price),
                     });
-                    if (order?.status == 0) {
-                      if (selectedVouchers.length > 0) {
-                        for (
-                          let index = 0;
-                          index < selectedVouchers.length;
-                          index++
-                        ) {
-                          const voucher = vouchers.filter(
-                            (v: any) => v._id === selectedVouchers[index]
-                          );
-                          await updateUserVouchers({
-                            status: true,
-                            user_id: [voucher[0].user_id[0]],
-                            vouchers_id: [voucher[0].vouchers_id[0]._id],
-                            _id: voucher[0]._id,
-                          });
+                    await addTransactions({
+                      user_id: [context.state.user[0]._id],
+                      type: "purchase",
+                      status: "completed",
+                      amount: price,
+                    });
+                    if (res?.status == 0) {
+                      let order = await addOrder({
+                        status: true,
+                        courses_id: [props.courses._id],
+                        user_id: [context.state.user[0]._id],
+                        price: price,
+                      });
+                      if (order?.status == 0) {
+                        if (selectedVouchers.length > 0) {
+                          for (
+                            let index = 0;
+                            index < selectedVouchers.length;
+                            index++
+                          ) {
+                            const voucher = vouchers.filter(
+                              (v: any) => v._id === selectedVouchers[index]
+                            );
+                            await updateUserVouchers({
+                              status: true,
+                              user_id: [voucher[0].user_id[0]],
+                              vouchers_id: [voucher[0].vouchers_id[0]._id],
+                              _id: voucher[0]._id,
+                            });
+                          }
                         }
-                      }
-                      let arr = props.courses.lesson.map(
-                        (item: any, index: number) => {
-                          return {
-                            lesson_id: item._id,
-                            completed: false,
-                            sub_lesson: item.sub_lesson.map(
-                              (item2: any, index2: number) => {
-                                if (index == 0 && index2 == 0) {
+                        let arr = props.courses.lesson.map(
+                          (item: any, index: number) => {
+                            return {
+                              lesson_id: item._id,
+                              completed: false,
+                              sub_lesson: item.sub_lesson.map(
+                                (item2: any, index2: number) => {
+                                  if (index == 0 && index2 == 0) {
+                                    return {
+                                      sub_lesson_id: item2._id,
+                                      completed: false,
+                                      result: true,
+                                    };
+                                  }
                                   return {
                                     sub_lesson_id: item2._id,
                                     completed: false,
-                                    result: true,
+                                    result: false,
                                   };
                                 }
-                                return {
-                                  sub_lesson_id: item2._id,
-                                  completed: false,
-                                  result: false,
-                                };
-                              }
-                            ),
-                          };
-                        }
-                      );
-                      let body = {
-                        courses_id: props.courses._id,
-                        completed: false,
-                        user_id: data.data[0]._id,
-                        lesson_progress: arr,
-                      };
-
-                      let dataProgress = await addProgress(body);
-                      if (dataProgress?.status == 0) {
-                        await addNotify({
-                          user_id: [data.data[0]._id],
-                          title: `Quà tặng`,
-                          message: `Bạn vừa được tặng khóa học ${props.courses.title} từ email ${context.state.user[0].email}.`,
-                          url: `/learning/${props.courses._id}`,
-                          read: false,
-                        });
-                        socket.emit("getNewNotify", {
+                              ),
+                            };
+                          }
+                        );
+                        let body = {
+                          courses_id: props.courses._id,
+                          completed: false,
                           user_id: data.data[0]._id,
-                        });
+                          lesson_progress: arr,
+                        };
+
+                        let dataProgress = await addProgress(body);
+                        if (dataProgress?.status == 0) {
+                          await addNotify({
+                            user_id: [data.data[0]._id],
+                            title: `Quà tặng`,
+                            message: `Bạn vừa được tặng khóa học ${props.courses.title} từ email ${context.state.user[0].email}.`,
+                            url: `/learning/${props.courses._id}`,
+                            read: false,
+                          });
+
+                          socket.emit("getNewNotify", {
+                            user_id: data.data[0]._id,
+                          });
+                        }
+                        setIsPinVerified(false);
+                        setOtp("");
+                        setOpenGift(false);
+                        setPaymentSuccess(true);
+                        toast.success("Bạn đã thanh toán thành công");
                       }
-                      setOpenGift(false);
-                      setPaymentSuccess(true);
-                      toast.success("Bạn đã thanh toán thành công");
                     }
+                  } else {
+                    toast.warning("Bạn không đủ số dư trong ví");
                   }
-                } else {
-                  toast.warning("Bạn không đủ số dư trong ví");
                 }
               }
             } else {
@@ -724,707 +742,838 @@ const Header = (props: any) => {
       console.log(error);
     }
   };
+  const style = {
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "40%",
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 4,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: "10000",
+  };
 
+  useEffect(() => {
+    if (isPinVerified) {
+      handlePayment();
+    }
+  }, [isPinVerified]);
+  const handleChangeOtp = (otp: any) => {
+    if (/^\d*$/.test(otp)) {
+      setOtp(otp);
+    } else {
+      toast.warning("Mã Pin phải là số");
+    }
+  };
+  const handleSubmitPin = async () => {
+    try {
+      if (otp.length == 6) {
+        let wallet: any = await getUserWallet(context.state.user[0]._id);
+        if (wallet.status == 0) {
+          let result = await sendPinCodeWallet({
+            pin_code_new: otp,
+            pin_code_old: wallet.data[0].pin_code,
+          });
+          if (result?.status == 0) {
+            setIsSendPinCode(false);
+            setIsPinVerified(true);
+          } else {
+            toast.error("Sai mã Pin");
+          }
+        }
+      } else {
+        toast.warning("Nhập đủ 6 ký tự");
+      }
+    } catch (error) {}
+  };
   return (
-    <Stack
-      height={"50px "}
-      px={"30px"}
-      direction={"row"}
-      justifyContent={"space-between"}
-      alignItems={"center"}
-      bgcolor={"#29303b"}>
+    <Box
+      sx={{
+        ".css-79ws1d-MuiModal-root": {
+          zIndex: 2000,
+        },
+      }}>
       <Stack
+        height={"50px "}
+        px={"30px"}
         direction={"row"}
+        justifyContent={"space-between"}
         alignItems={"center"}
-        color={"white"}
-        gap={"15px"}>
-        <RiArrowLeftSLine onClick={() => props.navigate("/")} size={25} />
-        <img
-          src={logo}
-          width={40}
-          style={{ borderRadius: "8px", objectFit: "contain" }}
-          height={40}
-          alt=''
-        />
-        <Typography fontWeight={"bold"} fontSize={"13px"}>
-          {props.courses.title}
-        </Typography>
-      </Stack>
-      <Stack direction={"row"} sx={{ cursor: "pointer" }} gap={"20px"}>
-        {props.progress[0].user_name || props.progress[0].completed == true ? (
-          <Stack
-            onClick={props.handleOpenCertificate}
-            direction={"row"}
-            color={"white"}
-            alignItems={"center"}
-            gap={0.5}>
-            <RiVipCrown2Fill />
-            <Typography fontSize={"13px"}>
-              {props.progress[0].completed == true &&
-              !props.progress[0].user_name
-                ? "Nhận"
-                : "Xem"}{" "}
-              chứng chỉ
-            </Typography>
-          </Stack>
-        ) : (
-          ""
-        )}
-
-        {props.courses.price > 0 && (
-          <Stack
-            onClick={handleToggleGift(true)}
-            direction={"row"}
-            color={"white"}
-            alignItems={"center"}
-            gap={0.5}>
-            <RiGift2Fill />
-            <Typography fontSize={"13px"}>Tặng khóa học này</Typography>
-          </Stack>
-        )}
-        <Stack
-          color={"white"}
-          direction={"row"}
-          alignItems={"center"}
-          gap={0.5}
-          sx={{
-            ".CircularProgressbar .CircularProgressbar-text": {
-              fill: "white !important",
-              fontSize: "30px !important",
-            },
-          }}>
-          <Box style={{ width: "35px", position: "relative" }}>
-            <CircularProgressbar
-              value={props.progressBar[0]}
-              text={`${props.progressBar[0]}%`}
-              strokeWidth={7}
-              styles={buildStyles({
-                strokeLinecap: "round",
-                textSize: "16px",
-                pathTransitionDuration: 0.5,
-                pathColor: `#ff5117`,
-                textColor: "#333",
-                trailColor: "#d6d6d6",
-                backgroundColor: "#3e98c7",
-              })}
-            />
-          </Box>
-          <Typography fontSize={"13px"}>
-            <b>
-              {success}/{total}
-            </b>{" "}
-            bài học
-          </Typography>
-        </Stack>
-        <Stack
-          direction={"row"}
-          onClick={handleToggleStar(true)}
-          color={"white"}
-          alignItems={"center"}
-          gap={0.5}>
-          <RiStarFill />
-          <Typography fontSize={"13px"}>Đánh giá</Typography>
-        </Stack>
-        <Stack
-          direction={"row"}
-          color={"white"}
-          alignItems={"center"}
-          gap={0.5}
-          onClick={props.toggleDrawerNote(true)}>
-          <RiFile3Fill />
-          <Typography fontSize={"13px"}>Ghi chú</Typography>
-        </Stack>
-        <Stack
-          direction={"row"}
-          color={"white"}
-          alignItems={"center"}
-          gap={0.5}
-          onClick={props.toggleDrawerDirection(true)}>
-          <RiQuestionFill />
-          <Typography fontSize={"13px"}>Hướng dẫn</Typography>
-        </Stack>
-      </Stack>
-      <Drawer
-        open={props.openDirection}
-        anchor={"right"}
-        onClose={props.toggleDrawerDirection(false)}>
-        <Box width={"1200px"} padding={"50px 100px"}>
-          <Box sx={{ position: "relative" }}>
+        bgcolor={"#29303b"}>
+        <Modal
+          sx={{ zIndex: 1400 }}
+          onClose={() => setIsSendPinCode(false)}
+          open={isSendPinCode}
+          aria-labelledby='modal-modal-title'
+          aria-describedby='modal-modal-description'>
+          <Box sx={style}>
             <Box
-              width={"100%"}
-              sx={{ position: "absolute", top: 0, left: 0 }}
-              height={"485px"}
-              bgcolor={"rgba(0,0,0,.5)"}>
-              {" "}
-            </Box>
-            {activeStep == 0 && (
-              <img
-                src={left}
-                style={{
-                  position: "absolute",
-                  objectFit: "cover",
-                  top: "25px",
-                  height: "435px",
-                  boxShadow: "0px 0px 18px white",
-                }}
-                width={"75%"}
-                alt=''
+              textAlign={"center"}
+              width={"430px"}
+              padding={"20px"}
+              height={300}>
+              <Typography my={"20px"} variant='h4'>
+                Xác thực mã Pin
+              </Typography>
+              <OTPInput
+                inputStyle='inputStyle'
+                value={otp}
+                onChange={handleChangeOtp}
+                numInputs={6}
+                renderInput={(props) => <input {...props} type='password' />}
               />
-            )}
-            {activeStep == 1 && (
-              <img
-                src={right}
-                style={{
-                  position: "absolute",
-                  objectFit: "cover",
-                  top: "25px",
-                  height: "435px",
-                  right: 0,
-                  boxShadow: "0px 0px 18px white",
-                }}
-                width={"25%"}
-                alt=''
-              />
-            )}
-            {activeStep == 2 && (
-              <img
-                src={ques}
-                style={{
-                  position: "absolute",
-                  objectFit: "cover",
-                  bottom: "51px",
-                  height: "22px",
-                  right: 299,
-                  borderRadius: "99px",
-                  boxShadow: "0px 0px 18px white",
-                }}
-                width={"57px"}
-                alt=''
-              />
-            )}
-            {activeStep == 3 && (
-              <img
-                src={note2}
-                style={{
-                  position: "absolute",
-                  objectFit: "cover",
-                  top: "330px",
-                  height: "26.4px",
-                  right: 318,
-                  borderRadius: "4px",
-                  boxShadow: "0px 0px 18px white",
-                }}
-                width={"111px"}
-                alt=''
-              />
-            )}
-            {activeStep == 4 && (
-              <img
-                src={note1}
-                style={{
-                  position: "absolute",
-                  objectFit: "cover",
-                  top: "1px",
-                  height: "27px",
-                  right: 63,
-                  boxShadow: "0px 0px 18px white",
-                }}
-                width={"50px"}
-                alt=''
-              />
-            )}
-
-            <img
-              src={direction}
-              style={{ objectFit: "cover" }}
-              width={"100%"}
-              alt=''
-            />
-          </Box>
-          <Box
-            sx={{
-              ".css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root.Mui-active": {
-                color: "#ff5117",
-              },
-              ".css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed": {
-                color: "#ff5117",
-              },
-            }}>
-            <Stepper activeStep={activeStep} orientation='vertical'>
-              {steps.map((step, index) => (
-                <Step key={step.label}>
-                  <StepLabel>{step.label}</StepLabel>
-                  <StepContent>
-                    <Typography>{step.description}</Typography>
-                    <Box sx={{ mb: 2 }}>
-                      <div>
-                        <Button
-                          variant='contained'
-                          onClick={handleNext}
-                          sx={{
-                            background:
-                              "linear-gradient(to right bottom, #ff8f26, #ff5117)",
-                            color: "white",
-
-                            height: "34px",
-                            mt: 1,
-                            mr: 1,
-                          }}>
-                          {index === steps.length - 1
-                            ? "Hoàn thành"
-                            : "Đi tiếp"}
-                        </Button>
-                        <Button
-                          disabled={index === 0}
-                          onClick={handleBack}
-                          sx={{ mt: 1, mr: 1 }}>
-                          Quay lại
-                        </Button>
-                      </div>
-                    </Box>
-                  </StepContent>
-                </Step>
-              ))}
-            </Stepper>
-          </Box>
-          {activeStep === steps.length && (
-            <Paper square elevation={0} sx={{ p: 3 }}>
               <Button
                 sx={{
+                  mt: "30px",
+                  width: "100%",
+                  height: "44px",
                   background:
-                    "linear-gradient(to right bottom, #ff8f26, #ff5117)",
-                  color: "white",
-
-                  height: "34px",
-                  mt: 1,
-                  mr: 1,
-                }}
-                onClick={handleReset}>
-                Thoát hướng dẫn
-              </Button>
-            </Paper>
-          )}
-        </Box>
-      </Drawer>
-      <Drawer
-        open={openGift}
-        anchor={"right"}
-        onClose={handleToggleGift(false)}>
-        <Box width={"600px"} padding={"50px 50px"}>
-          <Typography variant='h5' textAlign={"center"} fontWeight={"bold"}>
-            Tặng khóa học {props.courses.title}
-          </Typography>
-          <Typography my={"20px"} color={"#333"} fontSize={"14px"}>
-            {props.courses.description}
-          </Typography>
-          <form style={{ marginTop: "30px" }}>
-            <TextField
-              id='outlined-basic'
-              type='email'
-              value={emailGift}
-              onChange={(e) => setEmailGift(e.target.value)}
-              label='Email người nhận'
-              size='small'
-              fullWidth
-              variant='outlined'
-            />
-            <Box
-              mt={"20px"}
-              width={"100%"}
-              padding={"10px"}
-              border={"1px solid #dddddd"}
-              borderRadius={"10px"}>
-              <Stack
-                direction={"row"}
-                justifyContent={"space-between"}
-                alignItems={"center"}
-                borderBottom={"1px dashed #dddddd"}
-                paddingBottom={"20px"}>
-                <Box>Giá bán : </Box>
-                <Box>{convertToVND(props.courses.price)}</Box>
-              </Stack>
-              <FormGroup sx={{ borderBottom: "1px dashed #dddddd" }}>
-                {vouchers !== undefined && vouchers.length > 0 && (
-                  <>
-                    <Box mt={"20px"}>Thêm mã giảm giá</Box>
-                    {vouchers.map((voucher: any) => (
-                      <FormControlLabel
-                        sx={{ mt: "10px" }}
-                        key={voucher._id}
-                        control={
-                          <Checkbox
-                            checked={selectedVouchers.includes(voucher._id)}
-                            onChange={handleCheckboxChange}
-                            name={voucher._id}
-                          />
-                        }
-                        label={
-                          <>
-                            <Typography>
-                              <b>{voucher.vouchers_id[0].code}</b> -{" "}
-                              {voucher.vouchers_id[0].discount_type ===
-                              "percentage"
-                                ? `${voucher.vouchers_id[0].discount_value}%`
-                                : `${voucher.vouchers_id[0].discount_value} VND`}
-                              -Ngày hết hạn{" "}
-                              <b>{voucher.vouchers_id[0].end_date}</b>
-                            </Typography>
-                          </>
-                        }
-                      />
-                    ))}
-                  </>
-                )}
-              </FormGroup>
-              <Stack
-                borderBottom={"1px dashed #dddddd"}
-                paddingBottom={"20px"}
-                direction={"row"}
-                mt={"15px"}
-                justifyContent={"space-between"}
-                alignItems={"center"}>
-                <Box>Tổng tiền : </Box>
-                <Box>{convertToVND(price)}</Box>
-              </Stack>
-              <FormControl sx={{ mt: "20px", display: "block" }}>
-                <FormLabel id='demo-radio-buttons-group-label'>
-                  Phương thức thanh toán
-                </FormLabel>
-
-                <RadioGroup
-                  value={paymentMethod}
-                  onChange={(e) => setPaymentMethod(e.target.value)}
-                  aria-labelledby='demo-radio-buttons-group-label'
-                  name='radio-buttons-group'>
-                  <FormControlLabel
-                    value='wallet'
-                    control={<Radio />}
-                    label='Thanh toán bằng ví'
-                  />
-                  <FormControlLabel
-                    value='vnpay'
-                    control={<Radio />}
-                    label='Cổng thanh toán VNPAY'
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Box>
-            <Box mt={"20px"}>
-              <Button
-                disabled={!emailGift || !paymentMethod}
-                onClick={handlePayment}
-                sx={{
-                  background:
-                    "linear-gradient(to right bottom, #ff8f26, #ff5117)",
+                    "linear-gradient(70.06deg, #2cccff -5%, #22dfbf 106%)",
                   color: "white",
                   borderRadius: "30px",
-                  float: "right",
-                  height: "34px",
-                }}>
-                Thanh toán
+                  fontWeight: "700",
+                }}
+                onClick={handleSubmitPin}>
+                Xác nhận
               </Button>
             </Box>
-          </form>
-        </Box>
-      </Drawer>
-      <Drawer
-        open={openStar}
-        anchor={"right"}
-        onClose={handleToggleStar(false)}>
-        <Box
-          sx={{
-            ".css-15befwp-MuiRating-root": {
-              color: "#b4690e",
-            },
-          }}
-          width={"900px"}
-          padding={"50px 50px"}>
-          <Typography variant='h4' textAlign={"center"} fontWeight={"bold"}>
-            Phản hồi của học viên
+          </Box>
+        </Modal>
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          color={"white"}
+          gap={"15px"}>
+          <RiArrowLeftSLine onClick={() => props.navigate("/")} size={25} />
+          <img
+            src={logo}
+            width={40}
+            style={{ borderRadius: "8px", objectFit: "contain" }}
+            height={40}
+            alt=''
+          />
+          <Typography fontWeight={"bold"} fontSize={"13px"}>
+            {props.courses.title}
           </Typography>
-          <Stack mt={"30px"} direction={"row"} gap={"4%"} alignItems={"center"}>
-            <Box
-              width={"20%"}
-              display={"flex"}
-              gap={"10px"}
+        </Stack>
+        <Stack direction={"row"} sx={{ cursor: "pointer" }} gap={"20px"}>
+          {props.progress[0].user_name ||
+          props.progress[0].completed == true ? (
+            <Stack
+              onClick={props.handleOpenCertificate}
+              direction={"row"}
+              color={"white"}
               alignItems={"center"}
-              flexDirection={"column"}
-              sx={{
-                svg: {
-                  width: "30px !important",
-                  height: "30px !important",
-                },
-              }}>
-              <Typography variant='h2' color={"#b4690e"} fontWeight={"bold"}>
-                {roundToOneDecimal(
-                  star !== undefined && star.status == 0 && star.averageRating
-                    ? star.averageRating
-                    : 0
-                )}
+              gap={0.5}>
+              <RiVipCrown2Fill />
+              <Typography fontSize={"13px"}>
+                {props.progress[0].completed == true &&
+                !props.progress[0].user_name
+                  ? "Nhận"
+                  : "Xem"}{" "}
+                chứng chỉ
               </Typography>
-              <StarRatings
-                rating={
-                  star !== undefined && star.status == 0 && star.averageRating
-                    ? star.averageRating
-                    : 0
-                }
-                starRatedColor='blue'
-                numberOfStars={5}
-                starSpacing='0'
-                starRatedColor={"#b4690e"}
-                name='rating'
-              />
+            </Stack>
+          ) : (
+            ""
+          )}
 
-              <Typography color={"#b4690e"} fontWeight={"bold"}>
-                Xếp hạng khóa học
-              </Typography>
-            </Box>
-            <Box
-              width={"56%"}
-              display={"flex"}
-              gap={"10px"}
+          {props.courses.price > 0 && (
+            <Stack
+              onClick={handleToggleGift(true)}
+              direction={"row"}
+              color={"white"}
               alignItems={"center"}
-              flexDirection={"column"}>
-              <ProgressBar
-                percentage={
-                  star !== undefined && star?.status == 0
-                    ? star.ratingPercentages.fire == null
-                      ? 0
-                      : star.ratingPercentages.fire
-                    : 0
-                }
-              />
-              <ProgressBar
-                percentage={
-                  star !== undefined && star?.status == 0
-                    ? star.ratingPercentages.four == null
-                      ? 0
-                      : star.ratingPercentages.four
-                    : 0
-                }
-              />
-              <ProgressBar
-                percentage={
-                  star !== undefined && star?.status == 0
-                    ? star.ratingPercentages.three == null
-                      ? 0
-                      : star.ratingPercentages.three
-                    : 0
-                }
-              />
-              <ProgressBar
-                percentage={
-                  star !== undefined && star?.status == 0
-                    ? star.ratingPercentages.two == null
-                      ? 0
-                      : star.ratingPercentages.two
-                    : 0
-                }
-              />
-              <ProgressBar
-                percentage={
-                  star !== undefined && star?.status == 0
-                    ? star.ratingPercentages.one == null
-                      ? 0
-                      : star.ratingPercentages.one
-                    : 0
-                }
+              gap={0.5}>
+              <RiGift2Fill />
+              <Typography fontSize={"13px"}>Tặng khóa học này</Typography>
+            </Stack>
+          )}
+          <Stack
+            color={"white"}
+            direction={"row"}
+            alignItems={"center"}
+            gap={0.5}
+            sx={{
+              ".CircularProgressbar .CircularProgressbar-text": {
+                fill: "white !important",
+                fontSize: "30px !important",
+              },
+            }}>
+            <Box style={{ width: "35px", position: "relative" }}>
+              <CircularProgressbar
+                value={props.progressBar[0]}
+                text={`${props.progressBar[0]}%`}
+                strokeWidth={7}
+                styles={buildStyles({
+                  strokeLinecap: "round",
+                  textSize: "16px",
+                  pathTransitionDuration: 0.5,
+                  pathColor: `#ff5117`,
+                  textColor: "#333",
+                  trailColor: "#d6d6d6",
+                  backgroundColor: "#3e98c7",
+                })}
               />
             </Box>
-            <Box
-              width={"20%"}
-              display={"flex"}
-              gap={"4px"}
-              alignItems={"start"}
-              flexDirection={"column"}>
-             
-              <Stack direction={"row"} alignItems={"start"} gap={"5px"}>
-                <Rating name='read-only' color='#b4690e' value={2} readOnly />
-                <Typography>
-                  {star !== undefined &&
-                    star?.status == 0 &&
-                    star.ratingPercentages.two}
-                  %
-                </Typography>
-              </Stack>
-              <Stack direction={"row"} alignItems={"start"} gap={"5px"}>
-                <Rating name='read-only' color='#b4690e' value={1} readOnly />
-                <Typography>
-                  {star !== undefined &&
-                    star?.status == 0 &&
-                    star.ratingPercentages.one}
-                  %
-                </Typography>
-              </Stack>
-            </Box>
+            <Typography fontSize={"13px"}>
+              <b>
+                {success}/{total}
+              </b>{" "}
+              bài học
+            </Typography>
           </Stack>
-          <Typography variant='h6' fontWeight={"bold"} mt={"30px"}>
-            Đánh giá của tôi
-          </Typography>
-          <Box
-            mt={"10px"}
-            display={"flex"}
-            flexDirection={"column"}
-            gap={"10px"}>
-            {!userStar[0] || updateUserStar ? (
-              <Box>
-                <Stack direction={"row"} alignItems={"center"} gap={"20px"}>
-                  <Rating
-                    name='hover-feedback'
-                    size='large'
-                    value={value}
-                    getLabelText={getLabelText}
-                    onChange={(event, newValue) => {
-                      setValue(newValue);
-                    }}
-                    onChangeActive={(event, newHover) => {
-                      setHover(newHover);
-                    }}
-                    emptyIcon={
-                      <StarIcon style={{ opacity: 0.55 }} fontSize='inherit' />
-                    }
-                  />
-                  {value !== null && (
-                    <Box>{labels[hover !== -1 ? hover : value]}</Box>
-                  )}
-                </Stack>
-                <Box display={"flex"} mt={"15px"} gap={"20px"}>
-                  <TextField
-                    value={messageStar}
-                    onChange={(e) => setMessageStar(e.target.value)}
-                    id='outlined-basic'
-                    placeholder='Hãy cho tôi biết cảm nhận của bạn khi học khóa học này.'
-                    variant='outlined'
-                    sx={{ width: "60%" }}
-                    size='small'
-                  />
-                  <Button
-                    onClick={handleStar}
-                    disabled={!value || !messageStar}
-                    sx={{
-                      background:
-                        "linear-gradient(to right bottom, #ff8f26, #ff5117)",
-                      color: "white",
-                      borderRadius: "4px",
-                      width: "92px",
-                    }}>
-                    Đánh giá
-                  </Button>
-                  {updateUserStar && (
-                    <Button onClick={() => setUpdateUserStar(null)}>
-                      Quay lại
-                    </Button>
-                  )}
-                </Box>
+          <Stack
+            direction={"row"}
+            onClick={handleToggleStar(true)}
+            color={"white"}
+            alignItems={"center"}
+            gap={0.5}>
+            <RiStarFill />
+            <Typography fontSize={"13px"}>Đánh giá</Typography>
+          </Stack>
+          <Stack
+            direction={"row"}
+            color={"white"}
+            alignItems={"center"}
+            gap={0.5}
+            onClick={props.toggleDrawerNote(true)}>
+            <RiFile3Fill />
+            <Typography fontSize={"13px"}>Ghi chú</Typography>
+          </Stack>
+          <Stack
+            direction={"row"}
+            color={"white"}
+            alignItems={"center"}
+            gap={0.5}
+            onClick={props.toggleDrawerDirection(true)}>
+            <RiQuestionFill />
+            <Typography fontSize={"13px"}>Hướng dẫn</Typography>
+          </Stack>
+        </Stack>
+        <Drawer
+          open={props.openDirection}
+          anchor={"right"}
+          onClose={props.toggleDrawerDirection(false)}>
+          <Box width={"1200px"} padding={"50px 100px"}>
+            <Box sx={{ position: "relative" }}>
+              <Box
+                width={"100%"}
+                sx={{ position: "absolute", top: 0, left: 0 }}
+                height={"485px"}
+                bgcolor={"rgba(0,0,0,.5)"}>
+                {" "}
               </Box>
-            ) : (
-              <Stack
-                direction={"row"}
-                mt={"30px"}
-                paddingBottom={"10px"}
-                gap={"20px"}>
+              {activeStep == 0 && (
                 <img
-                  src={
-                    userStar[0].user_id[0].image.url
-                      ? userStar[0].user_id[0].image.url
-                      : profile
-                  }
-                  width={"50px"}
-                  height={"50px"}
-                  style={{ borderRadius: "50%" }}
+                  src={left}
+                  style={{
+                    position: "absolute",
+                    objectFit: "cover",
+                    top: "25px",
+                    height: "435px",
+                    boxShadow: "0px 0px 18px white",
+                  }}
+                  width={"75%"}
                   alt=''
                 />
-                <Box>
-                  <Typography display={"flex"} gap={"20px"} fontWeight={"bold"}>
-                    {userStar[0].user_id[0].user_name}{" "}
+              )}
+              {activeStep == 1 && (
+                <img
+                  src={right}
+                  style={{
+                    position: "absolute",
+                    objectFit: "cover",
+                    top: "25px",
+                    height: "435px",
+                    right: 0,
+                    boxShadow: "0px 0px 18px white",
+                  }}
+                  width={"25%"}
+                  alt=''
+                />
+              )}
+              {activeStep == 2 && (
+                <img
+                  src={ques}
+                  style={{
+                    position: "absolute",
+                    objectFit: "cover",
+                    bottom: "51px",
+                    height: "22px",
+                    right: 299,
+                    borderRadius: "99px",
+                    boxShadow: "0px 0px 18px white",
+                  }}
+                  width={"57px"}
+                  alt=''
+                />
+              )}
+              {activeStep == 3 && (
+                <img
+                  src={note2}
+                  style={{
+                    position: "absolute",
+                    objectFit: "cover",
+                    top: "330px",
+                    height: "26.4px",
+                    right: 318,
+                    borderRadius: "4px",
+                    boxShadow: "0px 0px 18px white",
+                  }}
+                  width={"111px"}
+                  alt=''
+                />
+              )}
+              {activeStep == 4 && (
+                <img
+                  src={note1}
+                  style={{
+                    position: "absolute",
+                    objectFit: "cover",
+                    top: "1px",
+                    height: "27px",
+                    right: 63,
+                    boxShadow: "0px 0px 18px white",
+                  }}
+                  width={"50px"}
+                  alt=''
+                />
+              )}
+
+              <img
+                src={direction}
+                style={{ objectFit: "cover" }}
+                width={"100%"}
+                alt=''
+              />
+            </Box>
+            <Box
+              sx={{
+                ".css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root.Mui-active": {
+                  color: "#ff5117",
+                },
+                ".css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed": {
+                  color: "#ff5117",
+                },
+              }}>
+              <Stepper activeStep={activeStep} orientation='vertical'>
+                {steps.map((step, index) => (
+                  <Step key={step.label}>
+                    <StepLabel>{step.label}</StepLabel>
+                    <StepContent>
+                      <Typography>{step.description}</Typography>
+                      <Box sx={{ mb: 2 }}>
+                        <div>
+                          <Button
+                            variant='contained'
+                            onClick={handleNext}
+                            sx={{
+                              background:
+                                "linear-gradient(to right bottom, #ff8f26, #ff5117)",
+                              color: "white",
+
+                              height: "34px",
+                              mt: 1,
+                              mr: 1,
+                            }}>
+                            {index === steps.length - 1
+                              ? "Hoàn thành"
+                              : "Đi tiếp"}
+                          </Button>
+                          <Button
+                            disabled={index === 0}
+                            onClick={handleBack}
+                            sx={{ mt: 1, mr: 1 }}>
+                            Quay lại
+                          </Button>
+                        </div>
+                      </Box>
+                    </StepContent>
+                  </Step>
+                ))}
+              </Stepper>
+            </Box>
+            {activeStep === steps.length && (
+              <Paper square elevation={0} sx={{ p: 3 }}>
+                <Button
+                  sx={{
+                    background:
+                      "linear-gradient(to right bottom, #ff8f26, #ff5117)",
+                    color: "white",
+
+                    height: "34px",
+                    mt: 1,
+                    mr: 1,
+                  }}
+                  onClick={handleReset}>
+                  Thoát hướng dẫn
+                </Button>
+              </Paper>
+            )}
+          </Box>
+        </Drawer>
+        <Drawer
+          open={openGift}
+          anchor={"right"}
+          onClose={handleToggleGift(false)}>
+          <Box width={"600px"} padding={"50px 50px"}>
+            <Typography variant='h5' textAlign={"center"} fontWeight={"bold"}>
+              Tặng khóa học {props.courses.title}
+            </Typography>
+            <Typography my={"20px"} color={"#333"} fontSize={"14px"}>
+              {props.courses.description}
+            </Typography>
+            <form style={{ marginTop: "30px" }}>
+              <TextField
+                id='outlined-basic'
+                type='email'
+                value={emailGift}
+                onChange={(e) => setEmailGift(e.target.value)}
+                label='Email người nhận'
+                size='small'
+                fullWidth
+                variant='outlined'
+              />
+              <Box
+                mt={"20px"}
+                width={"100%"}
+                padding={"10px"}
+                border={"1px solid #dddddd"}
+                borderRadius={"10px"}>
+                <Stack
+                  direction={"row"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                  borderBottom={"1px dashed #dddddd"}
+                  paddingBottom={"20px"}>
+                  <Box>Giá bán : </Box>
+                  <Box>{convertToVND(props.courses.price)}</Box>
+                </Stack>
+                <FormGroup sx={{ borderBottom: "1px dashed #dddddd" }}>
+                  {vouchers !== undefined && vouchers.length > 0 && (
+                    <>
+                      <Box mt={"20px"}>Thêm mã giảm giá</Box>
+                      {vouchers.map((voucher: any) => (
+                        <FormControlLabel
+                          sx={{ mt: "10px" }}
+                          key={voucher._id}
+                          control={
+                            <Checkbox
+                              checked={selectedVouchers.includes(voucher._id)}
+                              onChange={handleCheckboxChange}
+                              name={voucher._id}
+                            />
+                          }
+                          label={
+                            <>
+                              <Typography>
+                                <b>{voucher.vouchers_id[0].code}</b> -{" "}
+                                {voucher.vouchers_id[0].discount_type ===
+                                "percentage"
+                                  ? `${voucher.vouchers_id[0].discount_value}%`
+                                  : `${voucher.vouchers_id[0].discount_value} VND`}
+                                -Ngày hết hạn{" "}
+                                <b>{voucher.vouchers_id[0].end_date}</b>
+                              </Typography>
+                            </>
+                          }
+                        />
+                      ))}
+                    </>
+                  )}
+                </FormGroup>
+                <Stack
+                  borderBottom={"1px dashed #dddddd"}
+                  paddingBottom={"20px"}
+                  direction={"row"}
+                  mt={"15px"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}>
+                  <Box>Tổng tiền : </Box>
+                  <Box>{convertToVND(price)}</Box>
+                </Stack>
+                <FormControl sx={{ mt: "20px", display: "block" }}>
+                  <FormLabel id='demo-radio-buttons-group-label'>
+                    Phương thức thanh toán
+                  </FormLabel>
+
+                  <RadioGroup
+                    value={paymentMethod}
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                    aria-labelledby='demo-radio-buttons-group-label'
+                    name='radio-buttons-group'>
+                    <FormControlLabel
+                      value='wallet'
+                      control={<Radio />}
+                      label='Thanh toán bằng ví'
+                    />
+                    <FormControlLabel
+                      value='vnpay'
+                      control={<Radio />}
+                      label='Cổng thanh toán VNPAY'
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Box>
+              <Box mt={"20px"}>
+                <Button
+                  disabled={!emailGift || !paymentMethod}
+                  onClick={handlePayment}
+                  sx={{
+                    background:
+                      "linear-gradient(to right bottom, #ff8f26, #ff5117)",
+                    color: "white",
+                    borderRadius: "30px",
+                    float: "right",
+                    height: "34px",
+                  }}>
+                  Thanh toán
+                </Button>
+              </Box>
+            </form>
+          </Box>
+        </Drawer>
+        <Drawer
+          open={openStar}
+          anchor={"right"}
+          onClose={handleToggleStar(false)}>
+          <Box
+            sx={{
+              ".css-15befwp-MuiRating-root": {
+                color: "#b4690e",
+              },
+            }}
+            width={"900px"}
+            padding={"50px 50px"}>
+            <Typography variant='h4' textAlign={"center"} fontWeight={"bold"}>
+              Phản hồi của học viên
+            </Typography>
+            <Stack
+              mt={"30px"}
+              direction={"row"}
+              gap={"4%"}
+              alignItems={"center"}>
+              <Box
+                width={"20%"}
+                display={"flex"}
+                gap={"10px"}
+                alignItems={"center"}
+                flexDirection={"column"}
+                sx={{
+                  svg: {
+                    width: "30px !important",
+                    height: "30px !important",
+                  },
+                }}>
+                <Typography variant='h2' color={"#b4690e"} fontWeight={"bold"}>
+                  {roundToOneDecimal(
+                    star !== undefined && star.status == 0 && star.averageRating
+                      ? star.averageRating
+                      : 0
+                  )}
+                </Typography>
+                <StarRatings
+                  rating={
+                    star !== undefined && star.status == 0 && star.averageRating
+                      ? star.averageRating
+                      : 0
+                  }
+                  starRatedColor='blue'
+                  numberOfStars={5}
+                  starSpacing='0'
+                  starRatedColor={"#b4690e"}
+                  name='rating'
+                />
+
+                <Typography color={"#b4690e"} fontWeight={"bold"}>
+                  Xếp hạng khóa học
+                </Typography>
+              </Box>
+              <Box
+                width={"56%"}
+                display={"flex"}
+                gap={"10px"}
+                alignItems={"center"}
+                flexDirection={"column"}>
+                <ProgressBar
+                  percentage={
+                    star !== undefined && star?.status == 0
+                      ? star.ratingPercentages.fire == null
+                        ? 0
+                        : star.ratingPercentages.fire
+                      : 0
+                  }
+                />
+                <ProgressBar
+                  percentage={
+                    star !== undefined && star?.status == 0
+                      ? star.ratingPercentages.four == null
+                        ? 0
+                        : star.ratingPercentages.four
+                      : 0
+                  }
+                />
+                <ProgressBar
+                  percentage={
+                    star !== undefined && star?.status == 0
+                      ? star.ratingPercentages.three == null
+                        ? 0
+                        : star.ratingPercentages.three
+                      : 0
+                  }
+                />
+                <ProgressBar
+                  percentage={
+                    star !== undefined && star?.status == 0
+                      ? star.ratingPercentages.two == null
+                        ? 0
+                        : star.ratingPercentages.two
+                      : 0
+                  }
+                />
+                <ProgressBar
+                  percentage={
+                    star !== undefined && star?.status == 0
+                      ? star.ratingPercentages.one == null
+                        ? 0
+                        : star.ratingPercentages.one
+                      : 0
+                  }
+                />
+              </Box>
+              <Box
+                width={"20%"}
+                display={"flex"}
+                gap={"4px"}
+                alignItems={"start"}
+                flexDirection={"column"}>
+                <Stack direction={"row"} alignItems={"start"} gap={"5px"}>
+                  <Rating name='read-only' color='#b4690e' value={5} readOnly />
+                  <Typography>
+                    {star !== undefined &&
+                      star?.status == 0 &&
+                      star.ratingPercentages.fire}
+                    %
                   </Typography>
-                  <Rating
-                    name='read-only'
-                    color='#b4690e'
-                    value={userStar[0].star}
-                    readOnly
-                  />
-                  <Typography>{userStar[0].message}</Typography>
-                  <Box display={"flex"} gap={"10px"}>
-                    <Button
-                      onClick={handleDeleteStar}
-                      sx={{
-                        background: "red",
-                        color: "white",
-                        borderRadius: "4px",
-                        fontSize: "13px",
-                        height: "20px",
-                      }}>
-                      Xóa
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        setMessageStar(userStar[0].message);
-                        setValue(userStar[0].star);
-                        setUpdateUserStar(userStar[0]);
+                </Stack>
+                <Stack direction={"row"} alignItems={"start"} gap={"5px"}>
+                  <Rating name='read-only' color='#b4690e' value={4} readOnly />
+                  <Typography>
+                    {star !== undefined &&
+                      star?.status == 0 &&
+                      star.ratingPercentages.four}
+                    %
+                  </Typography>
+                </Stack>
+
+                <Stack direction={"row"} alignItems={"start"} gap={"5px"}>
+                  <Rating name='read-only' color='#b4690e' value={3} readOnly />
+                  <Typography>
+                    {star !== undefined &&
+                      star?.status == 0 &&
+                      star.ratingPercentages.three}
+                    %
+                  </Typography>
+                </Stack>
+                <Stack direction={"row"} alignItems={"start"} gap={"5px"}>
+                  <Rating name='read-only' color='#b4690e' value={2} readOnly />
+                  <Typography>
+                    {star !== undefined &&
+                      star?.status == 0 &&
+                      star.ratingPercentages.two}
+                    %
+                  </Typography>
+                </Stack>
+                <Stack direction={"row"} alignItems={"start"} gap={"5px"}>
+                  <Rating name='read-only' color='#b4690e' value={1} readOnly />
+                  <Typography>
+                    {star !== undefined &&
+                      star?.status == 0 &&
+                      star.ratingPercentages.one}
+                    %
+                  </Typography>
+                </Stack>
+              </Box>
+            </Stack>
+            <Typography variant='h6' fontWeight={"bold"} mt={"30px"}>
+              Đánh giá của tôi
+            </Typography>
+            <Box
+              mt={"10px"}
+              display={"flex"}
+              flexDirection={"column"}
+              gap={"10px"}>
+              {!userStar[0] || updateUserStar ? (
+                <Box>
+                  <Stack direction={"row"} alignItems={"center"} gap={"20px"}>
+                    <Rating
+                      name='hover-feedback'
+                      size='large'
+                      value={value}
+                      getLabelText={getLabelText}
+                      onChange={(event, newValue) => {
+                        setValue(newValue);
                       }}
+                      onChangeActive={(event, newHover) => {
+                        setHover(newHover);
+                      }}
+                      emptyIcon={
+                        <StarIcon
+                          style={{ opacity: 0.55 }}
+                          fontSize='inherit'
+                        />
+                      }
+                    />
+                    {value !== null && (
+                      <Box>{labels[hover !== -1 ? hover : value]}</Box>
+                    )}
+                  </Stack>
+                  <Box display={"flex"} mt={"15px"} gap={"20px"}>
+                    <TextField
+                      value={messageStar}
+                      onChange={(e) => setMessageStar(e.target.value)}
+                      id='outlined-basic'
+                      placeholder='Hãy cho tôi biết cảm nhận của bạn khi học khóa học này.'
+                      variant='outlined'
+                      sx={{ width: "60%" }}
+                      size='small'
+                    />
+                    <Button
+                      onClick={handleStar}
+                      disabled={!value || !messageStar}
                       sx={{
                         background:
                           "linear-gradient(to right bottom, #ff8f26, #ff5117)",
                         color: "white",
                         borderRadius: "4px",
-                        fontSize: "13px",
-                        height: "20px",
+                        width: "92px",
                       }}>
-                      Sửa
+                      Đánh giá
                     </Button>
+                    {updateUserStar && (
+                      <Button onClick={() => setUpdateUserStar(null)}>
+                        Quay lại
+                      </Button>
+                    )}
                   </Box>
                 </Box>
-              </Stack>
-            )}
-            {dataStar.length > 0 && (
-              <>
-                <Typography variant='h6' fontWeight={"bold"} mt={"30px"}>
-                  Tất cả đánh giá
-                </Typography>
-                <Stack direction={"column"} gap={"20px"} mt={"30px"}>
-                  {dataStar &&
-                    dataStar.length &&
-                    dataStar.map((item: any) => {
-                      return (
-                        <Stack
-                          direction={"row"}
-                          paddingBottom={"10px"}
-                          borderBottom={"1px dashed #dddddd"}
-                          gap={"20px"}>
-                          <img
-                            src={
-                              item.user_id[0].image.url
-                                ? item.user_id[0].image.url
-                                : profile
-                            }
-                            width={"50px"}
-                            height={"50px"}
-                            style={{ borderRadius: "50%" }}
-                            alt=''
-                          />
-                          <Box>
-                            <Typography fontWeight={"bold"}>
-                              {item.user_id[0].user_name}
-                            </Typography>
-                            <Rating
-                              name='read-only'
-                              color='#b4690e'
-                              value={item.star}
-                              readOnly
-                            />
-                            <Typography>{item.message}</Typography>
-                          </Box>
-                        </Stack>
-                      );
-                    })}
+              ) : (
+                <Stack
+                  direction={"row"}
+                  mt={"30px"}
+                  paddingBottom={"10px"}
+                  gap={"20px"}>
+                  <img
+                    src={
+                      userStar[0].user_id[0].image.url
+                        ? userStar[0].user_id[0].image.url
+                        : profile
+                    }
+                    width={"50px"}
+                    height={"50px"}
+                    style={{ borderRadius: "50%" }}
+                    alt=''
+                  />
+                  <Box>
+                    <Typography
+                      display={"flex"}
+                      gap={"20px"}
+                      fontWeight={"bold"}>
+                      {userStar[0].user_id[0].user_name}{" "}
+                    </Typography>
+                    <Rating
+                      name='read-only'
+                      color='#b4690e'
+                      value={userStar[0].star}
+                      readOnly
+                    />
+                    <Typography>{userStar[0].message}</Typography>
+                    <Box display={"flex"} gap={"10px"}>
+                      <Button
+                        onClick={handleDeleteStar}
+                        sx={{
+                          background: "red",
+                          color: "white",
+                          borderRadius: "4px",
+                          fontSize: "13px",
+                          height: "20px",
+                        }}>
+                        Xóa
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          setMessageStar(userStar[0].message);
+                          setValue(userStar[0].star);
+                          setUpdateUserStar(userStar[0]);
+                        }}
+                        sx={{
+                          background:
+                            "linear-gradient(to right bottom, #ff8f26, #ff5117)",
+                          color: "white",
+                          borderRadius: "4px",
+                          fontSize: "13px",
+                          height: "20px",
+                        }}>
+                        Sửa
+                      </Button>
+                    </Box>
+                  </Box>
                 </Stack>
-              </>
-            )}
+              )}
+              {dataStar.length > 0 && (
+                <>
+                  <Typography variant='h6' fontWeight={"bold"} mt={"30px"}>
+                    Tất cả đánh giá
+                  </Typography>
+                  <Stack direction={"column"} gap={"20px"} mt={"30px"}>
+                    {dataStar &&
+                      dataStar.length &&
+                      dataStar.map((item: any) => {
+                        return (
+                          <Stack
+                            direction={"row"}
+                            paddingBottom={"10px"}
+                            borderBottom={"1px dashed #dddddd"}
+                            gap={"20px"}>
+                            <img
+                              src={
+                                item.user_id[0].image.url
+                                  ? item.user_id[0].image.url
+                                  : profile
+                              }
+                              width={"50px"}
+                              height={"50px"}
+                              style={{ borderRadius: "50%" }}
+                              alt=''
+                            />
+                            <Box>
+                              <Typography fontWeight={"bold"}>
+                                {item.user_id[0].user_name}
+                              </Typography>
+                              <Rating
+                                name='read-only'
+                                color='#b4690e'
+                                value={item.star}
+                                readOnly
+                              />
+                              <Typography>{item.message}</Typography>
+                            </Box>
+                          </Stack>
+                        );
+                      })}
+                  </Stack>
+                </>
+              )}
+            </Box>
           </Box>
-        </Box>
-      </Drawer>
-    </Stack>
+        </Drawer>
+      </Stack>
+    </Box>
   );
 };
 const ProgressBar = ({ percentage }: any) => {
