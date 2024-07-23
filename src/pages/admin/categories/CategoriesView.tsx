@@ -86,19 +86,19 @@ const CategoriesView = ({
   return (
     <>
       <Stack my={"20px"} direction={"row"} justifyContent={"space-between"}>
-        <Typography variant="h5">Categories</Typography>
-        <Button onClick={() => handleOpenModal("CREATE")} variant="contained">
+        <Typography variant='h5'>Categories</Typography>
+        <Button onClick={() => handleOpenModal("CREATE")} variant='contained'>
           Add Category
         </Button>
       </Stack>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableHead>
             <TableRow>
               <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell align="left">Description</StyledTableCell>
+              <StyledTableCell align='left'>Description</StyledTableCell>
 
-              <StyledTableCell align="left">Action</StyledTableCell>
+              <StyledTableCell align='left'>Action</StyledTableCell>
             </TableRow>
           </TableHead>
           {data.length == 0 ? (
@@ -109,16 +109,15 @@ const CategoriesView = ({
                     "&:last-child td, &:last-child th": {
                       border: 0,
                     },
-                  }}
-                >
+                  }}>
                   <TableCell>
-                    <Skeleton height={"35px"} width="150px" />
+                    <Skeleton height={"35px"} width='150px' />
                   </TableCell>
                   <TableCell>
-                    <Skeleton height={"25px"} width="200px" />
+                    <Skeleton height={"25px"} width='200px' />
                   </TableCell>
                   <TableCell>
-                    <Skeleton height={"25px"} width="80px" />
+                    <Skeleton height={"25px"} width='80px' />
                   </TableCell>
                 </TableRow>
               ))}
@@ -130,24 +129,22 @@ const CategoriesView = ({
                 paginatedRows.map((row: any) => (
                   <TableRow
                     key={row.name}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell component='th' scope='row'>
                       {row.name}
                     </TableCell>
-                    <TableCell width={"60%"} align="left">
+                    <TableCell width={"60%"} align='left'>
                       {row.description}
                     </TableCell>
 
-                    <TableCell align="left">
+                    <TableCell align='left'>
                       <Button onClick={() => handleOpenModal("UPDATE", row)}>
                         Edit
                       </Button>
                       <Button
                         aria-describedby={id}
                         onClick={(e) => handleClick(e, row)}
-                        sx={{ color: "red" }}
-                      >
+                        sx={{ color: "red" }}>
                         Delete
                       </Button>
                     </TableCell>
@@ -159,7 +156,7 @@ const CategoriesView = ({
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
-        component="div"
+        component='div'
         count={data.length}
         rowsPerPage={rowsPerPage}
         page={page}
@@ -178,16 +175,14 @@ const CategoriesView = ({
         transformOrigin={{
           vertical: "top",
           horizontal: "right",
-        }}
-      >
+        }}>
         <Box padding={"10px"}>
           <Typography>Bạn có muốn xóa không?</Typography>
           <Stack direction={"row"} mt={"15px"} justifyContent={"end"}>
             <Button onClick={handleClose}>Hủy</Button>
             <Button
               onClick={() => handleDelete(deleteCategory)}
-              sx={{ color: "red" }}
-            >
+              sx={{ color: "red" }}>
               Xóa
             </Button>
           </Stack>
@@ -224,11 +219,10 @@ const ModalForm = (props: any) => {
   return (
     <Modal
       open={props.open}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
+      aria-labelledby='modal-modal-title'
+      aria-describedby='modal-modal-description'>
       <Box sx={style}>
-        <Typography variant="h5" textAlign={"center"}>
+        <Typography variant='h5' textAlign={"center"}>
           {props.action == "CREATE" ? "Add Category" : "Update Category"}
         </Typography>
         <form onSubmit={props.handleSubmit(props.onFinish)}>
@@ -237,28 +231,27 @@ const ModalForm = (props: any) => {
             mt={"20px"}
             gap={"15px"}
             direction={"row"}
-            flexWrap={"wrap"}
-          >
+            flexWrap={"wrap"}>
             <Box width={"48%"}>
               <TextField
                 {...props.register("name")}
                 fullWidth
-                id="outlined-basic"
-                label="Title"
-                variant="outlined"
-                size="small"
+                id='outlined-basic'
+                label='Title'
+                variant='outlined'
+                size='small'
                 error={props.errors.name?.message}
               />
             </Box>
             <Box width={"48%"}>
               <TextField
-                type="text"
+                type='text'
                 {...props.register("description")}
                 fullWidth
-                id="outlined-basic"
-                label="Description"
-                variant="outlined"
-                size="small"
+                id='outlined-basic'
+                label='Description'
+                variant='outlined'
+                size='small'
                 error={props.errors.description?.message}
               />
             </Box>
@@ -267,8 +260,7 @@ const ModalForm = (props: any) => {
               width={"100%"}
               display={"flex"}
               justifyContent={"end"}
-              gap={"10px"}
-            >
+              gap={"10px"}>
               <Button
                 onClick={props.handleClose}
                 sx={{
@@ -277,13 +269,12 @@ const ModalForm = (props: any) => {
                   width: "82px",
                   height: "34px",
                   border: "1px solid #333",
-                }}
-              >
+                }}>
                 Close
               </Button>
               <Button
                 onClick={props.onSubmit}
-                type="submit"
+                type='submit'
                 sx={{
                   background:
                     "linear-gradient(to right bottom, #ff8f26, #ff5117)",
@@ -291,8 +282,7 @@ const ModalForm = (props: any) => {
                   borderRadius: "99px",
                   width: "92px",
                   height: "34px",
-                }}
-              >
+                }}>
                 Add
               </Button>
             </Box>
