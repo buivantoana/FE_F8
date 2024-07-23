@@ -207,6 +207,13 @@
         document.getElementById("totalAmount").innerText = total.toLocaleString() + " VND";
     }
 
-   
+    // Hàm tải sản phẩm và giỏ hàng khi trang được tải
+    window.onload = function () {
+        document.querySelectorAll(".chkItem").forEach(checkbox => {
+            checkbox.addEventListener("change", function() {
+                toggleProductSelection(this);
+            });
+        });
+    };
 </script>
 </html>
