@@ -913,7 +913,7 @@ const Header = (props: any) => {
                   strokeLinecap: "round",
                   textSize: "16px",
                   pathTransitionDuration: 0.5,
-                  pathColor: `#ff5117`,
+                  pathColor: `#1250dc`,
                   textColor: "#333",
                   trailColor: "#d6d6d6",
                   backgroundColor: "#3e98c7",
@@ -1225,8 +1225,7 @@ const Header = (props: any) => {
                   disabled={!emailGift || !paymentMethod}
                   onClick={handlePayment}
                   sx={{
-                    background:
-                      "linear-gradient(to right bottom, #ff8f26, #ff5117)",
+                    background: "#1250dc",
                     color: "white",
                     borderRadius: "30px",
                     float: "right",
@@ -1447,8 +1446,7 @@ const Header = (props: any) => {
                       onClick={handleStar}
                       disabled={!value || !messageStar}
                       sx={{
-                        background:
-                          "linear-gradient(to right bottom, #ff8f26, #ff5117)",
+                        background: "#1250dc",
                         color: "white",
                         borderRadius: "4px",
                         width: "92px",
@@ -1512,8 +1510,7 @@ const Header = (props: any) => {
                           setUpdateUserStar(userStar[0]);
                         }}
                         sx={{
-                          background:
-                            "linear-gradient(to right bottom, #ff8f26, #ff5117)",
+                          background: "#1250dc",
                           color: "white",
                           borderRadius: "4px",
                           fontSize: "13px",
@@ -1628,8 +1625,8 @@ const Footer = (props: any) => {
           className={props.done && "animation"}
           onClick={props.handleNextLesson}
           sx={{
-            color: "#ff5117",
-            border: "2px solid #ff5117",
+            color: "#306de4",
+            border: "2px solid #306de4",
             height: "35px",
             px: "15px",
           }}>
@@ -1735,18 +1732,18 @@ const ContentLeftVideo = (props: any) => {
           </Typography>
           <Typography mt={"20px"} lineHeight={2.5}>
             Tham gia nhóm Học{" "}
-            <a style={{ color: "#ff5117" }} href=''>
+            <a style={{ color: "#1250dc" }} href=''>
               lập trình tại FDemy
             </a>{" "}
             trên Facebook để cùng nhau trao đổi trong quá trình học tập ❤️
             <br></br>
             Các bạn subscribe{" "}
-            <a style={{ color: "#ff5117" }} href=''>
+            <a style={{ color: "#1250dc" }} href=''>
               kênh Youtube Fdemy Official
             </a>{" "}
             để nhận thông báo khi có các bài học mới nhé ❤️<br></br>
             Form HTML template:{" "}
-            <a style={{ color: "#ff5117" }} href=''>
+            <a style={{ color: "#1250dc" }} href=''>
               https://codepen.io/ng-ngc-sn-the-bashful/pen/mdVEoWP
             </a>
             <br></br>
@@ -1779,8 +1776,7 @@ const ContentLeftVideo = (props: any) => {
               Thêm ghi chú tại{" "}
               <Button
                 sx={{
-                  background:
-                    "linear-gradient(to right bottom, #ff8f26, #ff5117)",
+                  background: "#1250dc",
                   color: "white",
                   borderRadius: "99px",
                   padding: "2px 5px",
@@ -1863,8 +1859,7 @@ const ContentLeftVideo = (props: any) => {
             <Button
               onClick={handleNote}
               sx={{
-                background:
-                  "linear-gradient(to right bottom, #ff8f26, #ff5117)",
+                background: "#1250dc",
                 color: "white",
 
                 height: "34px",
@@ -1921,9 +1916,9 @@ const ContentRight = (props: any) => {
                   border={"1px solid #ebebeb"}>
                   <Stack direction={"row"} gap={"10px"} alignItems={"center"}>
                     {props.expanded[index] ? (
-                      <RiSubtractFill size={"25px"} color={"#f05123"} />
+                      <RiSubtractFill size={"25px"} color={"#1250dc"} />
                     ) : (
-                      <RiAddFill size={"25px"} color={"#f05123"} />
+                      <RiAddFill size={"25px"} color={"#1250dc"} />
                     )}
 
                     <Typography fontWeight={"bold"}>{item.title}</Typography>
@@ -1952,143 +1947,292 @@ const ContentRight = (props: any) => {
                         }
                       }
                       let active = props.activeLesson == itemchild._id;
-
-                      return (
-                        <Box
-                          position={"relative"}
-                          sx={{
-                            cursor: "pointer",
-                          }}>
+                      if (props.courses.price > 0) {
+                        return (
                           <Box
+                            position={"relative"}
                             sx={{
-                              position: "relative",
-                            }}
-                            onClick={() => props.handleActiveLesson(itemchild)}>
-                            <Stack
-                              direction={"row"}
-                              borderTop={
-                                index2 == 0 ? "none" : "1px solid #dddddd"
-                              }
-                              alignItems={"start"}
+                              pointerEvents:
+                                !checkSuccess && !check ? "none" : "auto",
+                              cursor: "pointer",
+                            }}>
+                            <Box
                               sx={{
-                                background: active
-                                  ? "rgba(240, 81, 35, .2)"
-                                  : undefined,
+                                position: "relative",
                               }}
-                              justifyContent={"space-between"}
-                              padding={"15px 20px"}>
+                              onClick={() =>
+                                props.handleActiveLesson(itemchild)
+                              }>
                               <Stack
                                 direction={"row"}
-                                alignItems={"center"}
-                                gap={"7px"}>
-                                <Typography color={"#333"} fontSize={"14px"}>
-                                  {index2 + 1}.{itemchild.title}
-                                  <Stack
-                                    direction={"row"}
-                                    alignItems={"center"}
-                                    justifyContent={"space-between"}>
+                                borderTop={
+                                  index2 == 0 ? "none" : "1px solid #dddddd"
+                                }
+                                alignItems={"start"}
+                                sx={{
+                                  background: active
+                                    ? "#E6EEFF"
+                                    : !checkSuccess && !check
+                                    ? "#e6e6e6"
+                                    : undefined,
+                                  opacity: !checkSuccess && !check ? ".5" : "1",
+                                }}
+                                justifyContent={"space-between"}
+                                padding={"15px 20px"}>
+                                <Stack
+                                  direction={"row"}
+                                  alignItems={"center"}
+                                  gap={"7px"}>
+                                  <Typography color={"#333"} fontSize={"14px"}>
+                                    {index2 + 1}.{itemchild.title}
                                     <Stack
                                       direction={"row"}
-                                      mt={"5px"}
-                                      gap={"10px"}>
-                                      {itemchild.type == "video" && (
-                                        <RiYoutubeFill
-                                          size={"20px"}
-                                          color={"#f05123"}
-                                        />
-                                      )}
-                                      {itemchild.type == "blog" && (
-                                        <RiArticleLine
-                                          size={"20px"}
-                                          color={"#f05123"}
-                                        />
-                                      )}
-                                      {itemchild.type == "code" && (
-                                        <RiPencilFill
-                                          size={"20px"}
-                                          color={"#f05123"}
-                                        />
-                                      )}
-                                      {itemchild.type == "quiz" && (
-                                        <RiQuestionFill
-                                          size={"20px"}
-                                          color={"#f05123"}
-                                        />
-                                      )}{" "}
-                                      {itemchild.duration}
+                                      alignItems={"center"}
+                                      justifyContent={"space-between"}>
+                                      <Stack
+                                        direction={"row"}
+                                        mt={"5px"}
+                                        gap={"10px"}>
+                                        {itemchild.type == "video" && (
+                                          <RiYoutubeFill
+                                            size={"20px"}
+                                            color={"#1250dc"}
+                                          />
+                                        )}
+                                        {itemchild.type == "blog" && (
+                                          <RiArticleLine
+                                            size={"20px"}
+                                            color={"#1250dc"}
+                                          />
+                                        )}
+                                        {itemchild.type == "code" && (
+                                          <RiPencilFill
+                                            size={"20px"}
+                                            color={"#1250dc"}
+                                          />
+                                        )}
+                                        {itemchild.type == "quiz" && (
+                                          <RiQuestionFill
+                                            size={"20px"}
+                                            color={"#1250dc"}
+                                          />
+                                        )}{" "}
+                                        {itemchild.duration}
+                                      </Stack>
                                     </Stack>
-                                  </Stack>
+                                  </Typography>
+                                </Stack>
+                                <Typography fontSize={"12px"}>
+                                  {check ? (
+                                    ""
+                                  ) : (
+                                    <>
+                                      {checkSuccess && (
+                                        <RiCheckboxCircleFill
+                                          color='green'
+                                          size={"20px"}
+                                        />
+                                      )}
+
+                                      {!checkSuccess && (
+                                        <RiLock2Fill size={"20px"} />
+                                      )}
+                                    </>
+                                  )}
                                 </Typography>
                               </Stack>
-                              <Typography fontSize={"12px"}>
-                                {check ? (
-                                  ""
-                                ) : (
-                                  <>
-                                    {checkSuccess && (
-                                      <RiCheckboxCircleFill
-                                        color='green'
-                                        size={"20px"}
-                                      />
-                                    )}
-                                  </>
-                                )}
-                              </Typography>
-                            </Stack>
-                          </Box>
-                          {itemchild.source && itemchild.source !== "..." && (
-                            <>
-                              <Box
-                                aria-describedby={id}
-                                onClick={handleClick}
-                                padding={" 3px 5px"}
-                                position={"absolute"}
-                                right={"3px"}
-                                bottom={"3px"}
-                                display={"flex"}
-                                alignItems={"center"}
-                                gap={"3px"}
-                                border={"1px solid #333"}>
-                                <RiFolderOpenFill />
-                                <Typography fontSize={"13px"}>
-                                  Tài nguyên
-                                </Typography>
-                                <RiArrowDropDownFill size={20} />
-                              </Box>
-                              <Popover
-                                sx={{
-                                  ".css-3bmhjh-MuiPaper-root-MuiPopover-paper": {
-                                    boxShadow: "0 0 3px #dddddd",
-                                  },
-                                }}
-                                id={id}
-                                open={open}
-                                anchorEl={anchorEl}
-                                onClose={handleClose}
-                                anchorOrigin={{
-                                  vertical: "bottom",
-                                  horizontal: "right",
-                                }}
-                                transformOrigin={{
-                                  vertical: "top",
-                                  horizontal: "right",
-                                }}>
-                                <a href={itemchild.source} target='_blank'>
-                                  <Typography
-                                    fontSize={"14px"}
-                                    display={"flex"}
-                                    alignItems={"center"}
-                                    gap={"7px"}
-                                    sx={{ p: 1 }}>
-                                    <RiShareBoxFill />
-                                    Mã nguồn
+                            </Box>
+                            {itemchild.source && itemchild.source !== "..." && (
+                              <>
+                                <Box
+                                  aria-describedby={id}
+                                  onClick={handleClick}
+                                  padding={" 3px 5px"}
+                                  position={"absolute"}
+                                  right={"3px"}
+                                  bottom={"3px"}
+                                  display={"flex"}
+                                  alignItems={"center"}
+                                  gap={"3px"}
+                                  border={"1px solid #333"}>
+                                  <RiFolderOpenFill />
+                                  <Typography fontSize={"13px"}>
+                                    Tài nguyên
                                   </Typography>
-                                </a>
-                              </Popover>
-                            </>
-                          )}
-                        </Box>
-                      );
+                                  <RiArrowDropDownFill size={20} />
+                                </Box>
+                                <Popover
+                                  sx={{
+                                    ".css-3bmhjh-MuiPaper-root-MuiPopover-paper": {
+                                      boxShadow: "0 0 3px #dddddd",
+                                    },
+                                  }}
+                                  id={id}
+                                  open={open}
+                                  anchorEl={anchorEl}
+                                  onClose={handleClose}
+                                  anchorOrigin={{
+                                    vertical: "bottom",
+                                    horizontal: "right",
+                                  }}
+                                  transformOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                  }}>
+                                  <a href={itemchild.source} target='_blank'>
+                                    <Typography
+                                      fontSize={"14px"}
+                                      display={"flex"}
+                                      alignItems={"center"}
+                                      gap={"7px"}
+                                      sx={{ p: 1 }}>
+                                      <RiShareBoxFill />
+                                      Mã nguồn
+                                    </Typography>
+                                  </a>
+                                </Popover>
+                              </>
+                            )}
+                          </Box>
+                        );
+                      } else {
+                        return (
+                          <Box
+                            position={"relative"}
+                            sx={{
+                              cursor: "pointer",
+                            }}>
+                            <Box
+                              sx={{
+                                position: "relative",
+                              }}
+                              onClick={() =>
+                                props.handleActiveLesson(itemchild)
+                              }>
+                              <Stack
+                                direction={"row"}
+                                borderTop={
+                                  index2 == 0 ? "none" : "1px solid #dddddd"
+                                }
+                                alignItems={"start"}
+                                sx={{
+                                  background: active ? "#E6EEFF" : undefined,
+                                }}
+                                justifyContent={"space-between"}
+                                padding={"15px 20px"}>
+                                <Stack
+                                  direction={"row"}
+                                  alignItems={"center"}
+                                  gap={"7px"}>
+                                  <Typography color={"#333"} fontSize={"14px"}>
+                                    {index2 + 1}.{itemchild.title}
+                                    <Stack
+                                      direction={"row"}
+                                      alignItems={"center"}
+                                      justifyContent={"space-between"}>
+                                      <Stack
+                                        direction={"row"}
+                                        mt={"5px"}
+                                        gap={"10px"}>
+                                        {itemchild.type == "video" && (
+                                          <RiYoutubeFill
+                                            size={"20px"}
+                                            color={"#1250dc"}
+                                          />
+                                        )}
+                                        {itemchild.type == "blog" && (
+                                          <RiArticleLine
+                                            size={"20px"}
+                                            color={"#1250dc"}
+                                          />
+                                        )}
+                                        {itemchild.type == "code" && (
+                                          <RiPencilFill
+                                            size={"20px"}
+                                            color={"#1250dc"}
+                                          />
+                                        )}
+                                        {itemchild.type == "quiz" && (
+                                          <RiQuestionFill
+                                            size={"20px"}
+                                            color={"#1250dc"}
+                                          />
+                                        )}{" "}
+                                        {itemchild.duration}
+                                      </Stack>
+                                    </Stack>
+                                  </Typography>
+                                </Stack>
+                                <Typography fontSize={"12px"}>
+                                  {check ? (
+                                    ""
+                                  ) : (
+                                    <>
+                                      {checkSuccess && (
+                                        <RiCheckboxCircleFill
+                                          color='green'
+                                          size={"20px"}
+                                        />
+                                      )}
+                                    </>
+                                  )}
+                                </Typography>
+                              </Stack>
+                            </Box>
+                            {itemchild.source && itemchild.source !== "..." && (
+                              <>
+                                <Box
+                                  aria-describedby={id}
+                                  onClick={handleClick}
+                                  padding={" 3px 5px"}
+                                  position={"absolute"}
+                                  right={"3px"}
+                                  bottom={"3px"}
+                                  display={"flex"}
+                                  alignItems={"center"}
+                                  gap={"3px"}
+                                  border={"1px solid #333"}>
+                                  <RiFolderOpenFill />
+                                  <Typography fontSize={"13px"}>
+                                    Tài nguyên
+                                  </Typography>
+                                  <RiArrowDropDownFill size={20} />
+                                </Box>
+                                <Popover
+                                  sx={{
+                                    ".css-3bmhjh-MuiPaper-root-MuiPopover-paper": {
+                                      boxShadow: "0 0 3px #dddddd",
+                                    },
+                                  }}
+                                  id={id}
+                                  open={open}
+                                  anchorEl={anchorEl}
+                                  onClose={handleClose}
+                                  anchorOrigin={{
+                                    vertical: "bottom",
+                                    horizontal: "right",
+                                  }}
+                                  transformOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                  }}>
+                                  <a href={itemchild.source} target='_blank'>
+                                    <Typography
+                                      fontSize={"14px"}
+                                      display={"flex"}
+                                      alignItems={"center"}
+                                      gap={"7px"}
+                                      sx={{ p: 1 }}>
+                                      <RiShareBoxFill />
+                                      Mã nguồn
+                                    </Typography>
+                                  </a>
+                                </Popover>
+                              </>
+                            )}
+                          </Box>
+                        );
+                      }
                     })}
                   </>
                 )}
