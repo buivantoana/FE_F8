@@ -109,7 +109,10 @@ const LessonView = ({
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
+  const handleChange =
+    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
   return (
     <>
       <Drawer
