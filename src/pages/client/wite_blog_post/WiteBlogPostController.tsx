@@ -11,6 +11,10 @@ const WiteBlogPostController = () => {
     const [file, setFile] = useState(null);
     const [loading, setLoading] = useState(false);
     const [showProgress, setShowProgress] = useState(false);
+    
+    const handleEditorChange = (e: any, editor: any) => {
+        setContent(editor.getContent());
+      };
 }
 
 export default WiteBlogPostController;
