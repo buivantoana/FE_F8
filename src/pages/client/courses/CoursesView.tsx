@@ -5,7 +5,11 @@ import React from "react";
 import { RiGroup2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 
-
+type Props = {
+  data: any;
+  checkRegisterCourses: any;
+  handleRouter: any;
+};
 
 const CoursesView = ({ data, checkRegisterCourses, handleRouter }: Props) => {
   return (
