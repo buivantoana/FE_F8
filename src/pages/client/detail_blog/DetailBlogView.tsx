@@ -33,12 +33,7 @@ type Props = {
 const DetailBlogView = ({ post, handleLikePost, likes, user }: Props) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  
   const iframeRef = useRef(null);
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
