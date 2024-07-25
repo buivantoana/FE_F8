@@ -29,6 +29,22 @@ const WiteBlogPostController = () => {
         reader.readAsDataURL(file);
       }
     };
+    const { register, handleSubmit, onFinish, errors, reset } = usePostMutation({
+      file,
+      action: "CREATE",
+      content,
+      onSuccess: () => {
+        reset();
+  
+        setTimeout(() => {
+          setShowProgress(false);
+          toast.success("Tạo bài viết thành công.");
+          setLoading(false);
+          setFile(null);
+          setImageUrl("");
+        }, 1000);
+      },
+    });
 }
 
 export default WiteBlogPostController;
