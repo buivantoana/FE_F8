@@ -100,23 +100,6 @@ const LessonController = () => {
     onRemove(value);
   };
 
-  const handleArrange = async (dataArrange: any) => {
-    try {
-      let newArr = dataArrange.map((item: any) => item._id);
-      let data = await updateArrangeCourses({
-        _id: dataArrange[0].courses_id[0],
-        lesson: newArr,
-      });
-      if (data?.status == 0) {
-        setOpenDrawer(false);
-        queryClient.invalidateQueries({
-          queryKey: ["courses"],
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <>
       {loading && <Loading />}
