@@ -50,6 +50,24 @@ const WiteBlogPostController = () => {
       if (Object.keys(errors)[0] && content != "" && file != null) {
       }
     };
+    return (
+      <>
+        <Progress showProgress={showProgress} />
+        {loading && <Loading />}
+        <WiteBlogPostView
+          content={content}
+          imageUrl={imageUrl}
+          handleEditorChange={handleEditorChange}
+          handleImageChange={handleImageChange}
+          register={register}
+          handleSubmit={handleSubmit}
+          onFinish={onFinish}
+          onSubmit={onSubmit}
+          errors={errors}
+          file={file}
+        />
+      </>
+    );
 }
 
 export default WiteBlogPostController;
