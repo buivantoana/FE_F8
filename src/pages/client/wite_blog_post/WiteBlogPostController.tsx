@@ -15,6 +15,20 @@ const WiteBlogPostController = () => {
     const handleEditorChange = (e: any, editor: any) => {
         setContent(editor.getContent());
       };
+    const handleImageChange = (e: any) => {
+      let file = e.target.files[0];
+  
+      if (!file) return;
+      setFile(file);
+      const reader: any = new FileReader();
+      reader.onload = () => {
+        setImageUrl(reader.result);
+      };
+  
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    };
 }
 
 export default WiteBlogPostController;
