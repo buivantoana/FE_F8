@@ -45,6 +45,11 @@ const WiteBlogPostController = () => {
         }, 1000);
       },
     });
+    const onSubmit = () => {
+      setShowProgress(true);
+      if (Object.keys(errors)[0] && content != "" && file != null) {
+      }
+    };
 }
 
 export default WiteBlogPostController;
