@@ -106,10 +106,6 @@ const LessonView = ({
     }
   }, [page, rowsPerPage, courses]);
 
-  const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-      setExpanded(isExpanded ? panel : false);
-    };
   return (
     <>
       <Drawer
