@@ -18,7 +18,18 @@ type Props = {
     errors: any;
     file: any;
   };
-const WiteBlogPostView = () => {
+const WiteBlogPostView = ({
+    content,
+    imageUrl,
+    handleEditorChange,
+    handleImageChange,
+    register,
+    handleSubmit,
+    onFinish,
+    onSubmit,
+    errors,
+    file,
+}: Props) => {
     return (
         <Box>
           <Stack direction={"row"} justifyContent={"space-between"} mb={"20px"}>
