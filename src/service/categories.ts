@@ -36,7 +36,7 @@ export const updateCategories = async (value: typeCategories) => {
       description: value.description,
     });
     if (response.status !== 0) {
-      toast.error(response.message);
+     
       return undefined;
     } else {
       return response.data;
@@ -49,7 +49,7 @@ export const deleteCategories = async (id?: string) => {
   try {
     const response: any = await axios.delete(`/categories/${id}`);
     if (response.status !== 0) {
-      toast.error(response.message);
+     
       return undefined;
     } else {
       return response.data;

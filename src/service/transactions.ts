@@ -69,9 +69,7 @@ export const updateTransactionWithDrawFaild = async (value: any) => {
         amount: value.amount,
         status: value.status,
         stk: value.stk,
-        bankAccount: value.bankAccount,
-        user_id: value.user_id,
-        note: value.note,
+        
       }
     );
     return response;
