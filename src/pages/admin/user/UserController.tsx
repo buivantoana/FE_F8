@@ -20,9 +20,7 @@ const UserController = () => {
   const id = open ? "simple-popover" : undefined;
   const [valueUser, setValueUser] = useState("");
 
-  const { data } = useQuery("user", {
-    queryFn: () => getUser(),
-  });
+ 
   const { data: role } = useQuery("role", {
     queryFn: () => getRole(),
   });
