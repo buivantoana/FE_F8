@@ -84,7 +84,10 @@ const PostController = () => {
       console.log(error);
     }
   };
-
+  const handelChangeActive = (data: any) => {
+    setLoading(true);
+    onActive(data);
+  };
   return (
     <>
       <PostView
