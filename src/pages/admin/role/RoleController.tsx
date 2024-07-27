@@ -30,18 +30,17 @@ const RoleController = () => {
   const { data } = useQuery("role", {
     queryFn: () => getRole(),
   });
-  const { register, handleSubmit, onFinish, errors, reset } =
-    useRoleMutation({
-      action: action,
-      onSuccess: () => {
-        reset();
-        setTimeout(() => {
-          handleCloseModal();
-          setLoading(false);
-        }, 1000);
-      },
-    });
-    
+  const { register, handleSubmit, onFinish, errors, reset } = useRoleMutation({
+    action: action,
+    onSuccess: () => {
+      reset();
+      setTimeout(() => {
+        handleCloseModal();
+        setLoading(false);
+      }, 1000);
+    },
+  });
+
   const handleOpenModal = (type: any, data: any) => {
     setAction(type);
     if (type == "CREATE") {
@@ -65,9 +64,7 @@ const RoleController = () => {
   const onSubmit = () => {
     setLoading(true);
   };
-  const handleDelete = (value: any) => {
-    onRemove(value);
-  };
+
   return (
     <>
       <RoleView
@@ -78,7 +75,7 @@ const RoleController = () => {
         handleOpenModal={handleOpenModal}
         handleCloseModal={handleCloseModal}
         openModal={openModal}
-        data={data!==undefined&&data.length>0?data:[]}
+        data={data !== undefined && data.length > 0 ? data : []}
         onSubmit={onSubmit}
         handleDelete={handleDelete}
         handleClick={handleClick}
