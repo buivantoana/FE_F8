@@ -82,7 +82,6 @@ const PermissionView = ({
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
   return (
     <>
       <Stack my={"20px"} direction={"row"} justifyContent={"space-between"}>
