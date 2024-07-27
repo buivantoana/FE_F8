@@ -27,7 +27,11 @@ function Information() {
   const handleIndustryChange = (value:any) => {
     setIndustry(value);
   };
-  
+  const handleChange = (index, field, value) => { (30)FE
+    const newData = [...data];
+    newData[index][field] = value;
+    setData(newData);
+  };
   // name
   const handleMainNameChange = (value:any) => {
     setMainName(value);
