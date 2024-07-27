@@ -95,7 +95,9 @@ const RolePermissionController = () => {
   const onSubmit = () => {
     setLoading(true);
   };
-
+  const handleDelete = (value: any) => {
+    onRemove(value);
+  };
   return (
     <>
       <RolePermissionView

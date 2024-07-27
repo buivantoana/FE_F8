@@ -99,7 +99,6 @@ const LessonController = () => {
     setLoading(true);
     onRemove(value);
   };
-
   const handleArrange = async (dataArrange: any) => {
     try {
       let newArr = dataArrange.map((item: any) => item._id);
