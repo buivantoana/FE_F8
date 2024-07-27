@@ -76,11 +76,7 @@ const FeaturedArticleView = ({
       </Typography>
       <Stack direction={"row"} gap={"120px"} mt={"60px"}>
         <Stack width={"58%"} direction={"column"} gap={"20px"}>
-          {post?<>
-            {post &&
-            post.length &&
-            post.map((item: any) => {
-              let arr = item.readers.split(",");
+          
 
               return (
                 <Box
@@ -174,25 +170,7 @@ const FeaturedArticleView = ({
               );
             })}
           </>:<>
-          {Array.from({ length: 2 },()=>{
-            return <Box
-            width={"100%"}
-            sx={{ border: " 2px solid #e8e8e8", borderRadius: "16px" }}
-            padding={"15px 25px"}
-            display={"flex"}
-            gap={"60px"}
-          >
-            <Box width={"60%"} sx={{ pt: 0.5 }}>
-              <Skeleton width="100%" height={"40px"}/>
-              <Skeleton width="100%" height={"20px"} />
-              <Skeleton width="100%" height={"150px"} />
-            </Box>
-            <Box>
-            <Skeleton variant="rectangular" sx={{borderRadius:"20px"}} width={300} height={200} />
-            </Box>
-          </Box>
-          })}
-          </>}
+          
           
          
 
