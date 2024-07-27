@@ -92,9 +92,7 @@ const LessonController = () => {
       });
     },
   });
-  const onSubmit = () => {
-    setLoading(true);
-  };
+
   const handleDelete = async (value: any) => {
     setLoading(true);
     onRemove(value);
