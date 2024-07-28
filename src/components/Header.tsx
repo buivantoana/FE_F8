@@ -54,3 +54,7 @@ import {
   import { io } from "socket.io-client";
   import { debounce } from "lodash";
   
+  const Header = () => {
+
+  }
+  export default Header;
