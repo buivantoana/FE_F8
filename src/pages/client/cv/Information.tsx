@@ -27,10 +27,11 @@ function Information() {
   const handleIndustryChange = (value:any) => {
     setIndustry(value);
   };
-  const handleChange = (index, field, value) => { (30)FE
-    const newData = [...data];
-    newData[index][field] = value;
-    setData(newData);
+
+  const handleIndustryFocus = () => {
+    setMainNameFocus(false)
+    setIndustryFocus(true);
+    setFocusIndex(null); 
   };
   // name
   const handleMainNameChange = (value:any) => {
@@ -43,6 +44,11 @@ function Information() {
   };
 
 // information
+  const handleChange = (index, field, value) => {
+    const newData = [...data];
+    newData[index][field] = value;
+    setData(newData);
+  };
   
 
   const handleFocus = (index) => {
