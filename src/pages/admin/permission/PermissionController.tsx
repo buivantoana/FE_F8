@@ -46,16 +46,6 @@ const PermissionController = () => {
       },
     });
 
-  const handleOpenModal = (type: any, data: any) => {
-    setAction(type);
-    if (type == "CREATE") {
-      reset({ name: "" });
-      setOpenModal(true);
-    } else {
-      reset(data);
-      setOpenModal(true);
-    }
-  };
   const handleCloseModal = () => {
     reset();
     setOpenModal(false);
