@@ -93,6 +93,13 @@ import {
       setRegisterType(false);
       setOpen(false);
     };
-  
+    const [changeSearch, setChangeSearch] = useState("");
+
+    const [dataSearch, setDataSearch]: any = useState({
+      dataCourses: [],
+      dataPost: [],
+    });
+    const [isTyping, setIsTyping] = useState(false);
+    const [loadingSearch, setLoadingSearch] = useState(false);
   }
   export default Header;
