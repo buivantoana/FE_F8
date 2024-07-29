@@ -67,5 +67,25 @@ import {
     const [email, setEmail] = useState("");
     const [passwordNew, setPasswordNew] = useState("");
     const [confirmPasswordNew, setConfirmPasswordNew] = useState("");
+    const [otp, setOtp] = useState("");
+    const [select, setSelect] = useState(true);
+    const [registerType, setRegisterType] = useState(false);
+    const openCourses = Boolean(anchorEl);
+    const id = openCourses ? "simple-popover" : undefined;
+    const openNotify = Boolean(anchorElNotify);
+    const idNotify = openNotify ? "simple-popover" : undefined;
+    const openProfile = Boolean(anchorElProfile);
+    const idProfile = openProfile ? "simple-popover" : undefined;
+    const navigate = useNavigate();
+    const context: any = useCoursesContext();
+    const [userLocal, setUser] = useLocalStorage("user", {});
+    const queryClient = useQueryClient();
+    const [loadingCourses, setLoadingCourses] = useState(false);
+    const [courses, setCourses] = useState([]);
+    const [dataNotify, setDataNotify] = useState([]);
+    const [progressBar, setProgressBar] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const socket = io("http://localhost:4000");
+    const [isFocused, setIsFocused] = useState(false);
   }
   export default Header;
