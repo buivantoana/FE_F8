@@ -9,14 +9,6 @@ export const reportDad = async (value: any) => {
     }
 };
 
-export const getReport = async () => {
-    try {
-      const response = await axios.get(`/comment/get_report`);
-      return response;
-    } catch (error) {
-      console.log(`update_Categories`, error);
-    }
-};
 
 export const reportChild = async (value: any) => {
     try {
