@@ -55,6 +55,17 @@ import {
   import { debounce } from "lodash";
   
   const Header = () => {
-
+    const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+    const [anchorElNotify, setAnchorElNotify] =
+      useState<HTMLButtonElement | null>(null);
+    const [anchorElProfile, setAnchorElProfile] =
+      useState<HTMLButtonElement | null>(null);
+    const [open, setOpen] = useState(false);
+    const [disableForgot, setDisableForgot] = useState(true);
+    const [check, setCheck] = useState("");
+    const [tokenOtp, setTokenOtp]: any = useState("");
+    const [email, setEmail] = useState("");
+    const [passwordNew, setPasswordNew] = useState("");
+    const [confirmPasswordNew, setConfirmPasswordNew] = useState("");
   }
   export default Header;
