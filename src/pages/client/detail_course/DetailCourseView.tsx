@@ -68,10 +68,7 @@ const DetailCourseView = ({
                 );
               })}
           </Stack>
-          <Typography fontSize={"18px"} m={"30px 0 15px"} fontWeight={"bold"}>
-            Nội dung khóa học
-          </Typography>
-          <Stack direction={"row"} justifyContent={"space-between"}>
+          
             <Typography
               fontSize={"15px"}
               sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
@@ -193,36 +190,7 @@ const DetailCourseView = ({
               {paymentSuccess?"BẮT ĐẦU":<> {courses&&courses.price==0? "ĐĂNG KÝ HỌC":"MUA KHÓA HỌC"}</>}
            
           </Button>
-          <Stack mt={"20px"}>
-            <Stack direction={"column"} gap={"10px"}>
-              <Stack direction={"row"} alignItems={"center"} gap={"15px"}>
-                <RiDashboard3Fill size={"17px"} />{" "}
-                <Typography fontSize={"14px"} color={"#333"}>
-                  Trình độ cơ bản
-                </Typography>
-              </Stack>
-              <Stack direction={"row"} alignItems={"center"} gap={"15px"}>
-                <RiMovie2Fill size={"17px"} />{" "}
-                <Typography fontSize={"14px"} color={"#333"}>
-                  Tổng số <b>{totalLesson}</b> bài học
-                </Typography>
-              </Stack>
-              <Stack direction={"row"} alignItems={"center"} gap={"15px"}>
-                <RiTimeFill size={"17px"} />{" "}
-                <Typography fontSize={"14px"} color={"#333"}>
-                  Thời lượng <b>03 giờ 26 phút</b>
-                </Typography>
-              </Stack>
-              <Stack direction={"row"} alignItems={"center"} gap={"15px"}>
-                <RiBatteryChargeFill size={"17px"} />{" "}
-                <Typography fontSize={"14px"} color={"#333"}>
-                  Học mọi lúc, mọi nơi
-                </Typography>
-              </Stack>
-            </Stack>
-          </Stack>
-        </Box>
-      </Stack>
+          
     </Box>
   );
 };
@@ -235,13 +203,7 @@ const ListAccordion = (props: any) => {
       {props.arr &&
         props.arr.map((item: any, index: any) => {
           return (
-            <Box
-              onClick={() => props.handleTongle(index)}
-              mt={"15px"}
-              maxHeight={props.expanded[index] ? "500px" : "47px"}
-              overflow={"hidden"}
-              sx={{ transition: ".7s" }}>
-              <Box>
+            
                 <Stack
                   direction={"row"}
                   justifyContent={"space-between"}
@@ -293,9 +255,7 @@ const ListAccordion = (props: any) => {
                             {itemchild.title}
                           </Typography>
                         </Stack>
-                        <Typography fontSize={"12px"}>
-                          {itemchild.duration}
-                        </Typography>
+                        
                       </Stack>
                     </Box>
                   );
