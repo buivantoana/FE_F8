@@ -76,7 +76,11 @@ const FeaturedArticleView = ({
       </Typography>
       <Stack direction={"row"} gap={"120px"} mt={"60px"}>
         <Stack width={"58%"} direction={"column"} gap={"20px"}>
-          
+          {post?<>
+            {post &&
+            post.length &&
+            post.map((item: any) => {
+              let arr = item.readers.split(",");
 
               return (
                 <Box
@@ -189,9 +193,9 @@ const FeaturedArticleView = ({
           </Box>
           })}
           </>}
+          
+         
 
-
-        
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Pagination
               count={totalPage}
