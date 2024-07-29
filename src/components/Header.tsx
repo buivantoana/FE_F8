@@ -87,5 +87,12 @@ import {
     const [loading, setLoading] = useState(false);
     const socket = io("http://localhost:4000");
     const [isFocused, setIsFocused] = useState(false);
+    const handleClose = () => {
+      setCheck("");
+      setSelect(true);
+      setRegisterType(false);
+      setOpen(false);
+    };
+  
   }
   export default Header;
