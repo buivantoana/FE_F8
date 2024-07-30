@@ -123,6 +123,15 @@ import {
   
       debouncedSearch();
     }, [changeSearch, isTyping]);
-    
+    const handleChangrSearch = (e: any) => {
+      setIsFocused(true);
+      setLoadingSearch(false);
+      setChangeSearch(e);
+      setIsTyping(true);
+      setDataSearch({ dataCourses: [], dataPost: [] });
+      setTimeout(() => {
+        setIsTyping(false);
+      }, 2000);
+    };
   }
   export default Header;
