@@ -195,6 +195,22 @@ import {
         }
       },
     });
+    const signInWithGoogle = async () => {
+      try {
+        setCheck("register");
+        const result: any = await signInWithPopup(auth, googleProvider);
+        if (Object.keys(result)[0]) {
+          onFinish({
+            email: result.user.email,
+            user_name: result.user.displayName,
+            uid: result.user.uid,
+            type: "google",
+          });
+        }
+      } catch (error) {
+        console.error("Error signing in with Google:", error);
+      }
+    };
     
   }
   export default Header;
