@@ -255,7 +255,9 @@ const ListAccordion = (props: any) => {
                             {itemchild.title}
                           </Typography>
                         </Stack>
-                        
+                        <Typography fontSize={"12px"}>
+                          {itemchild.duration}
+                        </Typography>
                       </Stack>
                     </Box>
                   );
