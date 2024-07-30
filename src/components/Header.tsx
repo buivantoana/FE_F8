@@ -133,5 +133,68 @@ import {
         setIsTyping(false);
       }, 2000);
     };
+    const { register, reset, handleSubmit, onFinish, errors }: any =
+    useAuthMutation({
+      action: check == "login" ? "SIGNIN" : "SIGNUP",
+      onSuccess: async (data) => {
+        if (check !== "login") {
+          if (data.token && data.refeshToken) {
+            if (data.status == 0) {
+              queryClient.invalidateQueries({
+                queryKey: ["my_courses"],
+              });
+              handleClose();
+              context.dispatch({
+                type: "LOGIN",
+                payload: {
+                  ...context.state,
+                  user: [data.data[0]],
+                },
+              });
+              let res: any = await getUserProgress(data.data[0]._id);
+              context.dispatch({
+                type: "PROGRESS",
+                payload: {
+                  ...context.state,
+                  progress: res.data,
+                },
+              });
+            }
+          } else {
+            if (data.status == 1) {
+              alert(data.message);
+            } else {
+              reset();
+              setCheck("login");
+              setSelect(true);
+              setRegisterType(false);
+            }
+          }
+        } else {
+          if (data.status == 0) {
+            queryClient.invalidateQueries({
+              queryKey: ["my_courses"],
+            });
+            handleClose();
+            context.dispatch({
+              type: "LOGIN",
+              payload: {
+                ...context.state,
+                user: data.data,
+              },
+            });
+            let res: any = await getUserProgress(data.data[0]._id);
+            context.dispatch({
+              type: "PROGRESS",
+              payload: {
+                ...context.state,
+                progress: res.data,
+              },
+            });
+          }
+        }
+      },
+    });
+    
   }
   export default Header;
