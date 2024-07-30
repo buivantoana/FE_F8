@@ -37,6 +37,8 @@ import ReactPlayer from "react-player";
 import logo from "../../../images/logo4.png";
 import direction from "../../../images/Screenshot from 2024-05-21 10-05-13.png";
 import left from "../../../images/left.png";
+import java from "../../../images/java-logo.png";
+import python from "../../../images/python-logo-png-big-image-png-2400.png";
 import right from "../../../images/right.png";
 import ques from "../../../images/q.png";
 import note2 from "../../../images/note2.png";
@@ -2275,6 +2277,12 @@ const ContentLeftExercise = (props: any) => {
     if (props.typeCode == "javascript") {
       setExercise(JSON.parse(props.data.type_exercise).javascript);
     }
+    if (props.typeCode == "java") {
+      setExercise(JSON.parse(props.data.type_exercise).java);
+    }
+    if (props.typeCode == "python") {
+      setExercise(JSON.parse(props.data.type_exercise).python);
+    }
     if (props.typeCode == "html-css") {
       setexerciseCss(JSON.parse(props.data.type_exercise).css);
       setexerciseHtml(JSON.parse(props.data.type_exercise).html);
@@ -2304,7 +2312,9 @@ const ContentLeftExercise = (props: any) => {
           id: props.data.solution_key,
           type: props.typeCode,
           exercise:
-            props.typeCode == "javascript"
+            props.typeCode == "javascript" ||
+            props.typeCode == "java" ||
+            props.typeCode == "python"
               ? exercise
               : `${exerciseHtml}<style>${exerciseCss}</style>`,
         });
@@ -2420,7 +2430,9 @@ const ContentLeftExercise = (props: any) => {
 
           {value == 1 && (
             <>
-              {props.typeCode == "javascript" ? (
+              {props.typeCode == "javascript" ||
+              props.typeCode == "java" ||
+              props.typeCode == "python" ? (
                 <>
                   <Typography
                     textAlign={"center"}
@@ -2491,6 +2503,62 @@ const ContentLeftExercise = (props: any) => {
                         fontSize={"12px"}
                         sx={{ textTransform: "lowercase" }}>
                         index.html
+                      </Typography>
+                    </Stack>
+                  }
+                />
+              </Tabs>
+            )}
+            {props.typeCode !== null && props.typeCode == "python" && (
+              <Tabs
+                value={props.valueRight}
+                onChange={props.handleChangeRight}
+                aria-label='basic tabs example'>
+                <Tab
+                  label={
+                    <Stack direction={"row"} alignItems={"center"} gap={"4px"}>
+                      <img
+                        src={python}
+                        width={35}
+                        height={35}
+                        style={{
+                          borderRadius: "5px",
+                          objectFit: "cover",
+                        }}
+                        alt=''
+                      />
+                      <Typography
+                        fontSize={"12px"}
+                        sx={{ textTransform: "lowercase" }}>
+                        main.py
+                      </Typography>
+                    </Stack>
+                  }
+                />
+              </Tabs>
+            )}
+            {props.typeCode !== null && props.typeCode == "java" && (
+              <Tabs
+                value={props.valueRight}
+                onChange={props.handleChangeRight}
+                aria-label='basic tabs example'>
+                <Tab
+                  label={
+                    <Stack direction={"row"} alignItems={"center"} gap={"4px"}>
+                      <img
+                        src={java}
+                        width={35}
+                        height={35}
+                        style={{
+                          borderRadius: "5px",
+                          objectFit: "cover",
+                        }}
+                        alt=''
+                      />
+                      <Typography
+                        fontSize={"12px"}
+                        sx={{ textTransform: "lowercase" }}>
+                        main.java
                       </Typography>
                     </Stack>
                   }
@@ -2589,16 +2657,19 @@ const ContentLeftExercise = (props: any) => {
                 display: "none",
               },
             }}>
-            {props.typeCode !== null && props.typeCode == "javascript" && (
-              <MonacoEditor
-                width={"100%"}
-                height='50vh'
-                language='javascript'
-                theme='vs-dark'
-                value={exercise}
-                onChange={(value) => handleChangeExercise(value)}
-              />
-            )}
+            {props.typeCode !== null &&
+              (props.typeCode == "javascript" ||
+                props.typeCode == "java" ||
+                props.typeCode == "python") && (
+                <MonacoEditor
+                  width={"100%"}
+                  height='50vh'
+                  language={props.typeCode}
+                  theme='vs-dark'
+                  value={exercise}
+                  onChange={(value) => handleChangeExercise(value)}
+                />
+              )}
             {props.typeCode !== null && props.typeCode == "html" && (
               <MonacoEditor
                 height='50vh'
@@ -2692,19 +2763,26 @@ const ContentLeftBlog = (props: any) => {
   useEffect(() => {
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight }: any = blogRef.current;
-      if (scrollTop + clientHeight >= scrollHeight) {
+      console.log(scrollTop + clientHeight);
+      console.log(scrollHeight);
+      // Kiểm tra nếu cuộn đến cuối phần tử
+      if (scrollTop + clientHeight >= scrollHeight - 100) {
         props.setDone(true);
       }
     };
 
     const blogElement: any = blogRef.current;
-    blogElement.addEventListener("scroll", handleScroll);
 
-    // Cleanup event listener on component unmount
+    if (blogElement) {
+      blogElement.addEventListener("scroll", handleScroll);
+    }
+
     return () => {
-      blogElement.removeEventListener("scroll", handleScroll);
+      if (blogElement) {
+        blogElement.removeEventListener("scroll", handleScroll);
+      }
     };
-  }, []);
+  }, [props]);
   return (
     <Box width={"75%"}>
       <Box
