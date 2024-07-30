@@ -101,5 +101,28 @@ import {
     });
     const [isTyping, setIsTyping] = useState(false);
     const [loadingSearch, setLoadingSearch] = useState(false);
+    useEffect(() => {
+      const debouncedSearch = debounce(async () => {
+        if (!isTyping && changeSearch.length > 0) {
+          try {
+            let data: any = await searchCourses(changeSearch);
+            if (data?.status == 0) {
+              console.log(data);
+              setDataSearch([]);
+              setLoadingSearch(true);
+              setDataSearch({
+                dataCourses: data.dataCourses,
+                dataPost: data.dataPost,
+              });
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      }, 100);
+  
+      debouncedSearch();
+    }, [changeSearch, isTyping]);
+    
   }
   export default Header;
