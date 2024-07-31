@@ -68,7 +68,10 @@ const DetailCourseView = ({
                 );
               })}
           </Stack>
-          
+            <Typography fontSize={"18px"} m={"30px 0 15px"} fontWeight={"bold"}>
+            Nội dung khóa học
+            </Typography>
+            <Stack direction={"row"} justifyContent={"space-between"}>  
             <Typography
               fontSize={"15px"}
               sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
