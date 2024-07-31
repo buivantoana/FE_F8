@@ -45,7 +45,15 @@ import {
     valueUser: any;
     role:any
   };
- 
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: "#ff5117",
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
   const UserView = ({
     data,
     register,
