@@ -220,5 +220,31 @@ import {
         setOpen(true);
       }
     };
+    const handleClickCourses = async (
+      event: React.MouseEvent<HTMLButtonElement>
+    ) => {
+      setLoadingCourses(true);
+      setAnchorEl(event.currentTarget);
+      try {
+        let data: any = await getCourses();
+        let progress: any = await getUserProgress(context.state.user[0]._id);
+        if (data[0] && progress.status == 0) {
+          let arr = calculateProgress(progress.data);
+          let checkRegisterCourses = progress.data.map(
+            (item: any) => item.courses_id[0]
+          );
+         
+          data = data.filter((item: any) =>
+            checkRegisterCourses.includes(item._id)
+          );
+          console.log(data);
+          setProgressBar(arr);
+          setCourses(data);
+          setLoadingCourses(false);
+        }
+      } catch (error) {
+        setLoadingCourses(false);
+      }
+    };
   }
   export default Header;
