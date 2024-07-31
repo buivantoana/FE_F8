@@ -203,7 +203,13 @@ const ListAccordion = (props: any) => {
       {props.arr &&
         props.arr.map((item: any, index: any) => {
           return (
-            
+            <Box
+              onClick={() => props.handleTongle(index)}
+              mt={"15px"}
+              maxHeight={props.expanded[index] ? "500px" : "47px"}
+              overflow={"hidden"}
+              sx={{ transition: ".7s" }}>
+              <Box>
                 <Stack
                   direction={"row"}
                   justifyContent={"space-between"}
