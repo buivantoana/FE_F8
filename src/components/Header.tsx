@@ -248,6 +248,9 @@ import {
     };
     const handleClickNotify = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorElNotify(event.currentTarget);
-  };
+    };
+     const handleClickProfile = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorElProfile(event.currentTarget);
+    };
   }
   export default Header;
