@@ -64,9 +64,7 @@ const RoleController = () => {
   const onSubmit = () => {
     setLoading(true);
   };
-  const handleDelete = (value: any) => {
-    onRemove(value);
-  };
+
   return (
     <>
       <RoleView
