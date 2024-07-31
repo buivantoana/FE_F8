@@ -211,6 +211,14 @@ import {
         console.error("Error signing in with Google:", error);
       }
     };
-    
+    const handleCheck = (type: string) => {
+      if (type == "login") {
+        setCheck(type);
+        setOpen(true);
+      } else {
+        setCheck(type);
+        setOpen(true);
+      }
+    };
   }
   export default Header;
