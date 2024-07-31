@@ -246,5 +246,8 @@ import {
         setLoadingCourses(false);
       }
     };
+    const handleClickNotify = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorElNotify(event.currentTarget);
+  };
   }
   export default Header;
