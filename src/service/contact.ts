@@ -16,5 +16,15 @@ export const addContact = async (value: any) => {
     console.log(`add_Contact`, error);
   }
 };
-
+export const updateContact = async (value: any) => {
+  try {
+    const response = await axios.put(`/contact/${value._id}`, {
+      reply: value.reply,
+     
+    });
+    return response;
+  } catch (error) {
+    console.log(`update_Contact`, error);
+  }
+};
 

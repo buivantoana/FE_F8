@@ -18,11 +18,11 @@ export const getCategoriesCourses = async () => {
 };
 export const addCategories = async (value: typeCategories) => {
   try {
-    const response: any = await axios.post(`/categories`, value);
-    if (response.status !== 0) {
-      toast.error(response.message);
-      return undefined;
-    } else {
+    const response:any = await axios.post(`/categories`, value);
+    if(response.status!==0){
+      toast.error(response.message)
+      return undefined
+    }else{
       return response.data;
     }
   } catch (error) {
@@ -31,14 +31,14 @@ export const addCategories = async (value: typeCategories) => {
 };
 export const updateCategories = async (value: typeCategories) => {
   try {
-    const response: any = await axios.put(`/categories/${value._id}`, {
+    const response:any = await axios.put(`/categories/${value._id}`, {
       name: value.name,
       description: value.description,
     });
-    if (response.status !== 0) {
-     
-      return undefined;
-    } else {
+    if(response.status!==0){
+      toast.error(response.message)
+      return undefined
+    }else{
       return response.data;
     }
   } catch (error) {
@@ -47,11 +47,11 @@ export const updateCategories = async (value: typeCategories) => {
 };
 export const deleteCategories = async (id?: string) => {
   try {
-    const response: any = await axios.delete(`/categories/${id}`);
-    if (response.status !== 0) {
-     
-      return undefined;
-    } else {
+    const response:any = await axios.delete(`/categories/${id}`);
+    if(response.status!==0){
+      toast.error(response.message)
+      return undefined
+    }else{
       return response.data;
     }
   } catch (error) {
