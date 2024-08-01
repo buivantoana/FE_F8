@@ -67,21 +67,7 @@ const UserVouchersController = () => {
       },
     });
 
-  const handleOpenModal = (type: any, data: any) => {
-    setAction(type);
-    if (type == "CREATE") {
-      reset();
-      setValueUser("");
-      setValueVouchers("");
-      setOpenModal(true);
-    } else {
-      setCheckUpdate(true)
-      reset({ _id: data._id, status: data.status });
-      setValueUser(data.user_id[0]._id);
-      setValueVouchers(data.vouchers_id[0]._id);
-      setOpenModal(true);
-    }
-  };
+    
   const handleCloseModal = () => {
     reset();
     setOpenModal(false);
