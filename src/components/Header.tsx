@@ -261,6 +261,16 @@ import {
     const handleCloseProfile = () => {
       setAnchorElProfile(null);
     };
-    
+    const handleLogout = () => {
+      setUser({});
+      context.dispatch({
+        type: "LOGOUT",
+      });
+      setAnchorElProfile(null);
+      setTimeout(()=>{
+        navigate("/")
+      },500)
+      
+    };
   }
   export default Header;
