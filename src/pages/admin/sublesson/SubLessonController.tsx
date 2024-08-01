@@ -54,7 +54,9 @@ const SubLessonController = () => {
     }
     setOpenDrawer(newOpen);
   };
-
+  const handleEditorChange = (e: any, editor: any) => {
+    setContent(editor.getContent());
+  };
  
   const handleCloseModal = () => setOpenModal(false);
   const handleChangeRight = (event: React.SyntheticEvent, newValue: number) => {
