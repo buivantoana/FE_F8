@@ -28,25 +28,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     fontSize: 14,
   },
 }));
-type typeProps = {
-  data: typeCategories[];
-  register: any;
-  handleSubmit: any;
-  onFinish: any;
-  errors: any;
-  handleOpenModal: any;
-  handleCloseModal: any;
-  openModal: boolean;
-  onSubmit: any;
-  handleDelete: any;
-  handleClick: any;
-  handleClose: any;
-  id: any;
-  anchorEl: any;
-  open: any;
-  action: string;
-  deleteCategory: any;
-};
+
 const CategoriesView = ({
   data,
   register,
