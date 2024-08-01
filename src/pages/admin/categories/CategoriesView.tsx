@@ -86,8 +86,8 @@ const CategoriesView = ({
   return (
     <>
       <Stack my={"20px"} direction={"row"} justifyContent={"space-between"}>
-        <Typography variant='h5'>Categories</Typography>
-        <Button onClick={() => handleOpenModal("CREATE")} variant='contained'>
+        <Typography variant="h5">Categories</Typography>
+        <Button onClick={() => handleOpenModal("CREATE")} variant="contained">
           Add Category
         </Button>
       </Stack>
@@ -96,9 +96,9 @@ const CategoriesView = ({
           <TableHead>
             <TableRow>
               <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell align='left'>Description</StyledTableCell>
+              <StyledTableCell align="left">Description</StyledTableCell>
 
-              <StyledTableCell align='left'>Action</StyledTableCell>
+              <StyledTableCell align="left">Action</StyledTableCell>
             </TableRow>
           </TableHead>
           {data.length == 0 ? (
@@ -139,12 +139,13 @@ const CategoriesView = ({
 
                     <TableCell align='left'>
                       <Button onClick={() => handleOpenModal("UPDATE", row)}>
-                        Edit
+                        Sửa
                       </Button>
                       <Button
                         aria-describedby={id}
                         onClick={(e) => handleClick(e, row)}
-                        sx={{ color: "red" }}>
+                        sx={{ color: "red" }}
+                      >
                         Delete
                       </Button>
                     </TableCell>
@@ -222,7 +223,7 @@ const ModalForm = (props: any) => {
       aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'>
       <Box sx={style}>
-        <Typography variant='h5' textAlign={"center"}>
+        <Typography variant="h5" textAlign={"center"}>
           {props.action == "CREATE" ? "Add Category" : "Update Category"}
         </Typography>
         <form onSubmit={props.handleSubmit(props.onFinish)}>
@@ -236,10 +237,10 @@ const ModalForm = (props: any) => {
               <TextField
                 {...props.register("name")}
                 fullWidth
-                id='outlined-basic'
-                label='Title'
-                variant='outlined'
-                size='small'
+                id="outlined-basic"
+                label="Title"
+                variant="outlined"
+                size="small"
                 error={props.errors.name?.message}
               />
             </Box>
@@ -248,10 +249,10 @@ const ModalForm = (props: any) => {
                 type='text'
                 {...props.register("description")}
                 fullWidth
-                id='outlined-basic'
-                label='Description'
-                variant='outlined'
-                size='small'
+                id="outlined-basic"
+                label="Description"
+                variant="outlined"
+                size="small"
                 error={props.errors.description?.message}
               />
             </Box>
@@ -269,7 +270,8 @@ const ModalForm = (props: any) => {
                   width: "82px",
                   height: "34px",
                   border: "1px solid #333",
-                }}>
+                }}
+              >
                 Close
               </Button>
               <Button
@@ -282,7 +284,8 @@ const ModalForm = (props: any) => {
                   borderRadius: "99px",
                   width: "92px",
                   height: "34px",
-                }}>
+                }}
+              >
                 Add
               </Button>
             </Box>
