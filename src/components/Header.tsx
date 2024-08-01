@@ -258,5 +258,9 @@ import {
     const handleCloseNotify = () => {
       setAnchorElNotify(null);
     };
+    const handleCloseProfile = () => {
+      setAnchorElProfile(null);
+    };
+    
   }
   export default Header;
