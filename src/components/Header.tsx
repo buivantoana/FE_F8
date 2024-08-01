@@ -255,5 +255,8 @@ import {
     const handleCloseCourses = () => {
       setAnchorEl(null);
     };
+    const handleCloseNotify = () => {
+      setAnchorElNotify(null);
+    };
   }
   export default Header;
