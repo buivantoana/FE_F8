@@ -252,5 +252,8 @@ import {
      const handleClickProfile = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorElProfile(event.currentTarget);
     };
+    const handleCloseCourses = () => {
+      setAnchorEl(null);
+    };
   }
   export default Header;
