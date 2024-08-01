@@ -93,21 +93,13 @@ const CommentController = ({ courses_id, lesson_id }: any) => {
     setExtendType(etendType.filter((i: any) => i !== data._id));
   };
 
-  const handleCloseChild = () => {
-    setFeedBack("");
-    setAnchorElChild(null);
-    setFeedBackChild(null);
-  };
+ 
   const handleEdit = (data: any) => {
     setContentChild(data.content);
     setFeedBack(data._id);
     setDataEditComment(data);
   };
-  const handleEditChild = (dataChild: any, data: any, index: number) => {
-    setContentChild(dataChild.content);
-    setFeedBackChild(index);
-    setDataEditComment(data);
-  };
+  
   const openChild = Boolean(anchorElChild);
   const idChild = openChild ? "simple-popover" : undefined;
   const [feedBack, setFeedBack] = useState<string>("");
