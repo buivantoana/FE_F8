@@ -45,7 +45,6 @@ const PermissionController = () => {
         }, 1000);
       },
     });
-
   const handleOpenModal = (type: any, data: any) => {
     setAction(type);
     if (type == "CREATE") {
