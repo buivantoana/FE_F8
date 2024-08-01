@@ -23,7 +23,7 @@ export const getUserTransaction = async (id: any) => {
     console.log(`get_Categories`, error);
   }
 };
-export const getUserStatisticalTransaction = async (id: any) => {
+export const getUserStatisticalTransaction = async (id:any) => {
   try {
     const response = await axios.get(`/transaction/statistical/${id}`);
     return response;
@@ -31,11 +31,9 @@ export const getUserStatisticalTransaction = async (id: any) => {
     console.log(`get_wallet`, error);
   }
 };
-export const getAdminStatisticalTransaction = async (date: any) => {
+export const getAdminStatisticalTransaction = async (date:any) => {
   try {
-    const response = await axios.get(
-      `/transaction/statistical/admin/line/${date}`
-    );
+    const response = await axios.get(`/transaction/statistical/admin/line/${date}`);
     return response;
   } catch (error) {
     console.log(`get_wallet`, error);
@@ -53,7 +51,7 @@ export const updateTransaction = async (value: any) => {
   try {
     const response = await axios.put(`/transaction/status/${value._id}`, {
       status: value.status,
-      type: value.type,
+      type:value.type
     });
     return response;
   } catch (error) {
@@ -69,7 +67,9 @@ export const updateTransactionWithDrawFaild = async (value: any) => {
         amount: value.amount,
         status: value.status,
         stk: value.stk,
-        
+        bankAccount: value.bankAccount,
+        user_id: value.user_id,
+        note: value.note,
       }
     );
     return response;

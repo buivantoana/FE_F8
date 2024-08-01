@@ -5,10 +5,10 @@ export const Signup = async (email: typeAuth) => {
   try {
     delete email.password;
     const response = await axios.post(`/auth/signup`, email);
-    if (response.status == 0) {
+    if(response.status==0){
       return response;
-    } else {
-      toast.error("Đăng ký thất bại");
+    }else{
+      toast.error("Đăng ký thất bại")
       return {};
     }
   } catch (error) {
@@ -23,7 +23,7 @@ export const Signin = async (email: typeAuth) => {
       password: email.password,
     });
     if (response.status === 1) {
-      toast.error(response.message);
+      toast.error(response.message)
       return {};
     }
     return response;
@@ -73,7 +73,7 @@ export const countUser = async () => {
     console.log(`get_User`, error);
   }
 };
-export const getOneUser = async (email: any) => {
+export const getOneUser = async (email:any) => {
   try {
     const response = await axios.get(`/auth/search/${email}`);
     return response;
@@ -86,7 +86,7 @@ export const updateUSer = async (value: any) => {
     const response = await axios.put(`/auth/${value._id}`, {
       email: value.email,
       role: value.role,
-      user_name: value.user_name,
+      user_name:value.user_name,
     });
     return response.data;
   } catch (error) {
