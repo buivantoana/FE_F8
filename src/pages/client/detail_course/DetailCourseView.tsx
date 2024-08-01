@@ -68,10 +68,10 @@ const DetailCourseView = ({
                 );
               })}
           </Stack>
-          <Typography fontSize={"18px"} m={"30px 0 15px"} fontWeight={"bold"}>
+            <Typography fontSize={"18px"} m={"30px 0 15px"} fontWeight={"bold"}>
             Nội dung khóa học
-          </Typography>
-          <Stack direction={"row"} justifyContent={"space-between"}>
+            </Typography>
+            <Stack direction={"row"} justifyContent={"space-between"}>  
             <Typography
               fontSize={"15px"}
               sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
@@ -193,36 +193,7 @@ const DetailCourseView = ({
               {paymentSuccess?"BẮT ĐẦU":<> {courses&&courses.price==0? "ĐĂNG KÝ HỌC":"MUA KHÓA HỌC"}</>}
            
           </Button>
-          <Stack mt={"20px"}>
-            <Stack direction={"column"} gap={"10px"}>
-              <Stack direction={"row"} alignItems={"center"} gap={"15px"}>
-                <RiDashboard3Fill size={"17px"} />{" "}
-                <Typography fontSize={"14px"} color={"#333"}>
-                  Trình độ cơ bản
-                </Typography>
-              </Stack>
-              <Stack direction={"row"} alignItems={"center"} gap={"15px"}>
-                <RiMovie2Fill size={"17px"} />{" "}
-                <Typography fontSize={"14px"} color={"#333"}>
-                  Tổng số <b>{totalLesson}</b> bài học
-                </Typography>
-              </Stack>
-              <Stack direction={"row"} alignItems={"center"} gap={"15px"}>
-                <RiTimeFill size={"17px"} />{" "}
-                <Typography fontSize={"14px"} color={"#333"}>
-                  Thời lượng <b>03 giờ 26 phút</b>
-                </Typography>
-              </Stack>
-              <Stack direction={"row"} alignItems={"center"} gap={"15px"}>
-                <RiBatteryChargeFill size={"17px"} />{" "}
-                <Typography fontSize={"14px"} color={"#333"}>
-                  Học mọi lúc, mọi nơi
-                </Typography>
-              </Stack>
-            </Stack>
-          </Stack>
-        </Box>
-      </Stack>
+          
     </Box>
   );
 };
