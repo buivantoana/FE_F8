@@ -272,5 +272,16 @@ import {
       },500)
       
     };
+    const {} = useQuery(["notify", context.state.user[0]], {
+      queryFn: () => {
+        return getUserNotify(context.state.user[0]._id);
+      },
+      onSuccess(data) {
+        if (data?.status == 0) {
+          setDataNotify(data.data);
+        }
+      },
+      refetchOnWindowFocus: false,
+    });
   }
   export default Header;
