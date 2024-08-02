@@ -283,5 +283,16 @@ import {
       },
       refetchOnWindowFocus: false,
     });
+    useEffect(() => {
+      setTimeout(() => {
+        setLoading(true);
+      }, 1500);
+      socket.on("notifyNew", (res) => {
+        if (res.user_id == userLocal.data[0]._id) {
+          console.log("tona");
+          setDataNotify(res.data);
+        }
+      });
+    }, []);
   }
   export default Header;
