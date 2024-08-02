@@ -315,6 +315,29 @@ import {
         console.log(error);
       }
     };
-  
+    
+    const handleOtpForgotPassword = async (type: any) => {
+      try {
+        if (type == 0) {
+          let data: any = await otpEmail({ email: email });
+          if (data?.status == 0) {
+            setDisableForgot(false);
+            setTokenOtp(data.otp);
+            toast.success(data.message);
+          } else {
+            toast.warning(data.message);
+          }
+        } else {
+          const decodedToken: any = jwtDecode(tokenOtp);
+
+          if (decodedToken.password == otp.trim()) {
+            setTokenOtp(null);
+            toast.success("Mời bạn tạo mật khẩu mới.");
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
   }
   export default Header;
