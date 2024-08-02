@@ -294,5 +294,27 @@ import {
         }
       });
     }, []);
+    const handleNotify = async (data: any) => {
+      try {
+        if (data.read) {
+          if (!(data.url == " ")) {
+            navigate(data.url);
+          }
+          handleCloseNotify();
+        } else {
+          await updateUserReadNotify(data._id);
+          queryClient.invalidateQueries({
+            queryKey: ["notify"],
+          });
+          if (!(data.url == " ")) {
+            navigate(data.url);
+          }
+          handleCloseNotify();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
   }
   export default Header;
