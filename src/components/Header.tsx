@@ -339,5 +339,25 @@ import {
         console.log(error);
       }
     };
+    const handleForgotPassword = async () => {
+      try {
+        if (passwordNew == confirmPasswordNew) {
+          let data = await forgotPassword({
+            email: email,
+            passwordNew: passwordNew,
+          });
+          if (data?.status == 0) {
+            toast.success("Đổi mật khẩu thành công");
+            setCheck("login");
+            setSelect(true);
+            setRegisterType(false);
+          }
+        } else {
+          toast.warning("Mật khẩu không trùng khớp.");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
   }
   export default Header;
