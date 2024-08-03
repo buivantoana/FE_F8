@@ -375,5 +375,8 @@ import {
         document.removeEventListener("mousedown", handleClickOutside);
       };
     }, []);
+    const handleFocus = () => {
+      setIsFocused(true);
+    };
   }
   export default Header;
