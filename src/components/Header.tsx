@@ -359,5 +359,6 @@ import {
         console.log(error);
       }
     };
+    const searchBoxRef: any = useRef(null);
   }
   export default Header;
