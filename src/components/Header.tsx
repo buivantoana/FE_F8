@@ -360,5 +360,20 @@ import {
       }
     };
     const searchBoxRef: any = useRef(null);
+    useEffect(() => {
+      const handleClickOutside = (event: any) => {
+        if (
+          searchBoxRef.current &&
+          !searchBoxRef.current.contains(event.target)
+        ) {
+          setIsFocused(false);
+        }
+      };
+  
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, []);
   }
   export default Header;
