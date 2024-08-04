@@ -1641,5 +1641,34 @@ import {
         </Dialog>
       </Box>
     );
+    
   }
   export default Header;
+  const ProgressBar = ({ percentage }: any) => {
+    return (
+      <div
+        className="progress-bar-container"
+        style={{
+          width: "90%",
+          backgroundColor: "#f0f0f0",
+          borderRadius: "4px",
+          overflow: "hidden",
+          marginTop: "10px",
+        }}
+      >
+        <div
+          className="progress-bar"
+          style={{
+            height: "9px",
+            backgroundColor: "#007bff",
+            color: "white",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transition: "width 0.5s ease",
+            width: `${percentage}%`,
+          }}
+        ></div>
+      </div>
+    );
+  };
