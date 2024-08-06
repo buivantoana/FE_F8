@@ -71,23 +71,7 @@ const ContactController = () => {
 
   return (
     <>
-      <ContactView
-        register={register}
-        handleSubmit={handleSubmit}
-        handleOpenModal={handleOpenModal}
-        handleCloseModal={handleCloseModal}
-        openModal={openModal}
-        data={data?.status == 0 ? data.data : []}
-        onSubmit={onSubmit}
-        handleDelete={handleDelete}
-        handleClick={handleClick}
-        handleClose={handleClose}
-        id={id}
-        anchorEl={anchorEl}
-        open={open}
-        action={action}
-        deleteCategory={deleteCategory}
-      />
+   
 
       {loading && <Loading />}
     </>
