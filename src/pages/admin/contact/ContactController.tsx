@@ -33,13 +33,13 @@ const ContactController = () => {
   const { data } = useQuery("contact", {
     queryFn: () => getContact(),
   });
-  const { register, handleSubmit, reset } = useForm();
-
+  const { register, handleSubmit, reset } = useForm()
+    
   const handleOpenModal = (type: any, data: any) => {
     setAction(type);
 
-    reset(data);
-    setOpenModal(true);
+      reset(data);
+      setOpenModal(true);
   };
   const handleCloseModal = () => {
     reset();
@@ -51,24 +51,25 @@ const ContactController = () => {
       handleClose();
     },
   });
-  const onSubmit = async (value: any) => {
+  const onSubmit = async(value:any) => {
     try {
-      let data = await updateContact({ _id: value._id, reply: value.reply });
-      if (data?.status == 0) {
-        queryClient.invalidateQueries({
-          queryKey: ["contact"],
-        });
-        handleCloseModal();
-      }
+        let data = await updateContact({_id:value._id,reply:value.reply})
+        if(data?.status==0){
+            queryClient.invalidateQueries({
+                queryKey: ["contact"],
+            });
+            handleCloseModal()
+        }
     } catch (error) {
-      console.log(error);
+        console.log(error);
     }
   };
   const handleDelete = (value: any) => {
     console.log(value);
     onRemove(value);
   };
-
+  
+  
   return (
     <>
       <ContactView
@@ -77,7 +78,7 @@ const ContactController = () => {
         handleOpenModal={handleOpenModal}
         handleCloseModal={handleCloseModal}
         openModal={openModal}
-        data={data?.status == 0 ? data.data : []}
+        data={data?.status==0?data.data:[]}
         onSubmit={onSubmit}
         handleDelete={handleDelete}
         handleClick={handleClick}

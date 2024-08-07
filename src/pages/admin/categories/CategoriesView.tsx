@@ -86,19 +86,19 @@ const CategoriesView = ({
   return (
     <>
       <Stack my={"20px"} direction={"row"} justifyContent={"space-between"}>
-        <Typography variant="h5">Categories</Typography>
+        <Typography variant="h5">Danh mục</Typography>
         <Button onClick={() => handleOpenModal("CREATE")} variant="contained">
-          Add Category
+          Thêm danh mục
         </Button>
       </Stack>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell align="left">Description</StyledTableCell>
+              <StyledTableCell>Tên</StyledTableCell>
+              <StyledTableCell align="left">Mô tả</StyledTableCell>
 
-              <StyledTableCell align="left">Action</StyledTableCell>
+              <StyledTableCell align="left">Hành động</StyledTableCell>
             </TableRow>
           </TableHead>
           {data.length == 0 ? (
@@ -141,14 +141,14 @@ const CategoriesView = ({
 
                     <TableCell align="left">
                       <Button onClick={() => handleOpenModal("UPDATE", row)}>
-                        Edit
+                        Sửa
                       </Button>
                       <Button
                         aria-describedby={id}
                         onClick={(e) => handleClick(e, row)}
                         sx={{ color: "red" }}
                       >
-                        Delete
+                        Xóa
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -229,7 +229,7 @@ const ModalForm = (props: any) => {
     >
       <Box sx={style}>
         <Typography variant="h5" textAlign={"center"}>
-          {props.action == "CREATE" ? "Add Category" : "Update Category"}
+          {props.action == "CREATE" ? "Tạo danh mục" : "Sửa danh mục"}
         </Typography>
         <form onSubmit={props.handleSubmit(props.onFinish)}>
           <Stack
@@ -244,7 +244,7 @@ const ModalForm = (props: any) => {
                 {...props.register("name")}
                 fullWidth
                 id="outlined-basic"
-                label="Title"
+                label="Tên"
                 variant="outlined"
                 size="small"
                 error={props.errors.name?.message}
@@ -256,7 +256,7 @@ const ModalForm = (props: any) => {
                 {...props.register("description")}
                 fullWidth
                 id="outlined-basic"
-                label="Description"
+                label="Mô tả"
                 variant="outlined"
                 size="small"
                 error={props.errors.description?.message}
@@ -279,7 +279,7 @@ const ModalForm = (props: any) => {
                   border: "1px solid #333",
                 }}
               >
-                Close
+                Đóng
               </Button>
               <Button
                 onClick={props.onSubmit}
@@ -293,7 +293,7 @@ const ModalForm = (props: any) => {
                   height: "34px",
                 }}
               >
-                Add
+                Thêm
               </Button>
             </Box>
           </Stack>
