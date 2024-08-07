@@ -7,13 +7,25 @@ import { useNavigate } from "react-router-dom";
 import { convertToVND } from "@/utils/utils";
 
 const Product = ({
-    type,
-    item,
-    check,
-  }: {
-    type?: string;
-    item?: any;
-    check?: boolean;
-  }) => {
-    
-  }
+  type,
+  item,
+  check,
+}: {
+  type?: string;
+  item?: any;
+  check?: boolean;
+}) => {
+  let navigate = useNavigate();
+  const handleRouter = (id: any, type: string) => {
+    if (type !== "video" && type !== "blog") {
+      if (check) {
+        navigate(`/learning/${id}`);
+      } else {
+        navigate(`/courses/${id}`);
+      }
+    }
+    if (type == "blog") {
+      navigate(`/detail_blog/${id}`);
+    }
+  };
+};
