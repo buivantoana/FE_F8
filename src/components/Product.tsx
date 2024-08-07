@@ -28,4 +28,7 @@ const Product = ({
       navigate(`/detail_blog/${id}`);
     }
   };
+  console.log(item);
+  
 };
+export default Product;
