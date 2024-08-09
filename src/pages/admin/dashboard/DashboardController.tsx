@@ -38,28 +38,13 @@ const DashboardController = () => {
       const courseId = rating.courses_id[0]._id;
       const star = rating.star;
 
-      if (!groupedRatings[courseId]) {
-        groupedRatings[courseId] = {
-          courseId,
-          image: rating.courses_id[0].image,
-          title: rating.courses_id[0].title,
-          description: rating.courses_id[0].description,
-          totalStars: 0,
-          count: 0,
-        };
-      }
+   
 
       groupedRatings[courseId].totalStars += star;
       groupedRatings[courseId].count++;
     });
 
-    const result = Object.values(groupedRatings).map((group: any) => ({
-      courseId: group.courseId,
-      averageStars: roundToOneDecimal(group.totalStars / group.count),
-      image: group.image,
-      title: group.title,
-      description: group.description,
-    }));
+  
 
     return result;
   };
@@ -124,11 +109,7 @@ const DashboardController = () => {
             ? data.rechanrgeTotals
             : [0, 0, 0, 0, 0, 0, 0]
         }
-        withdrawTotals={
-          data !== undefined && data.status == 0
-            ? data.withdrawTotals
-            : [0, 0, 0, 0, 0, 0, 0]
-        }
+       
         countUser={count !== undefined && count.status == 0 ? count.data : 0}
         orderStatistical={orderStatistical}
         topRevenua={topRevenua}
