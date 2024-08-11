@@ -13,4 +13,11 @@ const rolePermissions:any = {
         '/dashboard/vouchers',
         '/dashboard/user_vouchers'
     ],
+    course_management: [
+        '/dashboard/courses',
+        '/dashboard/categories',
+        '/dashboard/lesson',
+        '/dashboard/sublesson',
+        '/dashboard/vouchers'
+    ],
 }
