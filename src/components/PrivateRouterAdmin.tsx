@@ -20,4 +20,9 @@ const rolePermissions:any = {
         '/dashboard/sublesson',
         '/dashboard/vouchers'
     ],
+    interaction_management: [
+        '/dashboard/post',
+        '/dashboard/comment',
+        '/dashboard/contact'
+    ]
 }
