@@ -36,8 +36,9 @@ const DetailBlogController = () => {
         if (data?.status == 0 && data.message == "liked") {
           setLikes([...likes, user.data[0]._id]);
         }
-
-        
+        if (data?.status == 0 && data.message == "unliked") {
+          setLikes(likes.filter((i: any) => i != user.data[0]._id));
+        }
       } else {
         toast.warning("Bạn cần đăng nhập để thích bài viết");
       }
