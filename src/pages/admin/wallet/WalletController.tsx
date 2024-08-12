@@ -37,7 +37,6 @@ const WalletController = () => {
     setAnchorEl(event.currentTarget);
     setDataFaild(data);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
