@@ -1,5 +1,6 @@
 import { convertToVND } from "@/utils/utils";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Modal, Stack, Typography } from "@mui/material";
+
 import {
   RiAddFill,
   RiArticleLine,
@@ -13,6 +14,7 @@ import {
   RiTimeFill,
   RiYoutubeFill,
 } from "react-icons/ri";
+import OTPInput from "react-otp-input";
 import StarRatings from "react-star-ratings";
 type Props = {
   courses: typeCourses;
@@ -22,9 +24,14 @@ type Props = {
   toggle: any;
   totalLesson: number;
   navigate: any;
-  handleProgress:any;
-  paymentSuccess:any
-  star:any
+  handleProgress: any;
+  paymentSuccess: any;
+  star: any;
+  isSendPinCode: any;
+  setIsSendPinCode: any;
+  otp: any;
+  handleChangeOtp: any;
+  handleSubmitPin: any;
 };
 const DetailCourseView = ({
   courses,
@@ -36,10 +43,74 @@ const DetailCourseView = ({
   navigate,
   handleProgress,
   paymentSuccess,
-  star
+  star,
+  isSendPinCode,
+  setIsSendPinCode,
+  otp,
+  handleChangeOtp,
+  handleSubmitPin,
 }: Props) => {
+  const style = {
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "40%",
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 4,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 2000,
+  };
+
   return (
-    <Box>
+    <Box
+      sx={{
+        ".css-79ws1d-MuiModal-root": {
+          zIndex: 2000,
+        },
+      }}>
+      <Modal
+        sx={{ zIndex: 1400 }}
+        onClose={() => setIsSendPinCode(false)}
+        open={isSendPinCode}
+        aria-labelledby='modal-modal-title'
+        aria-describedby='modal-modal-description'>
+        <Box sx={style}>
+          <Box
+            textAlign={"center"}
+            width={"430px"}
+            padding={"20px"}
+            height={300}>
+            <Typography my={"20px"} variant='h4'>
+              Xác thực mã Pin
+            </Typography>
+            <OTPInput
+              inputStyle='inputStyle'
+              value={otp}
+              onChange={handleChangeOtp}
+              numInputs={6}
+              renderInput={(props) => <input {...props} type='password' />}
+            />
+            <Button
+              sx={{
+                mt: "30px",
+                width: "100%",
+                height: "44px",
+                background:
+                  "linear-gradient(70.06deg, #2cccff -5%, #22dfbf 106%)",
+                color: "white",
+                borderRadius: "30px",
+                fontWeight: "700",
+              }}
+              onClick={handleSubmitPin}>
+              Xác nhận
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
       <Stack direction={"row"}>
         <Box width={"55%"}>
           <Typography fontSize={"28px"} fontWeight={"bold"}>
@@ -68,10 +139,10 @@ const DetailCourseView = ({
                 );
               })}
           </Stack>
-            <Typography fontSize={"18px"} m={"30px 0 15px"} fontWeight={"bold"}>
+          <Typography fontSize={"18px"} m={"30px 0 15px"} fontWeight={"bold"}>
             Nội dung khóa học
-            </Typography>
-            <Stack direction={"row"} justifyContent={"space-between"}>  
+          </Typography>
+          <Stack direction={"row"} justifyContent={"space-between"}>
             <Typography
               fontSize={"15px"}
               sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
@@ -161,24 +232,31 @@ const DetailCourseView = ({
               </Typography>
             </Box>
           </Box>
-          <Box  sx={{
-                svg: {
-                  width: "30px !important",
-                  height: "30px !important",
-                },
-              }} my={"10px"}>
-          <StarRatings
-                rating={star}
-                starRatedColor="blue"
-                numberOfStars={5}
-                starSpacing="0"
-                starRatedColor={"rgb(250, 175, 0)"}
-                name="rating"
-              />
-
+          <Box
+            sx={{
+              svg: {
+                width: "30px !important",
+                height: "30px !important",
+              },
+            }}
+            my={"10px"}>
+            <StarRatings
+              rating={star}
+              starRatedColor='blue'
+              numberOfStars={5}
+              starSpacing='0'
+              starRatedColor={"rgb(250, 175, 0)"}
+              name='rating'
+            />
           </Box>
-          <Typography variant='h4' mb={"10px"}  color={"#f05123"}>
-            {courses&&<>{courses&&courses.price==0?"Miễn phí":convertToVND(courses.price)}</>}
+          <Typography variant='h4' mb={"10px"} color={"#f05123"}>
+            {courses && (
+              <>
+                {courses && courses.price == 0
+                  ? "Miễn phí"
+                  : convertToVND(courses.price)}
+              </>
+            )}
           </Typography>
           <Button
             onClick={handleProgress}
@@ -190,10 +268,45 @@ const DetailCourseView = ({
               borderRadius: "30px",
               fontWeight: "700",
             }}>
-              {paymentSuccess?"BẮT ĐẦU":<> {courses&&courses.price==0? "ĐĂNG KÝ HỌC":"MUA KHÓA HỌC"}</>}
-           
+            {paymentSuccess ? (
+              "BẮT ĐẦU"
+            ) : (
+              <>
+                {" "}
+                {courses && courses.price == 0 ? "ĐĂNG KÝ HỌC" : "MUA KHÓA HỌC"}
+              </>
+            )}
           </Button>
-          
+          <Stack mt={"20px"}>
+            <Stack direction={"column"} gap={"10px"}>
+              <Stack direction={"row"} alignItems={"center"} gap={"15px"}>
+                <RiDashboard3Fill size={"17px"} />{" "}
+                <Typography fontSize={"14px"} color={"#333"}>
+                  Trình độ cơ bản
+                </Typography>
+              </Stack>
+              <Stack direction={"row"} alignItems={"center"} gap={"15px"}>
+                <RiMovie2Fill size={"17px"} />{" "}
+                <Typography fontSize={"14px"} color={"#333"}>
+                  Tổng số <b>{totalLesson}</b> bài học
+                </Typography>
+              </Stack>
+              <Stack direction={"row"} alignItems={"center"} gap={"15px"}>
+                <RiTimeFill size={"17px"} />{" "}
+                <Typography fontSize={"14px"} color={"#333"}>
+                  Thời lượng <b>03 giờ 26 phút</b>
+                </Typography>
+              </Stack>
+              <Stack direction={"row"} alignItems={"center"} gap={"15px"}>
+                <RiBatteryChargeFill size={"17px"} />{" "}
+                <Typography fontSize={"14px"} color={"#333"}>
+                  Học mọi lúc, mọi nơi
+                </Typography>
+              </Stack>
+            </Stack>
+          </Stack>
+        </Box>
+      </Stack>
     </Box>
   );
 };
