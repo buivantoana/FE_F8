@@ -26,3 +26,7 @@ const rolePermissions:any = {
         '/dashboard/contact'
     ]
 }
+const defaultRedirects:any = {
+    course_management: '/dashboard/courses',
+    interaction_management: '/dashboard/post'
+};
