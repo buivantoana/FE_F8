@@ -32,13 +32,7 @@ const CoursesController = () => {
     useState(null);
   const [textCoursesRequirements, setTextCoursesRequirements]: any =
     useState("");
-  const handleClick = (
-    event: React.MouseEvent<HTMLButtonElement>,
-    dataDelete: any
-  ) => {
-    setDeleteCourses(dataDelete);
-    setAnchorEl(event.currentTarget);
-  };
+  
 
   const { data, isFetching } = useQuery("courses", {
     queryFn: () => getCourses(),
@@ -65,10 +59,7 @@ const CoursesController = () => {
         }, 1000);
       },
     });
-  const handleClose = () => {
-    setDeleteCourses(null);
-    setAnchorEl(null);
-  };
+ 
 
   const handleOpenModal = (type: any, data: any) => {
     setAction(type);
@@ -95,13 +86,7 @@ const CoursesController = () => {
       setOpenModal(true);
     }
   };
-  const { onRemove } = useCoursesMutation({
-    action: "DELETE",
-    onSuccess: () => {
-      handleClose();
-      setLoading(false);
-    },
-  });
+
   const onSubmit = () => {
     setLoading(true);
   };
@@ -161,11 +146,7 @@ const CoursesController = () => {
       setTextCoursesRequirements("");
     }
   };
-  const handleDeleteCoursesRequirements = (index: number) => {
-    setCoursesRequirements(
-      coursesRequirements.filter((item: any, i: any) => i !== index)
-    );
-  };
+
   const handleEditCoursesRequirements = (index: number) => {
     setCoursesRequirementsEdit(index);
     setTextCoursesRequirements(coursesRequirements[index]);
