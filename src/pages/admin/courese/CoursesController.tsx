@@ -32,12 +32,18 @@ const CoursesController = () => {
     useState(null);
   const [textCoursesRequirements, setTextCoursesRequirements]: any =
     useState("");
-  
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    dataDelete: any
+  ) => {
+    setDeleteCourses(dataDelete);
+    setAnchorEl(event.currentTarget);
+  };
 
   const { data, isFetching } = useQuery("courses", {
     queryFn: () => getCourses(),
   });
-
+  
   const { data: category } = useQuery("categories", {
     queryFn: () => getCategories(),
   });
@@ -59,7 +65,10 @@ const CoursesController = () => {
         }, 1000);
       },
     });
- 
+  const handleClose = () => {
+    setDeleteCourses(null);
+    setAnchorEl(null);
+  };
 
   const handleOpenModal = (type: any, data: any) => {
     setAction(type);
@@ -86,7 +95,13 @@ const CoursesController = () => {
       setOpenModal(true);
     }
   };
-
+  const { onRemove } = useCoursesMutation({
+    action: "DELETE",
+    onSuccess: () => {
+      handleClose();
+      setLoading(false);
+    },
+  });
   const onSubmit = () => {
     setLoading(true);
   };
@@ -146,7 +161,11 @@ const CoursesController = () => {
       setTextCoursesRequirements("");
     }
   };
-
+  const handleDeleteCoursesRequirements = (index: number) => {
+    setCoursesRequirements(
+      coursesRequirements.filter((item: any, i: any) => i !== index)
+    );
+  };
   const handleEditCoursesRequirements = (index: number) => {
     setCoursesRequirementsEdit(index);
     setTextCoursesRequirements(coursesRequirements[index]);
@@ -154,48 +173,50 @@ const CoursesController = () => {
 
   return (
     <>
-      <>
-        <CoursesView
-          register={register}
-          handleSubmit={handleSubmit}
-          onFinish={onFinish}
-          errors={errors}
-          handleOpenModal={handleOpenModal}
-          handleCloseModal={handleCloseModal}
-          openModal={openModal}
-          data={data !== undefined && data.length > 0 ? data : []}
-          onSubmit={onSubmit}
-          handleDelete={handleDelete}
-          handleClick={handleClick}
-          handleClose={handleClose}
-          id={id}
-          anchorEl={anchorEl}
-          open={open}
-          action={action}
-          setFile={setFile}
-          category={category}
-          deleteCourses={deleteCourses}
-          valueCategory={valueCategory}
-          setImageUrl={setImageUrl}
-          imageUrl={imageUrl}
-          setValueCategory={setValueCategory}
-          setTextResultCourses={setTextResultCourses}
-          textResultCourses={textResultCourses}
-          handleResultCourses={handleResultCourses}
-          resultCourses={resultCourses}
-          handleDeleteResultCourses={handleDeleteResultCourses}
-          handleEditResultCourses={handleEditResultCourses}
-          resultCoursesEdit={resultCoursesEdit}
-          setTextCoursesRequirements={setTextCoursesRequirements}
-          textCoursesRequirements={textCoursesRequirements}
-          handleCoursesRequirements={handleCoursesRequirements}
-          coursesRequirements={coursesRequirements}
-          handleDeleteCoursesRequirements={handleDeleteCoursesRequirements}
-          handleEditCoursesRequirements={handleEditCoursesRequirements}
-          CoursesRequirementsEdit={CoursesRequirementsEdit}
-        />
-        {loading && <Loading />}
-      </>
+     
+        <>
+          <CoursesView
+            register={register}
+            handleSubmit={handleSubmit}
+            onFinish={onFinish}
+            errors={errors}
+            handleOpenModal={handleOpenModal}
+            handleCloseModal={handleCloseModal}
+            openModal={openModal}
+            data={data!==undefined&&data.length>0?data:[]}
+            onSubmit={onSubmit}
+            handleDelete={handleDelete}
+            handleClick={handleClick}
+            handleClose={handleClose}
+            id={id}
+            anchorEl={anchorEl}
+            open={open}
+            action={action}
+            setFile={setFile}
+            category={category}
+            deleteCourses={deleteCourses}
+            valueCategory={valueCategory}
+            setImageUrl={setImageUrl}
+            imageUrl={imageUrl}
+            setValueCategory={setValueCategory}
+            setTextResultCourses={setTextResultCourses}
+            textResultCourses={textResultCourses}
+            handleResultCourses={handleResultCourses}
+            resultCourses={resultCourses}
+            handleDeleteResultCourses={handleDeleteResultCourses}
+            handleEditResultCourses={handleEditResultCourses}
+            resultCoursesEdit={resultCoursesEdit}
+            setTextCoursesRequirements={setTextCoursesRequirements}
+            textCoursesRequirements={textCoursesRequirements}
+            handleCoursesRequirements={handleCoursesRequirements}
+            coursesRequirements={coursesRequirements}
+            handleDeleteCoursesRequirements={handleDeleteCoursesRequirements}
+            handleEditCoursesRequirements={handleEditCoursesRequirements}
+            CoursesRequirementsEdit={CoursesRequirementsEdit}
+          />
+          {loading && <Loading />}
+        </>
+      
     </>
   );
 };
