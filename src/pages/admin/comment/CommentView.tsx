@@ -32,17 +32,7 @@ const CommentView = (props: Props) => {
   const [typeDelete, setTypeDelete] = useState(null);
   const [error, setError] = useState(null);
   const queryClient = useQueryClient();
-  const { data } = useQuery("get_report", {
-    queryFn: () => getReport(),
-    onSuccess(data: any) {
-      if (data.status === 0) {
-        setComments(data.data);
-      } else {
-        setError(data.message);
-      }
-      setLoading(false);
-    },
-  });
+ 
 
   const handleDeleteComment = async (commentId: any, type: any, data?: any) => {
     try {
@@ -73,9 +63,7 @@ const CommentView = (props: Props) => {
 
   return (
     <div>
-      <Typography variant="h4" gutterBottom>
-        Reported Comments
-      </Typography>
+     
       {comments.length > 0 ? (
         comments.map((comment: any) => (
           <StyledPaper key={comment._id}>
@@ -91,20 +79,7 @@ const CommentView = (props: Props) => {
                 onClick={() => handleDeleteComment(comment._id, 0)}
               >
                 Xóa
-              </StyledButton>
-            ) : null}
-            {comment.report_spam.length > 1 && (
-              <Typography variant="body2" color="error">
-                Spam bình luận
-              </Typography>
-            )}
-            {comment.report_inappropriate.length > 1 && (
-              <Typography variant="body2" color="error">
-                Nội dung không phù hợp
-              </Typography>
-            )}
-           
-          </StyledPaper>
+          
         ))
       ) : (
         <Typography variant="body1">No reported comments found.</Typography>
