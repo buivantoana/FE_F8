@@ -1,11 +1,9 @@
-import CommentView from "./CommentView";
+import CommentView from "./CommentView"
 
 const CommentController = () => {
   return (
-    <div>
-      <CommentView />
-    </div>
-  );
-};
+    <div><CommentView/></div>
+  )
+}
 
-export default CommentController;
+export default CommentController

@@ -157,6 +157,7 @@ const CoursesView = ({
           </TableHead>
           {data && data[0] ? (
             <TableBody>
+              
               <>
                 {paginatedRows &&
                   paginatedRows.length &&
@@ -196,6 +197,7 @@ const CoursesView = ({
                     </TableRow>
                   ))}
               </>
+          
             </TableBody>
           ) : (
             <TableBody>

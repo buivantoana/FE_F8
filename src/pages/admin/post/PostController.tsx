@@ -12,18 +12,15 @@ import { io } from "socket.io-client";
 
 const PostController = () => {
   const [loading, setLoading] = useState(false);
-  const [detailPost, setDetailPost]: any = useState(null);
+  const [detailPost,setDetailPost]:any = useState(null)
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
   const socket = io("http://localhost:4000");
   const [openModal, setOpenModal] = React.useState(false);
-  const handleClick = (
-    event: React.MouseEvent<HTMLButtonElement>,
-    data: any
-  ) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>,data:any) => {
     setAnchorEl(event.currentTarget);
-    setDetailPost(data);
+    setDetailPost(data)
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -46,55 +43,57 @@ const PostController = () => {
   //     },
   //   });
   const handleOpenModal = (data: any) => {
-    setDetailPost(data);
+    setDetailPost(data)
     setOpenModal(true);
   };
-
+  
   const handleCloseModal = () => {
-    setDetailPost(null);
+    setDetailPost(null)
     setOpenModal(false);
   };
   const { onRemove } = usePostMutation({
     action: "DELETE",
     onSuccess: () => {
       handleClose();
-      setLoading(false);
+      setLoading(false)
     },
   });
   const { onActive } = usePostMutation({
     action: "ACTIVE",
-    onSuccess: (data: any) => {
-      setLoading(false);
-      socket.emit("getNewNotify", {
-        user_id: data.author[0],
+    onSuccess: (data:any) => {
+      setLoading(false)
+      socket.emit("getNewNotify", { 
+        user_id:data.author[0],
       });
     },
   });
   const onSubmit = () => {
     setLoading(true);
   };
-  const handleDelete = async (value: any) => {
+  const handleDelete = async(value: any) => {
     setLoading(true);
     try {
       let image: any = await deleteImage(value.image.public_id);
       if (image.imageUrl.result == "ok") {
         onRemove(value);
+       
       }
+
     } catch (error) {
       console.log(error);
     }
   };
-  const handelChangeActive = (data: any) => {
-    setLoading(true);
-    onActive(data);
-  };
+  const handelChangeActive = (data:any) =>{
+    setLoading(true)
+    onActive(data)
+  }
   return (
     <>
       <PostView
         openModal={openModal}
         handleOpenModal={handleOpenModal}
         handleCloseModal={handleCloseModal}
-        data={data !== undefined && data.length > 0 ? data : []}
+        data={data!==undefined&&data.length>0?data:[]}
         onSubmit={onSubmit}
         handleDelete={handleDelete}
         handleClick={handleClick}

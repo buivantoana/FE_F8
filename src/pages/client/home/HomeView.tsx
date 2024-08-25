@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import Slider from "react-slick";
-import slider1 from "../../../images/slider1.png";
+import slider1 from "../../../images/Banner_01_2.png";
 import slider2 from "../../../images/slider2.png";
 import slider3 from "../../../images/slider3.png";
 import { useEffect, useState } from "react";
@@ -60,6 +60,18 @@ const HomeView = ({
     slidesToShow: 1,
     slidesToScroll: 1,
   };
+  useEffect(() => {
+    setOpen(true);
+  }, []);
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <>
@@ -105,7 +117,7 @@ const HomeView = ({
             padding={"0 50px"}
             sx={{
               background:
-                "linear-gradient(to right, rgb(253, 34, 92), rgb(253, 144, 4))",
+                "linear-gradient(to right, rgb(138, 10, 255), rgb(96, 6, 255))",
             }}>
             <Stack
               direction={"row"}
@@ -121,12 +133,12 @@ const HomeView = ({
                 color={"white"}>
                 <Box>
                   <Typography fontWeight={700} variant='h4'>
-                    FDEMY trên FaceBook
+                    Thành Quả của Học Viên
                   </Typography>
                   <Typography my={"18px"}>
-                    F8 được nhắc tới ở mọi nơi, ở đâu có cơ hội việc làm cho
-                    nghề IT và có những con người yêu thích lập trình F8 sẽ ở
-                    đó.
+                    Để đạt được kết quả tốt trong mọi việc ta cần xác định mục
+                    tiêu rõ ràng cho việc đó. Học lập trình cũng không là ngoại
+                    lệ.
                   </Typography>
                   <Button
                     sx={{
@@ -134,7 +146,7 @@ const HomeView = ({
                       height: "36px",
                       border: "2px solid white",
                     }}>
-                    Tham gia nhóm
+                    Xem thành quả
                   </Button>
                 </Box>
               </Box>
@@ -243,7 +255,7 @@ const HomeView = ({
                 type='text'
                 id='formName'
                 className='form-control form-control-lg thick width'
-                placeholder='Name'
+                placeholder='Họ và tên'
               />
             </div>
 
@@ -270,7 +282,7 @@ const HomeView = ({
                 type='text'
                 id='formName'
                 className='form-control form-control-lg thick width'
-                placeholder='Subject'
+                placeholder='Tiêu đề'
               />
             </div>
             <div className='form-group message'>
@@ -280,7 +292,7 @@ const HomeView = ({
                 id='formMessage'
                 className='form-control form-control-lg width'
                 rows={7}
-                placeholder='Message'
+                placeholder='Ghi chú'
               />
             </div>
 
@@ -290,7 +302,7 @@ const HomeView = ({
                 style={{ color: "white" }}
                 className='btn btn-primary'
                 tabIndex={-1}>
-                Send message
+                Gửi
               </button>
             </div>
           </form>

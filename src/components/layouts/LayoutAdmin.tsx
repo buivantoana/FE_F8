@@ -153,7 +153,7 @@ const LayoutAdmin = () => {
     setAnchorEl(null);
   };
   const handleLogout = () => {
-    localStorage.setItem("user",JSON.stringify({}))
+    localStorage.setItem("user", JSON.stringify({}));
     context.dispatch({
       type: "LOGOUT",
     });
@@ -168,29 +168,25 @@ const LayoutAdmin = () => {
           ".css-123k39-MuiPaper-root-MuiAppBar-root": {
             zIndex: 9,
           },
-        }}
-      >
+        }}>
         <CssBaseline />
         <AppBar
-          position="fixed"
+          position='fixed'
           open={open}
-          sx={{ background: "#262b40", color: "black" }}
-        >
+          sx={{ background: "#262b40", color: "black" }}>
           <Toolbar
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-            }}
-          >
+            }}>
             <div style={{ display: "flex" }}>
               <IconButton
-                color="inherit"
-                aria-label="open drawer"
+                color='inherit'
+                aria-label='open drawer'
                 onClick={handleDrawerOpen}
-                edge="start"
-                sx={{ mr: 2, ...(open && { display: "none" }) }}
-              >
+                edge='start'
+                sx={{ mr: 2, ...(open && { display: "none" }) }}>
                 <ChevronLeftIcon sx={{ color: "white", fontSize: "30px" }} />
               </IconButton>
             </div>
@@ -204,31 +200,28 @@ const LayoutAdmin = () => {
                   width={34}
                   height={34}
                   style={{ borderRadius: "50%" }}
-                  alt=""
+                  alt=''
                 />
               </IconButton>
             </Box>
 
             <Menu
-              id="basic-menu"
+              id='basic-menu'
               anchorEl={anchorEl}
               open={openned}
               onClose={handleClosed}
-              sx={{padding:"5px"}}
+              sx={{ padding: "5px" }}
               MenuListProps={{
                 "aria-labelledby": "basic-button",
-              }}
-            >
+              }}>
               <Typography
                 onClick={handleLogout}
                 fontSize={"14px"}
                 color={"#333"}
-                sx={{ display: "flex",cursor:"pointer" }}
+                sx={{ display: "flex", cursor: "pointer" }}
                 alignItems={"center"}
                 gap={"8px"}
-                p={"5px"}
-                
-              >
+                p={"5px"}>
                 <RiLogoutCircleRLine size={20} /> Đăng xuất
               </Typography>
             </Menu>
@@ -239,8 +232,7 @@ const LayoutAdmin = () => {
             ".css-12i7wg6-MuiPaper-root-MuiDrawer-paper": {
               zIndex: 9,
             },
-          }}
-        >
+          }}>
           <Drawer
             sx={{
               width: drawerWidth,
@@ -254,17 +246,16 @@ const LayoutAdmin = () => {
               },
               padding: "10px",
             }}
-            variant="persistent"
-            anchor="left"
-            open={open}
-          >
+            variant='persistent'
+            anchor='left'
+            open={open}>
             <DrawerHeader>
               <img
                 src={logo}
                 width={80}
                 height={80}
                 style={{ objectFit: "contain" }}
-                alt=""
+                alt=''
               />
               <IconButton onClick={handleDrawerClose}>
                 {theme.direction === "ltr" ? (
@@ -276,13 +267,9 @@ const LayoutAdmin = () => {
             </DrawerHeader>
             {user.data[0].role == "admin" && (
               <Box
-                className="see-more-admin"
-                sx={{ overflowY: "scroll", color: "white" }}
-              >
+                className='see-more-admin'
+                sx={{ overflowY: "scroll", color: "white" }}>
                 <List sx={{ px: "10px" }}>
-                  <Typography ml={"5px"} fontWeight={"bold"}>
-                    Thống kê
-                  </Typography>
                   <ListItem
                     sx={{
                       a: {
@@ -301,13 +288,11 @@ const LayoutAdmin = () => {
                       borderRadius:
                         location.pathname == "/dashboard" ? "5px" : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiLineChartFill color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Thống kê"} />
@@ -318,9 +303,6 @@ const LayoutAdmin = () => {
                 <Divider />
 
                 <List sx={{ px: "10px" }}>
-                  <Typography ml={"5px"} fontWeight={"bold"}>
-                    Khóa học
-                  </Typography>
                   <ListItem
                     sx={{
                       a: {
@@ -341,13 +323,11 @@ const LayoutAdmin = () => {
                           ? "5px"
                           : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/courses"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiSlideshow4Fill color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Khóa học"} />
@@ -374,13 +354,11 @@ const LayoutAdmin = () => {
                           ? "5px"
                           : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/lesson"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiFileListFill color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Chương"} />
@@ -407,13 +385,11 @@ const LayoutAdmin = () => {
                           ? "5px"
                           : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/sublesson"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiOrganizationChart color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Bài học"} />
@@ -423,9 +399,6 @@ const LayoutAdmin = () => {
                 </List>
                 <Divider />
                 <List sx={{ px: "10px" }}>
-                  <Typography ml={"5px"} fontWeight={"bold"}>
-                    Danh mục
-                  </Typography>
                   <ListItem
                     sx={{
                       a: {
@@ -446,13 +419,11 @@ const LayoutAdmin = () => {
                           ? "5px"
                           : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/categories"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiGitBranchFill color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Danh mục"} />
@@ -462,9 +433,6 @@ const LayoutAdmin = () => {
                 </List>
                 <Divider />
                 <List sx={{ px: "10px" }}>
-                  <Typography ml={"5px"} fontWeight={"bold"}>
-                    Mã giảm giá
-                  </Typography>
                   <ListItem
                     sx={{
                       a: {
@@ -485,13 +453,11 @@ const LayoutAdmin = () => {
                           ? "5px"
                           : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/vouchers"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiPriceTag3Line color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Mã giảm giá"} />
@@ -518,13 +484,11 @@ const LayoutAdmin = () => {
                           ? "5px"
                           : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/user_vouchers"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiBardLine color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Mã giảm giá người dùng"} />
@@ -534,9 +498,6 @@ const LayoutAdmin = () => {
                 </List>
                 <Divider />
                 <List sx={{ px: "10px" }}>
-                  <Typography ml={"5px"} fontWeight={"bold"}>
-                    Bài viết 
-                  </Typography>
                   <ListItem
                     sx={{
                       a: {
@@ -555,13 +516,11 @@ const LayoutAdmin = () => {
                       borderRadius:
                         location.pathname == "/dashboard/post" ? "5px" : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/post"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiArticleLine color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Bài viết "} />
@@ -571,9 +530,6 @@ const LayoutAdmin = () => {
                 </List>
                 <Divider />
                 <List sx={{ px: "10px" }}>
-                  <Typography ml={"5px"} fontWeight={"bold"}>
-                    Ví
-                  </Typography>
                   <ListItem
                     sx={{
                       a: {
@@ -594,13 +550,11 @@ const LayoutAdmin = () => {
                           ? "5px"
                           : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/wallet"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiBankCardFill color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Ví"} />
@@ -610,9 +564,6 @@ const LayoutAdmin = () => {
                 </List>
                 <Divider />
                 <List sx={{ px: "10px" }}>
-                  <Typography ml={"5px"} fontWeight={"bold"}>
-                    Bình Luận
-                  </Typography>
                   <ListItem
                     sx={{
                       a: {
@@ -633,13 +584,11 @@ const LayoutAdmin = () => {
                           ? "5px"
                           : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/comment"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiMessage3Fill color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Bình Luận"} />
@@ -649,9 +598,6 @@ const LayoutAdmin = () => {
                 </List>
                 <Divider />
                 <List sx={{ px: "10px" }}>
-                  <Typography ml={"5px"} fontWeight={"bold"}>
-                    Liên Hệ
-                  </Typography>
                   <ListItem
                     sx={{
                       a: {
@@ -672,13 +618,11 @@ const LayoutAdmin = () => {
                           ? "5px"
                           : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/contact"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiContactsLine color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Liên Hệ"} />
@@ -688,9 +632,6 @@ const LayoutAdmin = () => {
                 </List>
                 <Divider />
                 <List sx={{ px: "10px" }}>
-                  <Typography ml={"5px"} fontWeight={"bold"}>
-                    Người dùng 
-                  </Typography>
                   <ListItem
                     sx={{
                       a: {
@@ -709,13 +650,11 @@ const LayoutAdmin = () => {
                       borderRadius:
                         location.pathname == "/dashboard/user" ? "5px" : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/user"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiUserAddFill color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Người dùng "} />
@@ -742,13 +681,11 @@ const LayoutAdmin = () => {
                           ? "5px"
                           : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/permission"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiTeamFill color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Chức năng"} />
@@ -773,13 +710,11 @@ const LayoutAdmin = () => {
                       borderRadius:
                         location.pathname == "/dashboard/role" ? "5px" : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/role"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiPencilFill color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Vai trò"} />
@@ -806,13 +741,11 @@ const LayoutAdmin = () => {
                           ? "5px"
                           : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/role_permission"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiShuffleFill color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Quyền của vai trò"} />
@@ -824,13 +757,9 @@ const LayoutAdmin = () => {
             )}
             {user.data[0].role == "interaction_management" && (
               <Box
-                className="see-more-admin"
-                sx={{ overflowY: "scroll", color: "white" }}
-              >
+                className='see-more-admin'
+                sx={{ overflowY: "scroll", color: "white" }}>
                 <List sx={{ px: "10px" }}>
-                  <Typography ml={"5px"} fontWeight={"bold"}>
-                    Post
-                  </Typography>
                   <ListItem
                     sx={{
                       a: {
@@ -849,13 +778,11 @@ const LayoutAdmin = () => {
                       borderRadius:
                         location.pathname == "/dashboard/post" ? "5px" : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/post"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiArticleLine color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Blog"} />
@@ -867,9 +794,6 @@ const LayoutAdmin = () => {
                 <Divider />
 
                 <List sx={{ px: "10px" }}>
-                  <Typography ml={"5px"} fontWeight={"bold"}>
-                    Comment
-                  </Typography>
                   <ListItem
                     sx={{
                       a: {
@@ -890,13 +814,11 @@ const LayoutAdmin = () => {
                           ? "5px"
                           : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/comment"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiMessage3Fill color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Comment"} />
@@ -906,9 +828,6 @@ const LayoutAdmin = () => {
                 </List>
                 <Divider />
                 <List sx={{ px: "10px" }}>
-                  <Typography ml={"5px"} fontWeight={"bold"}>
-                    Contact
-                  </Typography>
                   <ListItem
                     sx={{
                       a: {
@@ -929,13 +848,11 @@ const LayoutAdmin = () => {
                           ? "5px"
                           : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/contact"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiContactsLine color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Contact"} />
@@ -948,13 +865,9 @@ const LayoutAdmin = () => {
 
             {user.data[0].role == "course_management" && (
               <Box
-                className="see-more-admin"
-                sx={{ overflowY: "scroll", color: "white" }}
-              >
+                className='see-more-admin'
+                sx={{ overflowY: "scroll", color: "white" }}>
                 <List sx={{ px: "10px" }}>
-                  <Typography ml={"5px"} fontWeight={"bold"}>
-                    Courses
-                  </Typography>
                   <ListItem
                     sx={{
                       a: {
@@ -975,13 +888,11 @@ const LayoutAdmin = () => {
                           ? "5px"
                           : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/courses"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiSlideshow4Fill color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Courses"} />
@@ -1008,13 +919,11 @@ const LayoutAdmin = () => {
                           ? "5px"
                           : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/lesson"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiFileListFill color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Lesson"} />
@@ -1041,13 +950,11 @@ const LayoutAdmin = () => {
                           ? "5px"
                           : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/sublesson"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiOrganizationChart color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Sub Lesson"} />
@@ -1057,9 +964,6 @@ const LayoutAdmin = () => {
                 </List>
                 <Divider />
                 <List sx={{ px: "10px" }}>
-                  <Typography ml={"5px"} fontWeight={"bold"}>
-                    Category
-                  </Typography>
                   <ListItem
                     sx={{
                       a: {
@@ -1080,13 +984,11 @@ const LayoutAdmin = () => {
                           ? "5px"
                           : "none",
                     }}
-                    disablePadding
-                  >
+                    disablePadding>
                     <Link to={"/dashboard/categories"}>
                       <CustomListItemButton>
                         <ListItemIcon
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
+                          sx={{ display: "flex", justifyContent: "center" }}>
                           <RiGitBranchFill color={"white"} />
                         </ListItemIcon>
                         <ListItemText primary={"Category"} />

@@ -39,7 +39,12 @@ const NoteController = ({
   };
   const handleDeleteNote = async (id: string) => {
     try {
-     
+      let data = await deleteNote(id);
+      if (data?.status == 0) {
+        queryClient.invalidateQueries({
+          queryKey: ["note"],
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -62,7 +67,9 @@ const NoteController = ({
       let data = await updateNote(body)
       if(data?.status==0){
         setEdit(null)
-      
+        queryClient.invalidateQueries({
+          queryKey: ["note"],
+        });
         
       }
     } catch (error) {

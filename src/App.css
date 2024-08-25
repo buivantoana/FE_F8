@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
 * {
   /* margin: 0;
   padding: 0; */
@@ -8,19 +8,18 @@
 }
 body {
   margin: 0px;
- 
 }
 
 body::-webkit-scrollbar-track {
   border: 0px solid transparent;
-  padding:  0;
+  padding: 0;
   background-color: transparent;
 }
 
 body::-webkit-scrollbar {
   width: 0px;
 }
-.decorationsOverviewRuler{
+.decorationsOverviewRuler {
   display: none !important;
 }
 body::-webkit-scrollbar-thumb {
@@ -33,10 +32,10 @@ body::-webkit-scrollbar-thumb {
   padding: 2px 0;
   background-color: #d1d1d1;
 }
-.css-79ws1d-MuiModal-root{
+.css-79ws1d-MuiModal-root {
   z-index: 10 !important;
 }
-canvas{
+canvas {
   z-index: 20 !important;
 }
 .scroll-left::-webkit-scrollbar {
@@ -108,7 +107,7 @@ canvas{
   border: 1px solid #e4dfdf;
 }
 .see-more-admin::-webkit-scrollbar-track {
-  background-color:transparent;
+  background-color: transparent;
 }
 
 .see-more-admin::-webkit-scrollbar {
@@ -164,36 +163,30 @@ footer {
   font-size: 15px;
   /* line-height: 30px; */
 }
-.animation{
+.animation {
   transform: translateY(0px);
-  animation: buttom .8s ease-in;
+  animation: buttom 0.8s ease-in;
 }
 @keyframes buttom {
-  0%{
+  0% {
     transform: translateY(-30px);
   }
-  20%{
-    
+  20% {
     transform: translateY(-30px) rotate(15deg);
   }
-  40%{
-    transform:translateY(-30px) rotate(-15deg);
+  40% {
+    transform: translateY(-30px) rotate(-15deg);
   }
-  60%{
-    
+  60% {
     transform: translateY(-30px) rotate(15deg);
   }
-  80%{
-    transform:translateY(-30px) rotate(-15deg);
+  80% {
+    transform: translateY(-30px) rotate(-15deg);
   }
-  100%{
+  100% {
     transform: translateY(0px);
   }
 }
-
-
-
-
 
 .contact svg {
   height: 28rem;
@@ -204,14 +197,29 @@ footer {
   animation: float 2s ease-in-out infinite;
 }
 
-#star1, #star2, #star3, #star4, #star5, #star6 {
+#star1,
+#star2,
+#star3,
+#star4,
+#star5,
+#star6 {
   animation: blink 1s ease-in-out infinite;
 }
-.contact #star2 { animation-delay: 100ms; }
-.contact #star3 { animation-delay: 500ms; }
-.contact #star4 { animation-delay: 700ms; }
-.contact #star5 { animation-delay: 300ms; }
-.contact #star6 { animation-delay: 200ms; }
+.contact #star2 {
+  animation-delay: 100ms;
+}
+.contact #star3 {
+  animation-delay: 500ms;
+}
+.contact #star4 {
+  animation-delay: 700ms;
+}
+.contact #star5 {
+  animation-delay: 300ms;
+}
+.contact #star6 {
+  animation-delay: 200ms;
+}
 
 @keyframes float {
   0% {
@@ -238,7 +246,7 @@ footer {
 }
 
 .contact .container {
-  height:max-content;
+  height: max-content;
   padding: 20px 0;
 }
 
@@ -247,7 +255,7 @@ footer {
 }
 
 .contact form .title {
-  font-family: 'Pacifico', cursive;
+  font-family: "Pacifico", cursive;
   color: #212529;
   font-size: 2.5rem;
 }
@@ -262,7 +270,6 @@ footer {
 .contact form .form-control.thick {
   height: 3.3rem;
   padding: 0.5rem 3.5rem;
-  
 }
 
 .contact form .form-control:focus {
@@ -276,7 +283,7 @@ footer {
 }
 
 .contact form ::placeholder {
-  font-family: 'Quicksand', sans-serif;
+  font-family: "Quicksand", sans-serif;
   font-weight: 600;
   font-size: 1.1rem;
   color: #838788;
@@ -286,10 +293,9 @@ footer {
 
 .contact form input,
 .contact form textarea {
-  font-family: 'Quicksand', sans-serif;
+  font-family: "Quicksand", sans-serif;
   color: #212529;
   font-size: 1.1rem;
-  
 }
 
 .contact form .icon {
@@ -301,7 +307,7 @@ footer {
 }
 
 .contact .btn.btn-primary {
-  font-family: 'Quicksand', sans-serif;
+  font-family: "Quicksand", sans-serif;
   font-weight: bold;
   height: 2.5rem;
   line-height: 2.5rem;
@@ -318,7 +324,7 @@ footer {
   background-size: 100% 100%;
   transform: translateY(-0.15em);
 }
-.contact .width{
+.contact .width {
   width: 600px;
 }
 
@@ -329,3 +335,14 @@ footer {
   position: absolute;
 }
 
+.inputStyle {
+  width: 3rem !important;
+  height: 3rem;
+  margin: 0 0.5rem;
+  font-size: 2rem;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+.css-xi4g2m-MuiPaper-root-MuiAppBar-root {
+  z-index: 1 !important;
+}

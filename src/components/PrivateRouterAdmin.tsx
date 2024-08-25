@@ -25,11 +25,13 @@ const rolePermissions:any = {
         '/dashboard/comment',
         '/dashboard/contact'
     ]
-}
+};
+
 const defaultRedirects:any = {
     course_management: '/dashboard/courses',
     interaction_management: '/dashboard/post'
 };
+
 const PrivateRouterAdmin = ({ children }: any) => {
     const [user] = useLocalStorage("user", {});
     const location = useLocation();

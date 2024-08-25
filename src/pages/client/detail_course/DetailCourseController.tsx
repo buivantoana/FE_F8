@@ -29,7 +29,11 @@ import {
 } from "@/service/order";
 import { getVnpay } from "@/service/vnpay";
 import { toast } from "react-toastify";
-import { getUserWallet, updateWallet } from "@/service/wallet";
+import {
+  getUserWallet,
+  sendPinCodeWallet,
+  updateWallet,
+} from "@/service/wallet";
 import { addTransactions } from "@/service/transactions";
 import { getStar } from "@/service/star";
 import { getVouchersUser, updateUserVouchers } from "@/service/user_vouchers";
@@ -50,6 +54,9 @@ const DetailCourseController = () => {
   const paramOrder_id = queryParams.get("order_id");
   const vouchers_id = queryParams.get("vouchers_id");
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [isSendPinCode, setIsSendPinCode] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [isPinVerified, setIsPinVerified] = useState(false);
   let count = 0;
 
   const {} = useQuery(["progress", id], {
@@ -186,7 +193,7 @@ const DetailCourseController = () => {
     } catch (error) {}
   };
 
-  const { data: courses }:any = useQuery("detail", {
+  const { data: courses }: any = useQuery("detail", {
     queryFn: () => {
       return getOneCourses(id && id);
     },
@@ -325,52 +332,58 @@ const DetailCourseController = () => {
         toast.warning("Bạn cần đăng nhập");
       } else {
         if (paymentMethod == "wallet") {
-          let wallet = await getUserWallet(context.state.user[0]._id);
-          if (wallet?.status == 0) {
-            if (Number(wallet.data[0].balance) - Number(price) >= 0) {
-              let res = await updateWallet({
-                _id: wallet.data[0]._id,
-                user_id: [wallet.data[0].user_id[0]],
-                balance: Number(wallet.data[0].balance) - Number(price),
-              });
-              await addTransactions({
-                user_id: [context.state.user[0]._id],
-                type: "purchase",
-                status: "completed",
-                amount: price,
-              });
-              if (res?.status == 0) {
-                let data = await addOrder({
-                  status: true,
-                  courses_id: [courses._id],
-                  user_id: [context.state.user[0]._id],
-                  price: price,
+          if (!isPinVerified) {
+            setIsSendPinCode(true);
+          } else {
+            let wallet = await getUserWallet(context.state.user[0]._id);
+            if (wallet?.status == 0) {
+              if (Number(wallet.data[0].balance) - Number(price) >= 0) {
+                let res = await updateWallet({
+                  _id: wallet.data[0]._id,
+                  user_id: [wallet.data[0].user_id[0]],
+                  balance: Number(wallet.data[0].balance) - Number(price),
                 });
-                if (data?.status == 0) {
-                  if (selectedVouchers.length > 0) {
-                    for (
-                      let index = 0;
-                      index < selectedVouchers.length;
-                      index++
-                    ) {
-                      const voucher = vouchers.filter(
-                        (v: any) => v._id === selectedVouchers[index]
-                      );
-                      await updateUserVouchers({
-                        status: true,
-                        user_id: [voucher[0].user_id[0]],
-                        vouchers_id: [voucher[0].vouchers_id[0]._id],
-                        _id: voucher[0]._id,
-                      });
+                await addTransactions({
+                  user_id: [context.state.user[0]._id],
+                  type: "purchase",
+                  status: "completed",
+                  amount: price,
+                });
+                if (res?.status == 0) {
+                  let data = await addOrder({
+                    status: true,
+                    courses_id: [courses._id],
+                    user_id: [context.state.user[0]._id],
+                    price: price,
+                  });
+                  if (data?.status == 0) {
+                    if (selectedVouchers.length > 0) {
+                      for (
+                        let index = 0;
+                        index < selectedVouchers.length;
+                        index++
+                      ) {
+                        const voucher = vouchers.filter(
+                          (v: any) => v._id === selectedVouchers[index]
+                        );
+                        await updateUserVouchers({
+                          status: true,
+                          user_id: [voucher[0].user_id[0]],
+                          vouchers_id: [voucher[0].vouchers_id[0]._id],
+                          _id: voucher[0]._id,
+                        });
+                      }
                     }
+                    setIsPinVerified(false);
+                    setOtp("");
+                    setOpen(false);
+                    setPaymentSuccess(true);
+                    toast.success("Bạn đã thanh toán thành công");
                   }
-                  setOpen(false);
-                  setPaymentSuccess(true);
-                  toast.success("Bạn đã thanh toán thành công");
                 }
+              } else {
+                toast.warning("Bạn không đủ số dư trong ví");
               }
-            } else {
-              toast.warning("Bạn không đủ số dư trong ví");
             }
           }
         } else {
@@ -450,6 +463,40 @@ const DetailCourseController = () => {
   useEffect(() => {
     calculateTotalPrice(selectedVouchers);
   }, [selectedVouchers]);
+
+  useEffect(() => {
+    if (isPinVerified) {
+      handlePayment();
+    }
+  }, [isPinVerified]);
+  const handleChangeOtp = (otp: any) => {
+    if (/^\d*$/.test(otp)) {
+      setOtp(otp);
+    } else {
+      toast.warning("Mã Pin phải là số");
+    }
+  };
+  const handleSubmitPin = async () => {
+    try {
+      if (otp.length == 6) {
+        let wallet: any = await getUserWallet(context.state.user[0]._id);
+        if (wallet.status == 0) {
+          let result = await sendPinCodeWallet({
+            pin_code_new: otp,
+            pin_code_old: wallet.data[0].pin_code,
+          });
+          if (result?.status == 0) {
+            setIsSendPinCode(false);
+            setIsPinVerified(true);
+          } else {
+            toast.error("Sai mã Pin");
+          }
+        }
+      } else {
+        toast.warning("Nhập đủ 6 ký tự");
+      }
+    } catch (error) {}
+  };
   return (
     <>
       <DetailCourseView
@@ -469,8 +516,13 @@ const DetailCourseController = () => {
               : 0
             : 0
         }
+        isSendPinCode={isSendPinCode}
+        setIsSendPinCode={setIsSendPinCode}
+        otp={otp}
+        handleChangeOtp={handleChangeOtp}
+        handleSubmitPin={handleSubmitPin}
       />
-      <Drawer open={open} anchor="right" onClose={toggleDrawer(false)}>
+      <Drawer open={open} anchor='right' onClose={toggleDrawer(false)}>
         <Box padding={"50px"} width={"100%"}>
           <Stack>
             <Box>
@@ -486,8 +538,7 @@ const DetailCourseController = () => {
               <Typography
                 fontSize={"18px"}
                 m={"20px 0 10px"}
-                fontWeight={"bold"}
-              >
+                fontWeight={"bold"}>
                 Bạn sẽ học được gì?
               </Typography>
               <Stack direction={"column"} gap={"10px"}>
@@ -509,15 +560,13 @@ const DetailCourseController = () => {
               width={"100%"}
               padding={"20px"}
               border={"1px solid #dddddd"}
-              borderRadius={"10px"}
-            >
+              borderRadius={"10px"}>
               <Stack
                 direction={"row"}
                 justifyContent={"space-between"}
                 alignItems={"center"}
                 borderBottom={"1px dashed #dddddd"}
-                paddingBottom={"10px"}
-              >
+                paddingBottom={"10px"}>
                 <Box>Giá bán : </Box>
                 <Box>{courses && convertToVND(courses.price)}</Box>
               </Stack>
@@ -535,15 +584,19 @@ const DetailCourseController = () => {
                             name={voucher._id}
                           />
                         }
-                        label={<>
-                          <Typography>
-                          <b>{voucher.vouchers_id[0].code}</b> - {
-                            voucher.vouchers_id[0].discount_type === "percentage"
-                              ? `${voucher.vouchers_id[0].discount_value}%`
-                              : `${voucher.vouchers_id[0].discount_value} VND`
-                          }-Ngày hết hạn <b>{voucher.vouchers_id[0].end_date}</b>
-                          </Typography>
-                          </>}
+                        label={
+                          <>
+                            <Typography>
+                              <b>{voucher.vouchers_id[0].code}</b> -{" "}
+                              {voucher.vouchers_id[0].discount_type ===
+                              "percentage"
+                                ? `${voucher.vouchers_id[0].discount_value}%`
+                                : `${voucher.vouchers_id[0].discount_value} VND`}
+                              -Ngày hết hạn{" "}
+                              <b>{voucher.vouchers_id[0].end_date}</b>
+                            </Typography>
+                          </>
+                        }
                       />
                     ))}
                   </>
@@ -555,31 +608,29 @@ const DetailCourseController = () => {
                 direction={"row"}
                 pt={"15px"}
                 justifyContent={"space-between"}
-                alignItems={"center"}
-              >
+                alignItems={"center"}>
                 <Box>Tổng tiền : </Box>
                 <Box>{courses && convertToVND(price)}</Box>
               </Stack>
               <FormControl sx={{ mt: "20px", display: "block" }}>
-                <FormLabel id="demo-radio-buttons-group-label">
+                <FormLabel id='demo-radio-buttons-group-label'>
                   Phương thức thanh toán
                 </FormLabel>
 
                 <RadioGroup
                   value={paymentMethod}
                   onChange={(e) => setPaymentMethod(e.target.value)}
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  name="radio-buttons-group"
-                >
+                  aria-labelledby='demo-radio-buttons-group-label'
+                  name='radio-buttons-group'>
                   <FormControlLabel
-                    value="wallet"
+                    value='wallet'
                     control={<Radio />}
-                    label="Thanh toán bằng ví"
+                    label='Thanh toán bằng ví'
                   />
                   <FormControlLabel
-                    value="vnpay"
+                    value='vnpay'
                     control={<Radio />}
-                    label="Cổng thanh toán VNPAY"
+                    label='Cổng thanh toán VNPAY'
                   />
                 </RadioGroup>
               </FormControl>
@@ -594,8 +645,7 @@ const DetailCourseController = () => {
                   borderRadius: "30px",
                   float: "right",
                   height: "34px",
-                }}
-              >
+                }}>
                 Thanh toán
               </Button>
             </Box>

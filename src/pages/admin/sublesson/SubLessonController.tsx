@@ -39,10 +39,10 @@ const SubLessonController = () => {
   const [arrange, setArrange] = React.useState(null);
   const [fileVideo, setFileVideo] = React.useState(null);
   const [openDrawer, setOpenDrawer] = React.useState(false);
-  const [videoUrl, setVideoUrl] = useState('');
+  const [videoUrl, setVideoUrl] = useState("");
   const handleImageChange = (e: any) => {
     let file = e.target.files[0];
-    setFileVideo(file)
+    setFileVideo(file);
     if (file) {
       const url = URL.createObjectURL(file);
       setVideoUrl(url);
@@ -54,10 +54,10 @@ const SubLessonController = () => {
     }
     setOpenDrawer(newOpen);
   };
+
   const handleEditorChange = (e: any, editor: any) => {
     setContent(editor.getContent());
   };
- 
   const handleCloseModal = () => setOpenModal(false);
   const handleChangeRight = (event: React.SyntheticEvent, newValue: number) => {
     setValueRight(newValue);
@@ -123,11 +123,11 @@ const SubLessonController = () => {
         });
         if (action == "UPDATE") {
           setDataEdit(null);
-          setFileVideo(null)
-          setVideoUrl("")
-        }else{
-          setFileVideo(null)
-          setVideoUrl("")
+          setFileVideo(null);
+          setVideoUrl("");
+        } else {
+          setFileVideo(null);
+          setVideoUrl("");
         }
       }, 1000);
     },
@@ -155,13 +155,13 @@ const SubLessonController = () => {
       setexerciseHtml("");
       reset({ title: "", duration: "", description: "" });
       setOpenModal(true);
-      setVideoUrl("")
-      setFileVideo(null)
+      setVideoUrl("");
+      setFileVideo(null);
     } else {
       setLesson(lessonEdit);
       setTypeOldLesson(data.lesson[0]);
       if (data.type == "video") {
-        setVideoUrl(data.video_id.url)
+        setVideoUrl(data.video_id.url);
         setValue(0);
         setTypeOld(0);
         reset({ ...data, lesson_id: data.lesson[0] });
@@ -206,8 +206,12 @@ const SubLessonController = () => {
             setTypeExersice(key);
             if (key == "html") {
               setexerciseHtml(JSON.parse(data.type_exercise).html);
-            } else {
+            } else if (key == "javascript") {
               setExercise(JSON.parse(data.type_exercise).javascript);
+            } else if (key == "java") {
+              setExercise(JSON.parse(data.type_exercise).java);
+            } else if (key == "python") {
+              setExercise(JSON.parse(data.type_exercise).python);
             }
           }
         }
@@ -295,7 +299,7 @@ const SubLessonController = () => {
         content={content}
         setQuestionCorrect={setQuestionCorrect}
         questionCorrect={questionCorrect}
-        courses={courses!==undefined&&courses.length>0?courses:[]}
+        courses={courses !== undefined && courses.length > 0 ? courses : []}
         handleArrange={handleArrange}
         toggleDrawer={toggleDrawer}
         openDrawer={openDrawer}

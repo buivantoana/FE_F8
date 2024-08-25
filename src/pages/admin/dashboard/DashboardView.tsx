@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
 import React from "react";
 import { Line } from "react-chartjs-2";
 import {
@@ -25,6 +25,9 @@ type Props = {
   orderStatistical: any;
   topRevenua: any;
   topStar: any;
+  handleChangeTabs: any;
+  value: any;
+  valueTime:any
 };
 ChartJS.register(
   LineElement,
@@ -37,16 +40,7 @@ ChartJS.register(
 );
 import { subDays, format } from "date-fns";
 import StarRatings from "react-star-ratings";
-const generateLast7DaysData = () => {
-  const labels = [];
-  const values = [];
-  for (let i = 6; i >= 0; i--) {
-    const date = subDays(new Date(), i);
-    labels.push(format(date, "dd-MM-yyyy")); // Định dạng ngày
-    values.push(Math.floor(Math.random() * 10000000)); // Giả lập dữ liệu
-  }
-  return { labels, values };
-};
+
 const DashboardView = ({
   rechanrgeTotals,
   withdrawTotals,
@@ -54,7 +48,21 @@ const DashboardView = ({
   orderStatistical,
   topRevenua,
   topStar,
+  handleChangeTabs,
+  value,
+  valueTime
 }: Props) => {
+
+  const generateLast7DaysData = () => {
+    const labels = [];
+    const values = [];
+    for (let i = value-1; i >= 0; i--) {
+      const date = subDays(new Date(), i);
+      labels.push(format(date, "dd-MM-yyyy")); // Định dạng ngày
+      values.push(Math.floor(Math.random() * 10000000)); // Giả lập dữ liệu
+    }
+    return { labels, values };
+  };
   const data = {
     labels: generateLast7DaysData().labels,
     datasets: [
@@ -125,6 +133,43 @@ const DashboardView = ({
       <Typography variant="h3" fontWeight={"bold"} textAlign={"center"}>
         Thống kê
       </Typography>
+      <Box width={"100%"} display={"flex"} justifyContent={"center"}>
+        <Box
+          mt={"20px"}
+          sx={{
+            ".css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected": {
+              color: " #1250dc",
+            },
+            ".css-1aquho2-MuiTabs-indicator": {
+              background: "#1250dc",
+            },
+          }}
+        >
+          <Tabs value={valueTime} onChange={handleChangeTabs}>
+            <Tab
+              label={
+                <>
+                  <Typography sx={{ gap: "5px" }}>30 Ngày</Typography>
+                </>
+              }
+            />
+            <Tab
+              label={
+                <>
+                  <Typography sx={{ gap: "5px" }}>60 Ngày</Typography>
+                </>
+              }
+            />
+            <Tab
+              label={
+                <>
+                  <Typography sx={{ gap: "5px" }}>90 Ngày</Typography>
+                </>
+              }
+            />
+          </Tabs>
+        </Box>
+      </Box>
       <Stack direction={"row"} gap={"20px"} mt={"50px"}>
         <Box
           width={"25%"}
@@ -226,26 +271,31 @@ const DashboardView = ({
           </Box>
         </Box>
       </Stack>
-      <Stack direction={"row"} mt={"50px"} gap={"50px"}>
-        <Box width={"50%"}>
+      <Stack
+        direction={"row"}
+        flexDirection={"column"}
+        mt={"50px"}
+        gap={"50px"}
+      >
+        <Box width={"100%"}>
           <Typography
             fontWeight={"bold"}
             my={"10px"}
             textAlign={"center"}
             variant="h6"
           >
-            Biểu đồ thống kê doanh thu khóa học 7 ngày gần nhất
+            Biểu đồ thống kê doanh thu khóa học {value} ngày gần nhất
           </Typography>
           <Line data={data} options={options} />
         </Box>
-        <Box width={"50%"}>
+        <Box width={"100%"}>
           <Typography
             fontWeight={"bold"}
             my={"10px"}
             textAlign={"center"}
             variant="h6"
           >
-            Biểu đồ thống kê nạp rút tiền từ ví 7 ngày gần nhất
+            Biểu đồ thống kê nạp rút tiền từ ví {value} ngày gần nhất
           </Typography>
           <Line data={data2} options={options} />
         </Box>

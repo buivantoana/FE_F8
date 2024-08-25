@@ -99,6 +99,8 @@ const LessonController = () => {
     setLoading(true);
     onRemove(value);
   };
+
+ 
   const handleArrange = async (dataArrange: any) => {
     try {
       let newArr = dataArrange.map((item: any) => item._id);
@@ -136,7 +138,7 @@ const LessonController = () => {
         anchorEl={anchorEl}
         open={open}
         action={action}
-        courses={courses !== undefined && courses.length > 0 ? courses : []}
+        courses={courses!==undefined&&courses.length>0?courses:[]}
         deleteLesson={deleteLesson}
         valueCourses={valueCourses}
         setValueCourses={setValueCourses}

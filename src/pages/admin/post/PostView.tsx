@@ -1,3 +1,4 @@
+
 import {
   Box,
   Button,
@@ -43,7 +44,7 @@ type typeProps = {
   open: any;
   detailPost: any;
   openModal: any;
-  handelChangeActive: any;
+  handelChangeActive:any
 };
 const PostView = ({
   data,
@@ -57,7 +58,7 @@ const PostView = ({
   openModal,
   handleCloseModal,
   detailPost,
-  handelChangeActive,
+  handelChangeActive
 }: typeProps) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -79,19 +80,19 @@ const PostView = ({
   return (
     <>
       <Stack my={"20px"} direction={"row"} justifyContent={"space-between"}>
-        <Typography variant="h5">Post</Typography>
+        <Typography variant="h5">Bài viết</Typography>
       </Stack>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Title</StyledTableCell>
-              <StyledTableCell>Image</StyledTableCell>
-              <StyledTableCell>Readers</StyledTableCell>
-              <StyledTableCell align="left">Description</StyledTableCell>
-              <StyledTableCell>Active</StyledTableCell>
+              <StyledTableCell>Tên</StyledTableCell>
+              <StyledTableCell>Ảnh</StyledTableCell>
+              <StyledTableCell>Độc giả</StyledTableCell>
+              <StyledTableCell align="left">Mô tả</StyledTableCell>
+              <StyledTableCell>Trạng thái</StyledTableCell>
 
-              <StyledTableCell align="left">Action</StyledTableCell>
+              <StyledTableCell align="left">Hành động</StyledTableCell>
             </TableRow>
           </TableHead>
           {data.length == 0 ? (
@@ -123,56 +124,53 @@ const PostView = ({
                   <TableCell>
                     <Skeleton height={"25px"} width="200px" />
                   </TableCell>
+                  
                 </TableRow>
               ))}
             </TableBody>
-          ) : (
-            <TableBody>
-              {data &&
-                data.length &&
-                data.map((row: any) => (
-                  <TableRow
-                    key={row.name}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {row.title}
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      <img src={row.image.url} width={50} height={50} alt="" />
-                    </TableCell>
-                    <TableCell align="left">{row.readers}</TableCell>
-                    <TableCell width={"40%"} align="left">
-                      {row.description}
-                    </TableCell>
-                    <TableCell align="left">
-                      {row.active == false ? "Chưa duyệt" : "Đã duyệt"}
-                    </TableCell>
+          ) :
+          <TableBody>
+            {data &&
+              data.length &&
+              data.map((row: any) => (
+                <TableRow
+                  key={row.name}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {row.title}
+                  </TableCell>
+                  <TableCell component="th" scope="row">
+                    <img src={row.image.url} width={50} height={50} alt="" />
+                  </TableCell>
+                  <TableCell align="left">{row.readers}</TableCell>
+                  <TableCell width={"40%"} align="left">
+                    {row.description}
+                  </TableCell>
+                  <TableCell align="left">
+                    {row.active == false ? "Chưa duyệt" : "Đã duyệt"}
+                  </TableCell>
 
-                    <TableCell align="left">
-                      {!row.active == true && (
-                        <Button onClick={() => handelChangeActive(row)}>
-                          Change Active
-                        </Button>
-                      )}
-                      <Button
-                        color="secondary"
-                        onClick={() => handleOpenModal(row)}
-                      >
-                        Detail
-                      </Button>
-                      <Button
-                        aria-describedby={id}
-                        onClick={(e) => handleClick(e, row)}
-                        sx={{ color: "red" }}
-                      >
-                        Delete
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          )}
+                  <TableCell align="left">
+
+                    {!row.active ==true&&<Button onClick={()=>handelChangeActive(row)}>Duyệt bài viết</Button>}
+                    <Button
+                      color="secondary"
+                      onClick={() => handleOpenModal(row)}
+                    >
+                      Chi tiết
+                    </Button>
+                    <Button
+                      aria-describedby={id}
+                      onClick={(e) => handleClick(e, row)}
+                      sx={{ color: "red" }}
+                    >
+                      Xóa 
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>}
         </Table>
       </TableContainer>
       <TablePagination
@@ -203,11 +201,10 @@ const PostView = ({
           <Stack direction={"row"} mt={"15px"} justifyContent={"end"}>
             <Button onClick={handleClose}>Hủy</Button>
             <Button
-              onClick={() => handleDelete(detailPost)}
-              sx={{ color: "red" }}
-            >
-              Xóa
-            </Button>
+                onClick={() => handleDelete(detailPost)}
+                sx={{ color: "red" }}>
+                Xóa
+              </Button>
           </Stack>
         </Box>
       </Popover>
@@ -252,7 +249,7 @@ const ModalForm = (props: any) => {
             <Box>
               <TextField
                 fullWidth
-                value={props.detailPost && props.detailPost.title}
+                value={props.detailPost&&props.detailPost.title}
                 label="Tiêu đề"
                 id="fullWidth"
               />
@@ -260,7 +257,7 @@ const ModalForm = (props: any) => {
 
             <Box>
               <TextField
-                value={props.detailPost && props.detailPost.description}
+                value={props.detailPost&&props.detailPost.description}
                 fullWidth
                 label="Mô tả khi tin được hiển thị"
                 id="fullWidth"
@@ -269,7 +266,7 @@ const ModalForm = (props: any) => {
 
             <Box>
               <TextField
-                value={props.detailPost && props.detailPost.readers}
+                value={props.detailPost&&props.detailPost.readers}
                 fullWidth
                 label="Thêm tối đa 5 thẻ để độc giả biết bài viết của bạn nói về điều gì."
                 id="fullWidth"
@@ -303,10 +300,11 @@ const ModalForm = (props: any) => {
                 }}
               >
                 <img
-                  src={props.detailPost && props.detailPost.image.url}
+                  src={props.detailPost&&props.detailPost.image.url}
                   width={300}
                   height={250}
                   style={{
+                    
                     position: "absolute",
                     top: 0,
                     left: 0,
@@ -319,26 +317,29 @@ const ModalForm = (props: any) => {
         </Stack>
         <Typography>Content</Typography>
         <Box
-          sx={{
-            " .tox-editor-header": {
-              display: "none !important",
-            },
-            ".tox-statusbar": {
-              display: "none !important",
-            },
-            width: "100%",
-            height: "400px",
-          }}
-        >
-          <Editor
-            apiKey="vr0wwkbvph803e16rtf0mauheh4p5jy4fiw0akbjnf1benb6"
-            initialValue={props.detailPost && props.detailPost.content}
-            init={{
+            sx={{
+              " .tox-editor-header": {
+                display: "none !important",
+              },
+              ".tox-statusbar": {
+                display: "none !important",
+              },
+              width: "100%",
               height: "400px",
+              
             }}
-            disabled
-          />
-        </Box>
+          >
+            <Editor
+              apiKey="vr0wwkbvph803e16rtf0mauheh4p5jy4fiw0akbjnf1benb6"
+              initialValue={props.detailPost&&props.detailPost.content}
+              init={{
+                height: "400px",
+                
+              }}
+             disabled
+            />
+          </Box>  
+       
       </Box>
     </Modal>
   );

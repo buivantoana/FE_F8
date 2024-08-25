@@ -77,10 +77,8 @@ const CommentController = ({ courses_id, lesson_id }: any) => {
 
   const socket = io("http://localhost:4000");
   const [comments, setComments] = useState<any>([]);
-  const [
-    anchorElChild,
-    setAnchorElChild,
-  ] = React.useState<HTMLButtonElement | null>(null);
+  const [anchorElChild, setAnchorElChild] =
+    React.useState<HTMLButtonElement | null>(null);
 
   const handleClickChild = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -93,13 +91,21 @@ const CommentController = ({ courses_id, lesson_id }: any) => {
     setExtendType(etendType.filter((i: any) => i !== data._id));
   };
 
- 
+  const handleCloseChild = () => {
+    setFeedBack("");
+    setAnchorElChild(null);
+    setFeedBackChild(null);
+  };
   const handleEdit = (data: any) => {
     setContentChild(data.content);
     setFeedBack(data._id);
     setDataEditComment(data);
   };
-  
+  const handleEditChild = (dataChild: any, data: any, index: number) => {
+    setContentChild(dataChild.content);
+    setFeedBackChild(index);
+    setDataEditComment(data);
+  };
   const openChild = Boolean(anchorElChild);
   const idChild = openChild ? "simple-popover" : undefined;
   const [feedBack, setFeedBack] = useState<string>("");
@@ -214,12 +220,8 @@ const CommentController = ({ courses_id, lesson_id }: any) => {
           toast.warning("Bạn đã báo cáo với nội dung này rồi ");
         }
       } else {
-        let res = await reportChild({
-          user_id: user.data[0]._id,
-          parentId: dataReport.data._id,
-          _id: dataReport.index,
-          type: typeReport,
-        });
+       
+        let res = await reportChild({user_id:user.data[0]._id,parentId:dataReport.data._id,_id:dataReport.index,type:typeReport});
         if (res?.status == 0) {
           console.log(res);
           setOpenReport(false);
@@ -277,14 +279,15 @@ const CommentController = ({ courses_id, lesson_id }: any) => {
       <Dialog
         open={openReport}
         onClose={handleCloseReport}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'>
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
         <Box sx={{ padding: "20px" }}>
-          <DialogTitle id='alert-dialog-title'>
+          <DialogTitle id="alert-dialog-title">
             {"Lý do nội dung bị báo cáo?"}
           </DialogTitle>
           <DialogContent>
-            <DialogContentText id='alert-dialog-description'>
+            <DialogContentText id="alert-dialog-description">
               Cho FDemy biết nội dung này có vấn đề gì? Chúng tôi sẽ kiểm duyệt
               và xử lý nếu nội dung không phù hợp.
             </DialogContentText>
@@ -296,7 +299,8 @@ const CommentController = ({ courses_id, lesson_id }: any) => {
                   ? { background: "#e8ebedd1", borderRadius: "5px" }
                   : {}
               }
-              mt={"15px"}>
+              mt={"15px"}
+            >
               <Typography>Spam</Typography>
             </Box>
             <Box
@@ -307,7 +311,8 @@ const CommentController = ({ courses_id, lesson_id }: any) => {
                   : {}
               }
               onClick={() => setTypeReport(1)}
-              mt={"10px"}>
+              mt={"10px"}
+            >
               <Typography>Nội dung không phù hợp</Typography>
             </Box>
           </DialogContent>
@@ -322,7 +327,8 @@ const CommentController = ({ courses_id, lesson_id }: any) => {
                 borderRadius: "99px",
 
                 height: "34px",
-              }}>
+              }}
+            >
               Gửi báo cáo
             </Button>
           </DialogActions>

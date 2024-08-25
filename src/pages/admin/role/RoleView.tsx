@@ -85,17 +85,17 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     return (
       <>
         <Stack my={"20px"} direction={"row"} justifyContent={"space-between"}>
-          <Typography variant='h5'>Role</Typography>
+          <Typography variant='h5'>Vai trò</Typography>
           <Button onClick={() => handleOpenModal("CREATE")} variant='contained'>
-            Add Role
+            Thêm vai trò
           </Button>
         </Stack>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
-                <StyledTableCell>Name</StyledTableCell>
-                <StyledTableCell align='left'>Action</StyledTableCell>
+                <StyledTableCell>Tên</StyledTableCell>
+                <StyledTableCell align='left'>Hành động</StyledTableCell>
               </TableRow>
             </TableHead>
             {data.length == 0 ? (
@@ -132,13 +132,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                     </TableCell>
                     <TableCell align='left'>
                       <Button onClick={() => handleOpenModal("UPDATE", row)}>
-                        Edit
+                        Sửa 
                       </Button>
                       <Button
                         aria-describedby={id}
                         onClick={(e) => handleClick(e, row)}
                         sx={{ color: "red" }}>
-                        Delete
+                        Xóa
                       </Button>
                     </TableCell>
                    
@@ -216,7 +216,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         aria-describedby='modal-modal-description'>
         <Box sx={style}>
           <Typography variant='h5' textAlign={"center"}>
-            {props.action == "CREATE" ? "Add Role" : "Update Role"}
+            {props.action == "CREATE" ? "Thêm vai trò" : "Sửa vai trò"}
           </Typography>
           <form onSubmit={props.handleSubmit(props.onFinish)}>
             <Stack
@@ -230,7 +230,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                   {...props.register("name")}
                   fullWidth
                   id='outlined-basic'
-                  label='Title'
+                  label='Tên'
                   variant='outlined'
                   size='small'
                   error={props.errors.name?.message}
@@ -252,7 +252,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                     height: "34px",
                     border: "1px solid #333",
                   }}>
-                  Close
+                  Đóng
                 </Button>
                 <Button
                   onClick={props.onSubmit}
@@ -265,7 +265,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                     width: "92px",
                     height: "34px",
                   }}>
-                  Add
+                  Thêm
                 </Button>
               </Box>
             </Stack>

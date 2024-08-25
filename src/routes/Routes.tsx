@@ -36,6 +36,7 @@ import DashboardController from "@/pages/admin/dashboard/DashboardController";
 import PrivateRouterAdmin from "@/components/PrivateRouterAdmin";
 import VouchersController from "@/pages/admin/vouchers/VouchersController";
 import UserVouchersController from "@/pages/admin/user_vouchers/UserVouchersController";
+import MyCoursesController from "@/pages/client/my_courses/MyCoursesController";
 const Router = () => {
   const context: any = useCoursesContext();
 
@@ -81,6 +82,14 @@ const Router = () => {
             element={
               <PrivateRouter user={context.state.user}>
                 <MyWalletController />
+              </PrivateRouter>
+            }
+          />
+          <Route
+            path='my_courses'
+            element={
+              <PrivateRouter user={context.state.user}>
+                <MyCoursesController />
               </PrivateRouter>
             }
           />

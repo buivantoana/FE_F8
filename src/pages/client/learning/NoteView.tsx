@@ -84,7 +84,7 @@ const NoteView = ({
                             <Button
                               sx={{
                                 background:
-                                  "linear-gradient(to right bottom, #ff8f26, #ff5117)",
+                                  "#306de4",
                                 color: "white",
                                 borderRadius: "99px",
                                 padding: "2px 5px",
@@ -231,7 +231,7 @@ const NoteView = ({
                               onClick={handleChangeEdit}
                               sx={{
                                 background:
-                                  "linear-gradient(to right bottom, #ff8f26, #ff5117)",
+                                  "#306de4",
                                 color: "white",
 
                                 height: "34px",

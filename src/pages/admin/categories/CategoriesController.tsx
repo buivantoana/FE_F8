@@ -70,29 +70,31 @@ const CategoriesController = () => {
   };
   return (
     <>
-      <>
-        <CategoriesView
-          register={register}
-          handleSubmit={handleSubmit}
-          onFinish={onFinish}
-          errors={errors}
-          handleOpenModal={handleOpenModal}
-          handleCloseModal={handleCloseModal}
-          openModal={openModal}
-          data={data !== undefined && data.length > 0 ? data : []}
-          onSubmit={onSubmit}
-          handleDelete={handleDelete}
-          handleClick={handleClick}
-          handleClose={handleClose}
-          id={id}
-          anchorEl={anchorEl}
-          open={open}
-          action={action}
-          deleteCategory={deleteCategory}
-        />
+      
+        <>
+          <CategoriesView
+            register={register}
+            handleSubmit={handleSubmit}
+            onFinish={onFinish}
+            errors={errors}
+            handleOpenModal={handleOpenModal}
+            handleCloseModal={handleCloseModal}
+            openModal={openModal}
+            data={data!==undefined&&data.length>0?data:[]}
+            onSubmit={onSubmit}
+            handleDelete={handleDelete}
+            handleClick={handleClick}
+            handleClose={handleClose}
+            id={id}
+            anchorEl={anchorEl}
+            open={open}
+            action={action}
+            deleteCategory={deleteCategory}
+          />
 
-        {loading && <Loading />}
-      </>
+          {loading && <Loading />}
+        </>
+      
     </>
   );
 };

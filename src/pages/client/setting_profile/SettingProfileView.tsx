@@ -1,219 +1,450 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="bai3.css">
-</head>
-<body>
-   <div class="container">
-    <h3>Danh mục sản phẩm</h3>
-    <table class="table table-bordered border-primary" style="text-align: center;">
-        <thead>
-            <tr>
-                <th scope="col">
-                    <input type="checkbox" class="largerCheckbox" id="chkAll" onclick="toggleSelectAll(this)" />
-                </th>
-                <th scope="col">Tên sản phẩm</th>
-                <th scope="col">Ảnh</th>
-                <th scope="col">Đơn giá</th>
-                <th scope="col">Số lượng</th>
-                <th scope="col">Thành tiền</th>
-                <th scope="col">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td scope="row">
-                    <input type="checkbox" class="chkItem" onchange="toggleProductSelection(this)" />
-                </td>
-                <td>Iphone 10</td>
-                <td><img src="https://rakistan.pk/wp-content/uploads/2021/11/Apple_iPhone_X_4G__256GB__Silver__73564.jpg" width="50" class="product-image"></td>
-                <td data-price="10000000">10.000.000 VND</td>
-                <td>
-                    <div class="quantity-container">
-                        <button class="minus-btn" onclick="updateQuantity(this, -1)">-</button>
-                        <input type="text" class="quantity-input" value="1" disabled>
-                        <button class="plus-btn" onclick="updateQuantity(this, 1)">+</button>
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import { useRef, useState } from "react";
+import {
+  RiAdminFill,
+  RiUploadCloudFill,
+  RiUserSettingsFill,
+} from "react-icons/ri";
+import user from "../../../images/user.png";
+type Props = {
+  disableName: any;
+  image: any;
+  bio: any;
+  handleClickFocus: any;
+  handleClickImage: any;
+  handleImageChange: any;
+  imageUrl: any;
+  handleClickBio: any;
+  handleSaveChange: any;
+  setValueName: any;
+  setValueBio: any;
+  valueName: any;
+  valueBio: any;
+  user: any;
+  handleChangeTab: any;
+  tab: any;
+  onSubmit: any;
+        register: any;
+        handleSubmit: any;
+        errors: any;
+};
+const SettingProfileView = ({
+  disableName,
+  image,
+  bio,
+  handleClickFocus,
+  handleClickImage,
+  handleImageChange,
+  imageUrl,
+  handleClickBio,
+  handleSaveChange,
+  setValueName,
+  setValueBio,
+  valueName,
+  valueBio,
+  handleChangeTab,
+  tab,
+  user,
+  onSubmit,
+  register,
+  handleSubmit,
+  errors,
+}: Props) => {
+  console.log(user);
+  return (
+    <Box>
+      <Typography variant="h4" fontWeight={"bold"} fontSize={"27px"}>
+        Cài đặt
+      </Typography>
+      <Stack direction={"row"} mt={"30px"} gap={"5%"}>
+        <Box width={"30%"}>
+          <Box
+            onClick={() => handleChangeTab(0)}
+            bgcolor={tab == 0 ? "#EEEEEE" : undefined}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+              borderRadius: "6px",
+            }}
+            padding={"10px"}
+            height={"48px"}
+          >
+            <RiUserSettingsFill size={25} color={"#1250dc"} />{" "}
+            <Typography>Cài đặt tài khoản</Typography>
+          </Box>
+          {!user.data[0].uid && (
+            <Box
+              onClick={() => handleChangeTab(1)}
+              mt={"15px"}
+              bgcolor={tab == 1 ? "#EEEEEE" : undefined}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                borderRadius: "6px",
+              }}
+              padding={"10px"}
+              height={"48px"}
+            >
+              <RiAdminFill size={25} color={"#1250dc"} />
+              <Typography>Bảo mật</Typography>
+            </Box>
+          )}
+        </Box>
+        {tab == 0 && (
+          <Box width={"47%"}>
+            <Typography
+              variant="h4"
+              fontWeight={"bold"}
+              paddingBottom={"8px"}
+              borderBottom={"1px solid #666666"}
+              fontSize={"20px"}
+            >
+              Thông tin cá nhân
+            </Typography>
+            <Box mt={"40px"}>
+              <Typography fontWeight={"600"}>Họ tên</Typography>
+              <Stack direction={"row"}>
+                <Box width={"50%"}>
+                  <TextField
+                    sx={{
+                      mt: "8px",
+                      width: "100%",
+                      opacity: disableName ? ".5" : 1,
+                      pointerEvents: disableName ? "none" : "auto",
+                    }}
+                    focused={!disableName}
+                    id="standard-basic"
+                    value={valueName}
+                    variant="standard"
+                    onChange={(e) => setValueName(e.target.value)}
+                  />
+                </Box>
+                <Box width={"50%"}>
+                  {!disableName ? (
+                    <Box>
+                      <Button
+                        onClick={handleClickFocus}
+                        sx={{
+                          borderRadius: "30px",
+                          border: "1px solid rgba(0, 0, 0, .15)",
+                          color: "rgba(0, 0, 0, .54)",
+                          fontSize: "12px",
+                          float: "right",
+                        }}
+                      >
+                        Hủy
+                      </Button>
+                      <Button
+                        onClick={() => handleSaveChange("name")}
+                        sx={{
+                          borderRadius: "30px",
+                          border: "1px solid #1250dc",
+                          color: "#1250dc",
+                          fontSize: "12px",
+                          float: "right",
+                        }}
+                      >
+                        Lưu
+                      </Button>
+                    </Box>
+                  ) : (
+                    <Button
+                      onClick={handleClickFocus}
+                      sx={{
+                        borderRadius: "30px",
+                        border: "1px solid rgba(0, 0, 0, .15)",
+                        color: "rgba(0, 0, 0, .54)",
+                        fontSize: "12px",
+                        float: "right",
+                      }}
+                    >
+                      Chỉnh sửa
+                    </Button>
+                  )}
+                </Box>
+              </Stack>
+              <Typography fontSize={"12px"} color={"#757575"} mt={"20px"}>
+                Tên của bạn xuất hiện trên trang cá nhân và bên cạnh các bình
+                luận của bạn.
+              </Typography>
+            </Box>
+            <Box mt={"40px"}>
+              <Typography fontWeight={"600"}>Bio</Typography>
+              <Stack direction={"row"}>
+                <Box width={"50%"}>
+                  <TextField
+                    sx={{
+                      mt: "8px",
+                      width: "100%",
+                      opacity: bio ? ".5" : 1,
+                      pointerEvents: bio ? "none" : "auto",
+                    }}
+                    focused={!bio}
+                    id="standard-basic"
+                    placeholder="Thêm giới thiệu"
+                    variant="standard"
+                    value={valueBio}
+                    onChange={(e) => setValueBio(e.target.value)}
+                  />
+                </Box>
+                <Box width={"50%"}>
+                  {!bio ? (
+                    <Box>
+                      <Button
+                        onClick={handleClickBio}
+                        sx={{
+                          borderRadius: "30px",
+                          border: "1px solid rgba(0, 0, 0, .15)",
+                          color: "rgba(0, 0, 0, .54)",
+                          fontSize: "12px",
+                          float: "right",
+                        }}
+                      >
+                        Hủy
+                      </Button>
+                      <Button
+                        onClick={() => handleSaveChange("bio")}
+                        sx={{
+                          borderRadius: "30px",
+                          border: "1px solid #1250dc",
+                          color: "#1250dc",
+                          fontSize: "12px",
+                          float: "right",
+                        }}
+                      >
+                        Lưu
+                      </Button>
+                    </Box>
+                  ) : (
+                    <Button
+                      onClick={handleClickBio}
+                      sx={{
+                        borderRadius: "30px",
+                        border: "1px solid rgba(0, 0, 0, .15)",
+                        color: "rgba(0, 0, 0, .54)",
+                        fontSize: "12px",
+                        float: "right",
+                      }}
+                    >
+                      Chỉnh sửa
+                    </Button>
+                  )}
+                </Box>
+              </Stack>
+              <Typography fontSize={"12px"} color={"#757575"} mt={"20px"}>
+                Bio hiển thị trên trang cá nhân và trong các bài viết (blog) của
+                bạn.
+              </Typography>
+            </Box>
+
+            <Box mt={"40px"}>
+              <Typography fontWeight={"600"}>Avatar</Typography>
+              <Stack direction={"row"}>
+                <Box
+                  width={"50%"}
+                  display={"flex"}
+                  justifyContent={"space-between"}
+                >
+                  <Typography fontSize={"12px"} color={"#757575"} mt={"20px"}>
+                    Nên là ảnh vuông, chấp nhận các tệp: JPG, PNG hoặc GIF.
+                  </Typography>
+                  <Box sx={{ width: "28%" }}>
+                    <div
+                      className="container"
+                      style={{
+                        width: "100%",
+                      }}
+                    >
+                      <label
+                        htmlFor="input-img"
+                        className="preview"
+                        style={{
+                          border: "2px dashed  #1250dc",
+                          width: "100%",
+                          height: "100px",
+                          color: " #1250dc",
+                          fontSize: "22px",
+                          position: "relative",
+                          borderRadius: "6px",
+                          overflow: "hidden",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexDirection: "column",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {imageUrl ? (
+                          <img
+                            src={imageUrl}
+                            width={"100%"}
+                            height={"100%"}
+                            style={{
+                              objectFit: "cover",
+                              position: "absolute",
+                              top: 0,
+                              left: 0,
+                              background: "white",
+                            }}
+                            alt=""
+                          />
+                        ) : (
+                          ""
+                        )}
+                        <RiUploadCloudFill size={"27px"} />
+                        <Typography fontSize={"14px"}>
+                          Upload to image
+                        </Typography>
+                      </label>
+                      {!image ? (
+                        <Typography
+                          textAlign={"center"}
+                          mt={"10px"}
+                          fontSize={"12px"}
+                        >
+                          Nhấn vào đây để chọn ảnh khác
+                        </Typography>
+                      ) : (
+                        ""
+                      )}
+                      <input
+                        onChange={handleImageChange}
+                        type="file"
+                        hidden
+                        id="input-img"
+                      />
                     </div>
-                </td>
-                <td><span class="amount">10.000.000 VND</span></td>
-                <td><button class="add-to-cart" onclick="addToCart(this)" disabled><i class="fa fa-cart-plus" style="font-size:36px; color: blue; text-align: center;"></i></button></td>
-            </tr>
-            <tr>
-              <td scope="row">
-                  <input type="checkbox" class="chkItem" onchange="toggleProductSelection(this)" />
-              </td>
-              <td>Sam sung j3</td>
-              <td><img src="https://rakistan.pk/wp-content/uploads/2021/11/Apple_iPhone_X_4G__256GB__Silver__73564.jpg" width="50" class="product-image"></td>
-              <td data-price="30000000">30.000.000 VND</td>
-              <td>
-                  <div class="quantity-container">
-                      <button class="minus-btn" onclick="updateQuantity(this, -1)">-</button>
-                      <input type="text" class="quantity-input" value="1" disabled>
-                      <button class="plus-btn" onclick="updateQuantity(this, 1)">+</button>
-                  </div>
-              </td>
-              <td><span class="amount">30.000.000 VND</span></td>
-              <td><button class="add-to-cart" onclick="addToCart(this)" disabled><i class="fa fa-cart-plus" style="font-size:36px; color: blue; text-align: center;"></i></button></td>
-          </tr>
-        </tbody>
-    </table>
-    <h3>Giỏ hàng</h3>
-    <table class="table table-bordered border-primary" style="text-align: center;" id="cart">
-        <thead>
-            <tr>
-                <th scope="col">STT</th>
-                <th scope="col">Tên sản phẩm</th>
-                <th scope="col">Ảnh</th>
-                <th scope="col">Đơn giá</th>
-                <th scope="col">Số lượng</th>
-                <th scope="col">Thành tiền</th>
-                <th scope="col">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td colspan="6">Tổng số tiền:</td>
-                <td id="totalAmount">0 VND</td>
-            </tr>
-        </tbody>
-    </table>
-   </div>
-</body>
-<script>
-    // Hàm bật/tắt trạng thái của các sản phẩm khi checkbox được thay đổi
-    function toggleProductSelection(checkbox) {
-        const row = checkbox.parentElement.parentElement;
-        const quantityInput = row.querySelector(".quantity-input");
-        const addButton = row.querySelector(".add-to-cart");
-        if (checkbox.checked) {
-            quantityInput.disabled = false;
-            addButton.disabled = false;
-        } else {
-            quantityInput.disabled = true;
-            addButton.disabled = true;
-        }
-        updateAmount(row);
-    }
+                  </Box>
+                </Box>
+                <Box width={"50%"}>
+                  {!image ? (
+                    <Box>
+                      <Button
+                        onClick={handleClickImage}
+                        sx={{
+                          borderRadius: "30px",
+                          border: "1px solid rgba(0, 0, 0, .15)",
+                          color: "rgba(0, 0, 0, .54)",
+                          fontSize: "12px",
+                          float: "right",
+                        }}
+                      >
+                        Hủy
+                      </Button>
+                      <Button
+                        onClick={() => handleSaveChange("image")}
+                        sx={{
+                          borderRadius: "30px",
+                          border: "1px solid #1250dc",
+                          color: "#1250dc",
+                          fontSize: "12px",
+                          float: "right",
+                        }}
+                      >
+                        Lưu
+                      </Button>
+                    </Box>
+                  ) : (
+                    <Button
+                      onClick={handleClickImage}
+                      sx={{
+                        borderRadius: "30px",
+                        border: "1px solid rgba(0, 0, 0, .15)",
+                        color: "rgba(0, 0, 0, .54)",
+                        fontSize: "12px",
+                        float: "right",
+                      }}
+                    >
+                      Chỉnh sửa
+                    </Button>
+                  )}
+                </Box>
+              </Stack>
+            </Box>
+            <Box mt={"40px"}>
+              <Typography fontWeight={"600"}>Email/Phone</Typography>
+              <Stack direction={"row"}>
+                <Box width={"100%"}>
+                  <TextField
+                    sx={{
+                      mt: "8px",
+                      width: "100%",
+                      opacity: ".5",
+                      pointerEvents: "none",
+                    }}
+                    id="standard-basic"
+                    value={"toanbui219@gmail.com"}
+                    variant="standard"
+                  />
+                </Box>
+              </Stack>
+            </Box>
+          </Box>
+        )}
+        {tab == 1 && (
+          <Box width={"47%"}>
+            <Typography
+              variant="h4"
+              fontWeight={"bold"}
+              paddingBottom={"8px"}
+              borderBottom={"1px solid #666666"}
+              fontSize={"20px"}
+            >
+              Đổi mật khẩu
+            </Typography>
+            <form
+            onSubmit={handleSubmit(onSubmit)}
+              style={{
+                marginTop: "30px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "10px",
+                width: "50%",
+              }}
+            >
+              <TextField
+                {...register("password_old")}
+                id="outlined-basic"
+                type="password"
+                size="small"
+                label="Mật khẩu cũ"
+                variant="outlined"
+              />
+              <TextField
+              {...register("password_new")}
+                id="outlined-basic"
+                type="password"
+                size="small"
+                label="Mật khẩu mới"
+                variant="outlined"
+              />
+              <TextField
+              {...register("confirm_password_new")}
+                id="outlined-basic"
+                type="password"
+                size="small"
+                label="Nhập lại mật khẩu mới"
+                variant="outlined"
+              />
+              <Button
+                type="submit"
+                sx={{
+                  color: "#1250dc",
+                  border: "2px solid #1250dc",
+                  height: "35px",
+                  px: "15px",
+                }}
+              >
+               Đổi mật khẩu
+              </Button>
+            </form>
+          </Box>
+        )}
+      </Stack>
+    </Box>
+  );
+};
 
-    // Hàm bật/tắt trạng thái của tất cả sản phẩm khi checkbox chọn tất cả được thay đổi
-    function toggleSelectAll(checkbox) {
-        const productCheckboxes = document.querySelectorAll(".chkItem");
-        productCheckboxes.forEach(cb => {
-            cb.checked = checkbox.checked;
-            toggleProductSelection(cb);
-        });
-    }
-
-    // Hàm cập nhật số lượng của sản phẩm khi nhấn nút + hoặc -
-    function updateQuantity(button, delta) {
-        const quantityInput = button.parentElement.querySelector(".quantity-input");
-        let quantity = parseInt(quantityInput.value);
-        quantity = isNaN(quantity) ? 0 : quantity + delta;
-        if (quantity < 1) quantity = 1;
-        quantityInput.value = quantity;
-        const row = button.parentElement.parentElement.parentElement;
-        updateAmount(row);
-    }
-
-    // Hàm cập nhật thành tiền của sản phẩm
-    function updateAmount(row) {
-        const price = parseFloat(row.querySelector("td[data-price]").getAttribute("data-price"));
-        const quantity = parseInt(row.querySelector(".quantity-input").value);
-        row.querySelector(".amount").innerText = (price * quantity).toLocaleString() + " VND";
-    }
-
-    // Hàm thêm sản phẩm vào giỏ hàng
-    function addToCart(button) {
-        const row = button.parentElement.parentElement;
-        const productName = row.cells[1].textContent;
-        const price = parseFloat(row.cells[3].getAttribute("data-price"));
-        const quantity = parseInt(row.querySelector(".quantity-input").value);
-        const productImage = row.querySelector(".product-image").src;
-
-        const cartTable = document.getElementById("cart").querySelector("tbody");
-        const existingRow = Array.from(cartTable.rows).find(r => r.cells[1] && r.cells[1].textContent === productName);
-
-        if (existingRow) {
-            const existingQuantityInput = existingRow.querySelector(".quantity-input");
-            existingQuantityInput.value = parseInt(existingQuantityInput.value) + quantity;
-            updateAmount(existingRow);
-        } else {
-            const newRow = document.createElement("tr");
-            newRow.innerHTML = `
-                <td>${cartTable.rows.length}</td>
-                <td>${productName}</td>
-                <td><img src="${productImage}" width="50"></td>
-                <td>${price.toLocaleString()} VND</td>
-                <td>
-                    <div class="quantity-container">
-                        <button class="minus-btn" onclick="updateCartQuantity(this, -1)">-</button>
-                        <input type="text" class="quantity-input" value="${quantity}">
-                        <button class="plus-btn" onclick="updateCartQuantity(this, 1)">+</button>
-                    </div>
-                </td>
-                <td class="amount">${(price * quantity).toLocaleString()} VND</td>
-                <td><button onclick="removeFromCart(this)"><i class="fa fa-trash" style="font-size:36px; color:red;text-align: center;"></i></button></td>
-            `;
-            cartTable.insertBefore(newRow, cartTable.lastElementChild);
-        }
-        updateTotalAmount();
-    }
-
-    // Hàm cập nhật số lượng sản phẩm trong giỏ hàng
-    function updateCartQuantity(button, delta) {
-        const quantityInput = button.parentElement.querySelector(".quantity-input");
-        let quantity = parseInt(quantityInput.value);
-        quantity = isNaN(quantity) ? 0 : quantity + delta;
-        if (quantity < 1) quantity = 1;
-        quantityInput.value = quantity;
-        const row = button.parentElement.parentElement.parentElement;
-        updateAmount(row);
-        updateTotalAmount();
-    }
-
-    // Hàm xóa sản phẩm khỏi giỏ hàng
-    function removeFromCart(button) {
-        const row = button.parentElement.parentElement;
-        row.parentElement.removeChild(row);
-        updateCartIndices();
-        updateTotalAmount();
-    }
-
-    // Hàm cập nhật lại chỉ số các sản phẩm trong giỏ hàng
-    function updateCartIndices() {
-        const cartTable = document.getElementById("cart").querySelector("tbody");
-        Array.from(cartTable.rows).forEach((row, index) => {
-            if (row.cells[0]) {
-                row.cells[0].innerText = index + 1;
-            }
-        });
-    }
-
-    // Hàm tính tổng tiền của giỏ hàng
-    function updateTotalAmount() {
-        const cartTable = document.getElementById("cart").querySelector("tbody");
-        let total = 0;
-        Array.from(cartTable.rows).forEach(row => {
-            if (row.cells[5]) {
-                total += parseFloat(row.cells[5].innerText.replace(/[^0-9.-]+/g, ""));
-            }
-        });
-        document.getElementById("totalAmount").innerText = total.toLocaleString() + " VND";
-    }
-
-    // Hàm tải sản phẩm và giỏ hàng khi trang được tải
-    window.onload = function () {
-        document.querySelectorAll(".chkItem").forEach(checkbox => {
-            checkbox.addEventListener("change", function() {
-                toggleProductSelection(this);
-            });
-        });
-    };
-</script>
-</html>
+export default SettingProfileView;

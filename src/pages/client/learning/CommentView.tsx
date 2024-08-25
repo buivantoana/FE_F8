@@ -128,7 +128,7 @@ const CommentView = ({
             display: "flex",
             alignItems: "center",
             gap: "10px",
-            color: "#ff5117",
+            color: "#306de4",
             background: "white",
             fontWeight: "700",
             borderRadius: "30px",

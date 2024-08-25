@@ -72,13 +72,13 @@ const RolePermissionController = () => {
       let filter = role.filter((item: any) => !arr.includes(item._id));
       setValueRole("");
       setDataRole(filter);
-      reset();
+      reset()
       setOpenModal(true);
     } else {
       setDataRole(role);
       setValueRole(values.role_id[0]._id);
       setPersonName(values.permission.map((item: any) => item._id));
-      reset({ _id: values._id, role_id: values.role_id[0]._id });
+      reset({_id:values._id,role_id:values.role_id[0]._id});
       setOpenModal(true);
     }
   };
@@ -98,6 +98,7 @@ const RolePermissionController = () => {
   const handleDelete = (value: any) => {
     onRemove(value);
   };
+
   return (
     <>
       <RolePermissionView
@@ -108,7 +109,7 @@ const RolePermissionController = () => {
         handleOpenModal={handleOpenModal}
         handleCloseModal={handleCloseModal}
         openModal={openModal}
-        data={data !== undefined && data.length > 0 ? data : []}
+        data={data!==undefined&&data.length>0?data:[]}
         onSubmit={onSubmit}
         handleDelete={handleDelete}
         handleClick={handleClick}

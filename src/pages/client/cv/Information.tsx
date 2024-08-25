@@ -27,7 +27,6 @@ function Information() {
   const handleIndustryChange = (value:any) => {
     setIndustry(value);
   };
-
   const handleIndustryFocus = () => {
     setMainNameFocus(false)
     setIndustryFocus(true);
@@ -49,7 +48,6 @@ function Information() {
     newData[index][field] = value;
     setData(newData);
   };
-  
 
   const handleFocus = (index) => {
     setFocusIndex(index);

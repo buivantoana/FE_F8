@@ -36,7 +36,7 @@ const CoursesView = ({ data, checkRegisterCourses, handleRouter }: Props) => {
                         p={"5px 20px"}
                         sx={{
                           background:
-                            "linear-gradient(to right bottom, #ff8f26, #ff5117)",
+                            "#1250dc",
                           width: "max-content",
                           color: "white",
                           borderRadius: "10px",

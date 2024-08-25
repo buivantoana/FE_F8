@@ -43,7 +43,7 @@ const CoursesController = () => {
   const { data, isFetching } = useQuery("courses", {
     queryFn: () => getCourses(),
   });
-
+  
   const { data: category } = useQuery("categories", {
     queryFn: () => getCategories(),
   });
@@ -173,48 +173,50 @@ const CoursesController = () => {
 
   return (
     <>
-      <>
-        <CoursesView
-          register={register}
-          handleSubmit={handleSubmit}
-          onFinish={onFinish}
-          errors={errors}
-          handleOpenModal={handleOpenModal}
-          handleCloseModal={handleCloseModal}
-          openModal={openModal}
-          data={data !== undefined && data.length > 0 ? data : []}
-          onSubmit={onSubmit}
-          handleDelete={handleDelete}
-          handleClick={handleClick}
-          handleClose={handleClose}
-          id={id}
-          anchorEl={anchorEl}
-          open={open}
-          action={action}
-          setFile={setFile}
-          category={category}
-          deleteCourses={deleteCourses}
-          valueCategory={valueCategory}
-          setImageUrl={setImageUrl}
-          imageUrl={imageUrl}
-          setValueCategory={setValueCategory}
-          setTextResultCourses={setTextResultCourses}
-          textResultCourses={textResultCourses}
-          handleResultCourses={handleResultCourses}
-          resultCourses={resultCourses}
-          handleDeleteResultCourses={handleDeleteResultCourses}
-          handleEditResultCourses={handleEditResultCourses}
-          resultCoursesEdit={resultCoursesEdit}
-          setTextCoursesRequirements={setTextCoursesRequirements}
-          textCoursesRequirements={textCoursesRequirements}
-          handleCoursesRequirements={handleCoursesRequirements}
-          coursesRequirements={coursesRequirements}
-          handleDeleteCoursesRequirements={handleDeleteCoursesRequirements}
-          handleEditCoursesRequirements={handleEditCoursesRequirements}
-          CoursesRequirementsEdit={CoursesRequirementsEdit}
-        />
-        {loading && <Loading />}
-      </>
+     
+        <>
+          <CoursesView
+            register={register}
+            handleSubmit={handleSubmit}
+            onFinish={onFinish}
+            errors={errors}
+            handleOpenModal={handleOpenModal}
+            handleCloseModal={handleCloseModal}
+            openModal={openModal}
+            data={data!==undefined&&data.length>0?data:[]}
+            onSubmit={onSubmit}
+            handleDelete={handleDelete}
+            handleClick={handleClick}
+            handleClose={handleClose}
+            id={id}
+            anchorEl={anchorEl}
+            open={open}
+            action={action}
+            setFile={setFile}
+            category={category}
+            deleteCourses={deleteCourses}
+            valueCategory={valueCategory}
+            setImageUrl={setImageUrl}
+            imageUrl={imageUrl}
+            setValueCategory={setValueCategory}
+            setTextResultCourses={setTextResultCourses}
+            textResultCourses={textResultCourses}
+            handleResultCourses={handleResultCourses}
+            resultCourses={resultCourses}
+            handleDeleteResultCourses={handleDeleteResultCourses}
+            handleEditResultCourses={handleEditResultCourses}
+            resultCoursesEdit={resultCoursesEdit}
+            setTextCoursesRequirements={setTextCoursesRequirements}
+            textCoursesRequirements={textCoursesRequirements}
+            handleCoursesRequirements={handleCoursesRequirements}
+            coursesRequirements={coursesRequirements}
+            handleDeleteCoursesRequirements={handleDeleteCoursesRequirements}
+            handleEditCoursesRequirements={handleEditCoursesRequirements}
+            CoursesRequirementsEdit={CoursesRequirementsEdit}
+          />
+          {loading && <Loading />}
+        </>
+      
     </>
   );
 };

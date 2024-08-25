@@ -5,7 +5,6 @@ import user from "../images/facebook-cap-nhat-avatar-doi-voi-tai-khoan-khong-su-
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { useNavigate } from "react-router-dom";
 import { convertToVND } from "@/utils/utils";
-
 const Product = ({
   type,
   item,
@@ -272,4 +271,5 @@ const Product = ({
     </>
   );
 };
+
 export default Product;
