@@ -281,7 +281,7 @@ const LearningController = () => {
                 }
               }
             }
-            if (progress[0].completed) {
+            if (progress.length > 0 && progress[0].completed) {
               arr[0] = true;
               setExpanded(arr);
               setActiveLesson(
