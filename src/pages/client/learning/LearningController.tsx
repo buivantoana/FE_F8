@@ -79,10 +79,8 @@ const LearningController = () => {
   };
   const player: any = useRef(null);
   const [user, setUser] = useLocalStorage("user", {});
-  const [loadingAll, setLoadingAll] = useState({
-    courses: false,
-    progress: false,
-  });
+  const [loadingProgress, setLoadingProgress] = useState(false);
+  const [loadingCourses, setLoadingCourses] = useState(false);
 
   const navigate = useNavigate();
   const [openCertificate, setOpenCertificate] = useState(false);
@@ -92,7 +90,7 @@ const LearningController = () => {
   const handleCloseCertificate = () => {
     setOpenCertificate(false);
   };
-  const { data: progress } = useQuery(["progress", id], {
+  const { data: progress } = useQuery("progress", {
     queryFn: () => {
       return getProgress(user.data[0]._id, id);
     },
@@ -108,7 +106,8 @@ const LearningController = () => {
         let arr = calculateProgress(data);
         console.log(arr);
         setprogressBar(arr);
-        setLoadingAll({ ...loadingAll, progress: true });
+
+        setLoadingProgress(true);
       } else {
         navigate("/");
       }
@@ -122,7 +121,7 @@ const LearningController = () => {
     },
     onSuccess(data) {
       setTimeout(() => {
-        setLoadingAll({ ...loadingAll, courses: true });
+        setLoadingCourses(true);
       }, 500);
 
       let arr = [...Array(data.lesson.length).fill(false)];
@@ -140,6 +139,7 @@ const LearningController = () => {
               arr[index] = true;
               setExpanded(arr);
               setActiveLesson(itemChild._id);
+
               setDataLesson(itemChild);
               if (itemChild.type == "blog") {
                 setDone(false);
@@ -206,9 +206,124 @@ const LearningController = () => {
 
       setTotalLesson(total);
     },
-
     refetchOnWindowFocus: false,
   });
+
+  useEffect(() => {
+    if (progress && progress[0]) {
+      if (progress[0]) {
+        let total = 0;
+        progress[0].lesson_progress.map((item: any) => {
+          item.sub_lesson.map(() => total++);
+        });
+        const percentagePerItem = roundToOneDecimal(100 / total);
+        setTotalprogressBar(percentagePerItem);
+        console.log(percentagePerItem);
+        let arr = calculateProgress(progress);
+        console.log(arr);
+        setprogressBar(arr);
+
+        setLoadingProgress(true);
+      } else {
+        navigate("/");
+      }
+    }
+  }, [progress]);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoadingCourses(true);
+    }, 500);
+    if (courses && courses) {
+      let arr = [...Array(courses.lesson.length).fill(false)];
+      setDetail(courses);
+      let total = 0;
+      courses.lesson.map((item: any, index: number) => {
+        item.sub_lesson.map((itemChild: any, index2: number) => {
+          if (progress) {
+            console.log("tesssssssssss", progress);
+            if (
+              progress[0] &&
+              progress[0].lesson_progress.length > 0 &&
+              progress[0].lesson_progress[index] &&
+              progress[0].lesson_progress[index].sub_lesson &&
+              progress[0].lesson_progress[index].sub_lesson.length > 0 &&
+              progress[0].lesson_progress[index].sub_lesson[index2] &&
+              progress[0].lesson_progress[index].sub_lesson[index2].result &&
+              progress[0] &&
+              progress[0].lesson_progress[index].sub_lesson[index2].completed ==
+                false
+            ) {
+              arr[index] = true;
+              setExpanded(arr);
+              setActiveLesson(itemChild._id);
+
+              setDataLesson(itemChild);
+              if (itemChild.type == "blog") {
+                setDone(false);
+              }
+              if (itemChild.type == "code") {
+                if (
+                  Object.keys(JSON.parse(itemChild.type_exercise)).length == 2
+                ) {
+                  setTypeCode("html-css");
+                } else {
+                  for (let key in JSON.parse(itemChild.type_exercise)) {
+                    if (key == "html") {
+                      setTypeCode("html");
+                    } else if (key == "javascript") {
+                      setTypeCode("javascript");
+                    } else if (key == "java") {
+                      setTypeCode("java");
+                    } else if (key == "python") {
+                      setTypeCode("python");
+                    }
+                  }
+                }
+              }
+            }
+            if (progress[0].completed) {
+              arr[0] = true;
+              setExpanded(arr);
+              setActiveLesson(
+                progress[0].lesson_progress[0].sub_lesson[0].sub_lesson_id
+              );
+              setDataLesson(courses.lesson[0].sub_lesson[0]);
+              if (courses.lesson[0].sub_lesson[0].type == "blog") {
+                setDone(true);
+              }
+              if (courses.lesson[0].sub_lesson[0].type == "code") {
+                if (
+                  Object.keys(
+                    JSON.parse(courses.lesson[0].sub_lesson[0].type_exercise)
+                  ).length == 2
+                ) {
+                  setTypeCode("html-css");
+                } else {
+                  for (let key in JSON.parse(
+                    courses.lesson[0].sub_lesson[0].type_exercise
+                  )) {
+                    if (key == "html") {
+                      setTypeCode("html");
+                    } else if (key == "javascript") {
+                      setTypeCode("javascript");
+                    } else if (key == "java") {
+                      setTypeCode("java");
+                    } else if (key == "python") {
+                      setTypeCode("python");
+                    }
+                  }
+                }
+              }
+            }
+          }
+        });
+
+        return (total += item.sub_lesson.length);
+      });
+
+      setTotalLesson(total);
+    }
+  }, [progress, courses]);
   const handleTongle = (index: number) => {
     setExpanded((prevExpanded: any) =>
       prevExpanded.map((item: any, idx: any) => (idx === index ? !item : item))
@@ -579,9 +694,10 @@ const LearningController = () => {
     link.click();
     document.body.removeChild(link);
   };
+
   return (
     <>
-      {loadingAll.courses && loadingAll.progress ? (
+      {loadingCourses && loadingProgress ? (
         <>
           <LearningView
             courses={courses && courses}

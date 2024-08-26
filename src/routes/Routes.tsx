@@ -37,6 +37,7 @@ import PrivateRouterAdmin from "@/components/PrivateRouterAdmin";
 import VouchersController from "@/pages/admin/vouchers/VouchersController";
 import UserVouchersController from "@/pages/admin/user_vouchers/UserVouchersController";
 import MyCoursesController from "@/pages/client/my_courses/MyCoursesController";
+import CourseBuyerController from "@/pages/admin/CourseBuyer/CourseBuyerController";
 const Router = () => {
   const context: any = useCoursesContext();
 
@@ -127,6 +128,7 @@ const Router = () => {
           />
           <Route path='user' element={<UserController />} />
           <Route path='wallet' element={<WalletController />} />
+          <Route path='course_buyers' element={<CourseBuyerController />} />
           <Route path='comment' element={<CommentControllerAdmin />} />
           <Route path='contact' element={<ContactController />} />
         </Route>

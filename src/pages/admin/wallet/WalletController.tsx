@@ -51,7 +51,11 @@ const WalletController = () => {
   };
   const updateStatusTransaction = async (id: any, status: any) => {
     try {
-      let data = await updateTransaction({ _id: id, status: status,type:"withdraw" });
+      let data = await updateTransaction({
+        _id: id,
+        status: status,
+        type: "withdraw",
+      });
       if (data?.status == 0) {
         toast.success("Thành công");
         socket.emit("getNewNotify", {
@@ -81,11 +85,14 @@ const WalletController = () => {
         queryClient.invalidateQueries({
           queryKey: ["wallet_withdraw"],
         });
-        await updateRewardWallet({user_id:dataFaild.user_id[0],amount:dataFaild.amount})
+        await updateRewardWallet({
+          user_id: dataFaild.user_id[0],
+          amount: dataFaild.amount,
+        });
         socket.emit("getNewNotify", {
           user_id: dataFaild.user_id[0],
         });
-        handleClose()
+        handleClose();
       }
     } catch (error) {
       console.log(error);
@@ -98,14 +105,16 @@ const WalletController = () => {
         value={value}
         completed={
           data !== undefined && data.status == 0
-            ? data.data.filter(
-                (e: any) => e.status == "completed" || e.status == "failed"
-              ).reverse()
+            ? data.data
+                .filter(
+                  (e: any) => e.status == "completed" || e.status == "failed"
+                )
+                .reverse()
             : []
         }
         notcompleted={
           data !== undefined && data.status == 0
-            ? data.data.filter((e: any) => e.status == "pending")
+            ? data.data.filter((e: any) => e.status == "pending").reverse()
             : []
         }
         handleWithdrawSuccess={handleWithdrawSuccess}

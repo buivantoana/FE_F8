@@ -1,4 +1,3 @@
-
 import {
   Box,
   Button,
@@ -44,7 +43,7 @@ type typeProps = {
   open: any;
   detailPost: any;
   openModal: any;
-  handelChangeActive:any
+  handelChangeActive: any;
 };
 const PostView = ({
   data,
@@ -58,7 +57,7 @@ const PostView = ({
   openModal,
   handleCloseModal,
   detailPost,
-  handelChangeActive
+  handelChangeActive,
 }: typeProps) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -80,19 +79,19 @@ const PostView = ({
   return (
     <>
       <Stack my={"20px"} direction={"row"} justifyContent={"space-between"}>
-        <Typography variant="h5">Bài viết</Typography>
+        <Typography variant='h5'>Bài viết</Typography>
       </Stack>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableHead>
             <TableRow>
               <StyledTableCell>Tên</StyledTableCell>
               <StyledTableCell>Ảnh</StyledTableCell>
               <StyledTableCell>Độc giả</StyledTableCell>
-              <StyledTableCell align="left">Mô tả</StyledTableCell>
+              <StyledTableCell align='left'>Mô tả</StyledTableCell>
               <StyledTableCell>Trạng thái</StyledTableCell>
 
-              <StyledTableCell align="left">Hành động</StyledTableCell>
+              <StyledTableCell align='left'>Hành động</StyledTableCell>
             </TableRow>
           </TableHead>
           {data.length == 0 ? (
@@ -103,79 +102,87 @@ const PostView = ({
                     "&:last-child td, &:last-child th": {
                       border: 0,
                     },
-                  }}
-                >
+                  }}>
                   <TableCell>
-                    <Skeleton height={"35px"} width="150px" />
+                    <Skeleton height={"35px"} width='150px' />
                   </TableCell>
                   <TableCell>
-                    <Skeleton height={"25px"} width="200px" />
+                    <Skeleton height={"25px"} width='200px' />
                   </TableCell>
                   <TableCell>
-                    <Skeleton height={"25px"} width="200px" />
+                    <Skeleton height={"25px"} width='200px' />
                   </TableCell>
                   <TableCell>
-                    <Skeleton height={"25px"} width="200px" />
+                    <Skeleton height={"25px"} width='200px' />
                   </TableCell>
 
                   <TableCell>
-                    <Skeleton height={"25px"} width="200px" />
+                    <Skeleton height={"25px"} width='200px' />
                   </TableCell>
                   <TableCell>
-                    <Skeleton height={"25px"} width="200px" />
+                    <Skeleton height={"25px"} width='200px' />
                   </TableCell>
-                  
                 </TableRow>
               ))}
             </TableBody>
-          ) :
-          <TableBody>
-            {data &&
-              data.length &&
-              data.map((row: any) => (
-                <TableRow
-                  key={row.name}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {row.title}
-                  </TableCell>
-                  <TableCell component="th" scope="row">
-                    <img src={row.image.url} width={50} height={50} alt="" />
-                  </TableCell>
-                  <TableCell align="left">{row.readers}</TableCell>
-                  <TableCell width={"40%"} align="left">
-                    {row.description}
-                  </TableCell>
-                  <TableCell align="left">
-                    {row.active == false ? "Chưa duyệt" : "Đã duyệt"}
-                  </TableCell>
+          ) : (
+            <TableBody>
+              {data &&
+                data.length &&
+                data.map((row: any) => (
+                  <TableRow
+                    key={row.name}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell component='th' scope='row'>
+                      {row.title}
+                    </TableCell>
+                    <TableCell component='th' scope='row'>
+                      <img
+                        src={row.image.url}
+                        width={70}
+                        height={70}
+                        style={{
+                          objectFit: "cover",
+                          borderRadius: "5px",
+                        }}
+                        alt=''
+                      />
+                    </TableCell>
+                    <TableCell align='left'>{row.readers}</TableCell>
+                    <TableCell width={"40%"} align='left'>
+                      {row.description}
+                    </TableCell>
+                    <TableCell align='left'>
+                      {row.active == false ? "Chưa duyệt" : "Đã duyệt"}
+                    </TableCell>
 
-                  <TableCell align="left">
-
-                    {!row.active ==true&&<Button onClick={()=>handelChangeActive(row)}>Duyệt bài viết</Button>}
-                    <Button
-                      color="secondary"
-                      onClick={() => handleOpenModal(row)}
-                    >
-                      Chi tiết
-                    </Button>
-                    <Button
-                      aria-describedby={id}
-                      onClick={(e) => handleClick(e, row)}
-                      sx={{ color: "red" }}
-                    >
-                      Xóa 
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>}
+                    <TableCell align='left'>
+                      {!row.active == true && (
+                        <Button onClick={() => handelChangeActive(row)}>
+                          Duyệt bài viết
+                        </Button>
+                      )}
+                      <Button
+                        color='secondary'
+                        onClick={() => handleOpenModal(row)}>
+                        Chi tiết
+                      </Button>
+                      <Button
+                        aria-describedby={id}
+                        onClick={(e) => handleClick(e, row)}
+                        sx={{ color: "red" }}>
+                        Xóa
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          )}
         </Table>
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
-        component="div"
+        component='div'
         count={data.length}
         rowsPerPage={rowsPerPage}
         page={page}
@@ -194,17 +201,16 @@ const PostView = ({
         transformOrigin={{
           vertical: "top",
           horizontal: "right",
-        }}
-      >
+        }}>
         <Box padding={"10px"}>
           <Typography>Bạn có muốn xóa không?</Typography>
           <Stack direction={"row"} mt={"15px"} justifyContent={"end"}>
             <Button onClick={handleClose}>Hủy</Button>
             <Button
-                onClick={() => handleDelete(detailPost)}
-                sx={{ color: "red" }}>
-                Xóa
-              </Button>
+              onClick={() => handleDelete(detailPost)}
+              sx={{ color: "red" }}>
+              Xóa
+            </Button>
           </Stack>
         </Box>
       </Popover>
@@ -234,14 +240,12 @@ const ModalForm = (props: any) => {
   return (
     <Modal
       open={props.open}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
+      aria-labelledby='modal-modal-title'
+      aria-describedby='modal-modal-description'>
       <Box sx={style}>
         <Box
           onClick={props.handleCloseModal}
-          sx={{ position: "absolute", top: "10px", right: "10px" }}
-        >
+          sx={{ position: "absolute", top: "10px", right: "10px" }}>
           <RiCloseFill size={"25px"} />
         </Box>
         <Stack direction={"row"} gap={"30px"}>
@@ -249,40 +253,39 @@ const ModalForm = (props: any) => {
             <Box>
               <TextField
                 fullWidth
-                value={props.detailPost&&props.detailPost.title}
-                label="Tiêu đề"
-                id="fullWidth"
+                value={props.detailPost && props.detailPost.title}
+                label='Tiêu đề'
+                id='fullWidth'
               />
             </Box>
 
             <Box>
               <TextField
-                value={props.detailPost&&props.detailPost.description}
+                value={props.detailPost && props.detailPost.description}
                 fullWidth
-                label="Mô tả khi tin được hiển thị"
-                id="fullWidth"
+                label='Mô tả khi tin được hiển thị'
+                id='fullWidth'
               />
             </Box>
 
             <Box>
               <TextField
-                value={props.detailPost&&props.detailPost.readers}
+                value={props.detailPost && props.detailPost.readers}
                 fullWidth
-                label="Thêm tối đa 5 thẻ để độc giả biết bài viết của bạn nói về điều gì."
-                id="fullWidth"
+                label='Thêm tối đa 5 thẻ để độc giả biết bài viết của bạn nói về điều gì.'
+                id='fullWidth'
               />
             </Box>
           </Stack>
           <Box sx={{ width: "49%" }}>
             <div
-              className="container"
+              className='container'
               style={{
                 width: "100%",
-              }}
-            >
+              }}>
               <label
-                htmlFor="input-img"
-                className="preview"
+                htmlFor='input-img'
+                className='preview'
                 style={{
                   border: "2px dashed  #ff5117",
                   width: "100%",
@@ -297,19 +300,17 @@ const ModalForm = (props: any) => {
                   justifyContent: "center",
                   flexDirection: "column",
                   cursor: "pointer",
-                }}
-              >
+                }}>
                 <img
-                  src={props.detailPost&&props.detailPost.image.url}
+                  src={props.detailPost && props.detailPost.image.url}
                   width={300}
                   height={250}
                   style={{
-                    
                     position: "absolute",
                     top: 0,
                     left: 0,
                   }}
-                  alt=""
+                  alt=''
                 />
               </label>
             </div>
@@ -317,29 +318,25 @@ const ModalForm = (props: any) => {
         </Stack>
         <Typography>Content</Typography>
         <Box
-            sx={{
-              " .tox-editor-header": {
-                display: "none !important",
-              },
-              ".tox-statusbar": {
-                display: "none !important",
-              },
-              width: "100%",
+          sx={{
+            " .tox-editor-header": {
+              display: "none !important",
+            },
+            ".tox-statusbar": {
+              display: "none !important",
+            },
+            width: "100%",
+            height: "400px",
+          }}>
+          <Editor
+            apiKey='vr0wwkbvph803e16rtf0mauheh4p5jy4fiw0akbjnf1benb6'
+            initialValue={props.detailPost && props.detailPost.content}
+            init={{
               height: "400px",
-              
             }}
-          >
-            <Editor
-              apiKey="vr0wwkbvph803e16rtf0mauheh4p5jy4fiw0akbjnf1benb6"
-              initialValue={props.detailPost&&props.detailPost.content}
-              init={{
-                height: "400px",
-                
-              }}
-             disabled
-            />
-          </Box>  
-       
+            disabled
+          />
+        </Box>
       </Box>
     </Modal>
   );

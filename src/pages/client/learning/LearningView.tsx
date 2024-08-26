@@ -175,6 +175,8 @@ const LearningView = ({
   setOpenDirection,
   handleOpenCertificate,
 }: Props) => {
+  console.log(loading);
+  console.log(dataLesson);
   return (
     <Box>
       <Header
@@ -206,7 +208,7 @@ const LearningView = ({
             </Box>
           </Box>
         )}
-        {!loading && (
+        {!loading && dataLesson && (
           <>
             {dataLesson && dataLesson.type == "video" && (
               <ContentLeftVideo
@@ -236,7 +238,7 @@ const LearningView = ({
             )}
           </>
         )}
-        {progress !== undefined && (
+        {progress !== undefined && progress[0] && (
           <ContentRight
             courses={courses}
             expanded={expanded}
@@ -456,7 +458,6 @@ const Header = (props: any) => {
     },
     refetchOnWindowFocus: false,
   });
-  console.log(vouchers);
   const [selectedVouchers, setSelectedVouchers]: any = useState([]);
   const handleCheckboxChange = (event: any) => {
     const voucherId = event.target.name;

@@ -3,6 +3,7 @@ import { useLocalStorage } from "@/hooks/useStorage";
 import { useTheme } from "@emotion/react";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+
 import {
   Box,
   CssBaseline,
@@ -40,6 +41,7 @@ import {
   RiSlideshow4Fill,
   RiTeamFill,
   RiUserAddFill,
+  RiBriefcase2Line,
 } from "react-icons/ri";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import "../../App.css";
@@ -538,6 +540,40 @@ const LayoutAdmin = () => {
                         textDecoration: "none",
                       },
                       background:
+                        location.pathname == "/dashboard/course_buyers"
+                          ? "#2e3650"
+                          : undefined,
+                      border:
+                        location.pathname == "/dashboard/course_buyers"
+                          ? "1px solid #4c5680"
+                          : "none",
+                      borderRadius:
+                        location.pathname == "/dashboard/course_buyers"
+                          ? "5px"
+                          : "none",
+                    }}
+                    disablePadding>
+                    <Link to={"/dashboard/course_buyers"}>
+                      <CustomListItemButton>
+                        <ListItemIcon
+                          sx={{ display: "flex", justifyContent: "center" }}>
+                          <RiBriefcase2Line color={"white"} />
+                        </ListItemIcon>
+                        <ListItemText primary={"Danh sách người mua"} />
+                      </CustomListItemButton>
+                    </Link>
+                  </ListItem>
+                </List>
+                <Divider />
+                <List sx={{ px: "10px" }}>
+                  <ListItem
+                    sx={{
+                      a: {
+                        color: "white",
+                        width: "100%",
+                        textDecoration: "none",
+                      },
+                      background:
                         location.pathname == "/dashboard/wallet"
                           ? "#2e3650"
                           : undefined,
@@ -557,7 +593,7 @@ const LayoutAdmin = () => {
                           sx={{ display: "flex", justifyContent: "center" }}>
                           <RiBankCardFill color={"white"} />
                         </ListItemIcon>
-                        <ListItemText primary={"Ví"} />
+                        <ListItemText primary={"Yêu cầu rút tiền"} />
                       </CustomListItemButton>
                     </Link>
                   </ListItem>

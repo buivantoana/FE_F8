@@ -138,26 +138,25 @@ const CoursesView = ({
   return (
     <>
       <Stack my={"20px"} direction={"row"} justifyContent={"space-between"}>
-        <Typography variant="h5">Khóa học</Typography>
-        <Button onClick={() => handleOpenModal("CREATE")} variant="contained">
+        <Typography variant='h5'>Khóa học</Typography>
+        <Button onClick={() => handleOpenModal("CREATE")} variant='contained'>
           Thêm khóa học
         </Button>
       </Stack>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableHead>
             <TableRow>
               <StyledTableCell>Tên</StyledTableCell>
-              <StyledTableCell align="left">Ảnh</StyledTableCell>
-              <StyledTableCell align="left">Danh mục</StyledTableCell>
-              <StyledTableCell align="left">Giá</StyledTableCell>
-              <StyledTableCell align="left">Mô tả</StyledTableCell>
-              <StyledTableCell align="left">Hành động</StyledTableCell>
+              <StyledTableCell align='left'>Ảnh</StyledTableCell>
+              <StyledTableCell align='left'>Danh mục</StyledTableCell>
+              <StyledTableCell align='left'>Giá</StyledTableCell>
+              <StyledTableCell align='left'>Mô tả</StyledTableCell>
+              <StyledTableCell align='left'>Hành động</StyledTableCell>
             </TableRow>
           </TableHead>
           {data && data[0] ? (
             <TableBody>
-              
               <>
                 {paginatedRows &&
                   paginatedRows.length &&
@@ -166,38 +165,39 @@ const CoursesView = ({
                       key={row.title}
                       sx={{
                         "&:last-child td, &:last-child th": { border: 0 },
-                      }}
-                    >
-                      <TableCell align="left">{row.title}</TableCell>
-                      <TableCell component="th" scope="row">
+                      }}>
+                      <TableCell align='left'>{row.title}</TableCell>
+                      <TableCell component='th' scope='row'>
                         <img
                           src={row.image.url}
-                          width={50}
-                          height={50}
-                          alt=""
+                          width={70}
+                          height={70}
+                          style={{
+                            objectFit: "cover",
+                            borderRadius: "5px",
+                          }}
+                          alt=''
                         />
                       </TableCell>
-                      <TableCell align="left">
+                      <TableCell align='left'>
                         {row.category_id.length && row.category_id[0].name}
                       </TableCell>
-                      <TableCell align="left">{row.price}</TableCell>
-                      <TableCell align="left">{row.description}</TableCell>
-                      <TableCell align="left">
+                      <TableCell align='left'>{row.price}</TableCell>
+                      <TableCell align='left'>{row.description}</TableCell>
+                      <TableCell align='left'>
                         <Button onClick={() => handleOpenModal("UPDATE", row)}>
                           Sửa
                         </Button>
                         <Button
                           aria-describedby={id}
                           onClick={(e) => handleClick(e, row)}
-                          sx={{ color: "red" }}
-                        >
+                          sx={{ color: "red" }}>
                           Xóa
                         </Button>
                       </TableCell>
                     </TableRow>
                   ))}
               </>
-          
             </TableBody>
           ) : (
             <TableBody>
@@ -207,25 +207,24 @@ const CoursesView = ({
                     "&:last-child td, &:last-child th": {
                       border: 0,
                     },
-                  }}
-                >
+                  }}>
                   <TableCell>
-                    <Skeleton height={"35px"} width="150px" />
+                    <Skeleton height={"35px"} width='150px' />
                   </TableCell>
                   <TableCell>
-                    <Skeleton height={"35px"} width="150px" />
+                    <Skeleton height={"35px"} width='150px' />
                   </TableCell>
                   <TableCell>
-                    <Skeleton height={"35px"} width="150px" />
+                    <Skeleton height={"35px"} width='150px' />
                   </TableCell>
                   <TableCell>
-                    <Skeleton height={"25px"} width="200px" />
+                    <Skeleton height={"25px"} width='200px' />
                   </TableCell>
                   <TableCell>
-                    <Skeleton height={"25px"} width="300px" />
+                    <Skeleton height={"25px"} width='300px' />
                   </TableCell>
                   <TableCell>
-                    <Skeleton height={"25px"} width="80px" />
+                    <Skeleton height={"25px"} width='80px' />
                   </TableCell>
                 </TableRow>
               ))}
@@ -235,7 +234,7 @@ const CoursesView = ({
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
-        component="div"
+        component='div'
         count={data.length}
         rowsPerPage={rowsPerPage}
         page={page}
@@ -254,16 +253,14 @@ const CoursesView = ({
         transformOrigin={{
           vertical: "top",
           horizontal: "right",
-        }}
-      >
+        }}>
         <Box padding={"10px"}>
           <Typography>Bạn có muốn xóa không?</Typography>
           <Stack direction={"row"} mt={"15px"} justifyContent={"end"}>
             <Button onClick={handleClose}>Hủy</Button>
             <Button
               onClick={() => handleDelete(deleteCourses)}
-              sx={{ color: "red" }}
-            >
+              sx={{ color: "red" }}>
               Xóa
             </Button>
           </Stack>
@@ -336,11 +333,10 @@ const ModalForm = (props: any) => {
   return (
     <Modal
       open={props.open}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
+      aria-labelledby='modal-modal-title'
+      aria-describedby='modal-modal-description'>
       <Box sx={style}>
-        <Typography variant="h5" textAlign={"center"}>
+        <Typography variant='h5' textAlign={"center"}>
           {props.action == "CREATE" ? "Thêm khóa học" : "Sửa khóa học"}
         </Typography>
         <form onSubmit={props.handleSubmit(props.onFinish)}>
@@ -349,50 +345,48 @@ const ModalForm = (props: any) => {
             mt={"20px"}
             gap={"15px"}
             direction={"row"}
-            flexWrap={"wrap"}
-          >
+            flexWrap={"wrap"}>
             <Box width={"24%"}>
               <TextField
                 {...props.register("title")}
                 fullWidth
-                id="outlined-basic"
-                label="Tên"
-                variant="outlined"
-                size="small"
+                id='outlined-basic'
+                label='Tên'
+                variant='outlined'
+                size='small'
               />
             </Box>
             <Box width={"24%"}>
               <TextField
-                type="number"
+                type='number'
                 {...props.register("price")}
                 fullWidth
-                id="outlined-basic"
-                label="Giá"
-                variant="outlined"
-                size="small"
+                id='outlined-basic'
+                label='Giá'
+                variant='outlined'
+                size='small'
               />
             </Box>
             <Box width={"24%"}>
               <TextField
                 {...props.register("instructor")}
                 fullWidth
-                id="outlined-basic"
-                label="Tác giả"
-                variant="outlined"
-                size="small"
+                id='outlined-basic'
+                label='Tác giả'
+                variant='outlined'
+                size='small'
               />
             </Box>
             <Box width={"24%"}>
-              <FormControl fullWidth size="small">
-                <InputLabel id="demo-simple-select-label">Danh mục</InputLabel>
+              <FormControl fullWidth size='small'>
+                <InputLabel id='demo-simple-select-label'>Danh mục</InputLabel>
                 <Select
                   {...props.register("category_id")}
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  labelId='demo-simple-select-label'
+                  id='demo-simple-select'
                   value={props.valueCategory}
-                  label="Danh mục"
-                  onChange={(e) => props.setValueCategory(e.target.value)}
-                >
+                  label='Danh mục'
+                  onChange={(e) => props.setValueCategory(e.target.value)}>
                   {props.category &&
                     props.category.length &&
                     props.category.map((item: any) => {
@@ -403,14 +397,13 @@ const ModalForm = (props: any) => {
             </Box>
             <Box width={"24%"}>
               <div
-                className="container"
+                className='container'
                 style={{
                   width: "100%",
-                }}
-              >
+                }}>
                 <label
-                  htmlFor="input-img"
-                  className="preview"
+                  htmlFor='input-img'
+                  className='preview'
                   style={{
                     border: "2px dashed  #ff5117",
                     width: "100%",
@@ -425,8 +418,7 @@ const ModalForm = (props: any) => {
                     justifyContent: "center",
                     flexDirection: "column",
                     cursor: "pointer",
-                  }}
-                >
+                  }}>
                   {props.imageUrl ? (
                     <img
                       src={props.imageUrl}
@@ -438,7 +430,7 @@ const ModalForm = (props: any) => {
                         top: 0,
                         left: 0,
                       }}
-                      alt=""
+                      alt=''
                     />
                   ) : (
                     ""
@@ -450,17 +442,17 @@ const ModalForm = (props: any) => {
                 </label>
                 <input
                   onChange={handleImageChange}
-                  type="file"
+                  type='file'
                   hidden
-                  id="input-img"
+                  id='input-img'
                 />
               </div>
             </Box>
             <Box width={"24%"}>
               <TextField
                 {...props.register("description")}
-                id="outlined-multiline-static"
-                label="Mô tả"
+                id='outlined-multiline-static'
+                label='Mô tả'
                 multiline
                 rows={9.5}
                 fullWidth
@@ -468,15 +460,15 @@ const ModalForm = (props: any) => {
             </Box>
             <Box width={"24%"}>
               <TextField
-                id="outlined-multiline-static"
-                label="Kết quả đạt được"
+                id='outlined-multiline-static'
+                label='Kết quả đạt được'
                 fullWidth
-                size="small"
+                size='small'
                 value={props.textResultCourses}
                 onChange={(e) => props.setTextResultCourses(e.target.value)}
                 InputProps={{
                   endAdornment: (
-                    <InputAdornment position="end">
+                    <InputAdornment position='end'>
                       <Box
                         onClick={props.handleResultCourses}
                         width={30}
@@ -489,8 +481,7 @@ const ModalForm = (props: any) => {
                         height={30}
                         display={"flex"}
                         justifyContent={"center"}
-                        alignItems={"center"}
-                      >
+                        alignItems={"center"}>
                         {props.resultCoursesEdit !== null ? (
                           <EditIcon sx={{ color: "white" }} />
                         ) : (
@@ -503,35 +494,30 @@ const ModalForm = (props: any) => {
               />
               <Box
                 mt={"10px"}
-                className="resultCourses"
+                className='resultCourses'
                 height={"190px"}
-                sx={{ overflowY: "scroll" }}
-              >
+                sx={{ overflowY: "scroll" }}>
                 {props.resultCourses &&
                   props.resultCourses.map((item: any, index: any) => {
                     return (
                       <Paper
                         sx={{ width: "100%", padding: "9px", mt: "8px" }}
-                        elevation={1}
-                      >
+                        elevation={1}>
                         <Box
                           display={"flex"}
                           alignItems={"center"}
                           justifyContent={"space-between"}
-                          gap={"10px"}
-                        >
+                          gap={"10px"}>
                           <Typography>{limitDescription(item, 23)}</Typography>
                           <Stack
                             sx={{ cursor: "pointer" }}
                             direction={"row"}
                             gap={"10px"}
-                            alignItems={"center"}
-                          >
+                            alignItems={"center"}>
                             <Box
                               onClick={() =>
                                 props.handleEditResultCourses(index)
-                              }
-                            >
+                              }>
                               <EditIcon
                                 sx={{ fontSize: "16px", color: "green" }}
                               />
@@ -539,8 +525,7 @@ const ModalForm = (props: any) => {
                             <Box
                               onClick={() =>
                                 props.handleDeleteResultCourses(index)
-                              }
-                            >
+                              }>
                               <ClearIcon
                                 sx={{ fontSize: "20px", color: "red" }}
                               />
@@ -554,17 +539,17 @@ const ModalForm = (props: any) => {
             </Box>
             <Box width={"24%"}>
               <TextField
-                id="outlined-multiline-static"
-                label="Yêu cầu khóa học"
+                id='outlined-multiline-static'
+                label='Yêu cầu khóa học'
                 fullWidth
-                size="small"
+                size='small'
                 value={props.textCoursesRequirements}
                 onChange={(e) =>
                   props.setTextCoursesRequirements(e.target.value)
                 }
                 InputProps={{
                   endAdornment: (
-                    <InputAdornment position="end">
+                    <InputAdornment position='end'>
                       <Box
                         onClick={props.handleCoursesRequirements}
                         width={30}
@@ -577,8 +562,7 @@ const ModalForm = (props: any) => {
                         height={30}
                         display={"flex"}
                         justifyContent={"center"}
-                        alignItems={"center"}
-                      >
+                        alignItems={"center"}>
                         {props.CoursesRequirementsEdit !== null ? (
                           <EditIcon sx={{ color: "white" }} />
                         ) : (
@@ -591,35 +575,30 @@ const ModalForm = (props: any) => {
               />
               <Box
                 mt={"10px"}
-                className="resultCourses"
+                className='resultCourses'
                 height={"190px"}
-                sx={{ overflowY: "scroll" }}
-              >
+                sx={{ overflowY: "scroll" }}>
                 {props.coursesRequirements &&
                   props.coursesRequirements.map((item: any, index: any) => {
                     return (
                       <Paper
                         sx={{ width: "100%", padding: "9px", mt: "8px" }}
-                        elevation={1}
-                      >
+                        elevation={1}>
                         <Box
                           display={"flex"}
                           alignItems={"center"}
                           justifyContent={"space-between"}
-                          gap={"10px"}
-                        >
+                          gap={"10px"}>
                           <Typography>{limitDescription(item, 23)}</Typography>
                           <Stack
                             sx={{ cursor: "pointer" }}
                             direction={"row"}
                             gap={"10px"}
-                            alignItems={"center"}
-                          >
+                            alignItems={"center"}>
                             <Box
                               onClick={() =>
                                 props.handleEditCoursesRequirements(index)
-                              }
-                            >
+                              }>
                               <EditIcon
                                 sx={{ fontSize: "16px", color: "green" }}
                               />
@@ -627,8 +606,7 @@ const ModalForm = (props: any) => {
                             <Box
                               onClick={() =>
                                 props.handleDeleteCoursesRequirements(index)
-                              }
-                            >
+                              }>
                               <ClearIcon
                                 sx={{ fontSize: "20px", color: "red" }}
                               />
@@ -644,8 +622,7 @@ const ModalForm = (props: any) => {
               width={"100%"}
               display={"flex"}
               justifyContent={"end"}
-              gap={"10px"}
-            >
+              gap={"10px"}>
               <Button
                 onClick={props.handleClose}
                 sx={{
@@ -654,13 +631,12 @@ const ModalForm = (props: any) => {
                   width: "82px",
                   height: "34px",
                   border: "1px solid #333",
-                }}
-              >
+                }}>
                 Close
               </Button>
               <Button
                 onClick={props.onSubmit}
-                type="submit"
+                type='submit'
                 sx={{
                   background:
                     "linear-gradient(to right bottom, #ff8f26, #ff5117)",
@@ -668,8 +644,7 @@ const ModalForm = (props: any) => {
                   borderRadius: "99px",
                   width: "92px",
                   height: "34px",
-                }}
-              >
+                }}>
                 Add
               </Button>
             </Box>
